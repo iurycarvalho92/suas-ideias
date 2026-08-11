@@ -5,6 +5,11 @@ import Link from 'next/link';
 import ProposalCard from '@/components/ProposalCard';
 import ProposalForm from '@/components/ProposalForm';
 import CityAutocomplete from '@/components/CityAutocomplete';
+import MarinasHeroPortrait from '@/components/MarinasHeroPortrait';
+import EstrelaMarinaHelou from '@/components/svg/EstrelaMarinaHelou';
+import EstrelaMarinaBragante from '@/components/svg/EstrelaMarinaBragante';
+import PadraoBotanico from '@/components/svg/PadraoBotanico';
+import PadraoRadial from '@/components/svg/PadraoRadial';
 import { PAUTAS, Proposal } from '@/lib/types';
 import { 
   Sparkles, 
@@ -64,14 +69,20 @@ export default function HomeHub() {
     <div className="space-y-16 pb-20 overflow-x-hidden">
       
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#FFF6D5] via-[#FFF6D5]/80 to-[#FFF6D5] pt-12 sm:pt-20 pb-16 border-b-2 border-[#8C1A13]/10">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#FFF6D5] via-[#FFF6D5]/90 to-[#FFF6D5] pt-10 sm:pt-16 pb-16 border-b-2 border-[#8C1A13]/10">
         
+        {/* Radial ambient background pattern */}
+        <div className="absolute top-0 right-0 pointer-events-none opacity-40">
+          <PadraoRadial className="w-96 h-96" />
+        </div>
+
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
           
-          {/* Superior Badge */}
+          {/* Superior Badge with Star Accents */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#F0AECA] text-[#8C1A13] text-xs font-bold rounded-full border border-[#8C1A13]/30 shadow-xs animate-in fade-in slide-in-from-bottom-2 duration-300">
-            <span className="w-2 h-2 rounded-full bg-[#8C1A13] animate-pulse" />
+            <EstrelaMarinaHelou className="w-4 h-4" />
             <span>Plataforma de Participação Cidadã</span>
+            <EstrelaMarinaBragante className="w-4 h-4" />
           </div>
 
           {/* Main Title */}
@@ -84,24 +95,11 @@ export default function HomeHub() {
             Nós queremos ouvir quem vive a realidade de São Paulo todos os dias. Compartilhe sua proposta para São Paulo e para o Brasil, conheça ideias de outras pessoas e ajude a construir uma vida mais justa e sustentável para todos.
           </p>
 
-          {/* Highlights Pills */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs font-bold text-[#8C1A13]">
-            <span className="px-4 py-1.5 bg-white border-2 border-[#8C1A13]/20 rounded-full flex items-center gap-1.5">
-              <Award className="w-3.5 h-3.5 text-[#F1891D]" />
-              <span>Participação Aberta</span>
-            </span>
-            <span className="px-4 py-1.5 bg-white border-2 border-[#8C1A13]/20 rounded-full flex items-center gap-1.5">
-              <Users className="w-3.5 h-3.5 text-[#4F6219]" />
-              <span>645 Municípios de SP</span>
-            </span>
-            <span className="px-4 py-1.5 bg-white border-2 border-[#8C1A13]/20 rounded-full flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#8C1A13]" />
-              <span>Análise e Transparência</span>
-            </span>
-          </div>
+          {/* Composite Hero Portrait with Official Assets & Lockups */}
+          <MarinasHeroPortrait />
 
           {/* CTAs */}
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="#formulario-de-envio"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F1891D] hover:bg-[#d9750e] text-white font-bold text-base px-8 py-4 rounded-full shadow-md border-2 border-[#8C1A13] transition-all scale-100 hover:scale-105 active:scale-95"
@@ -121,6 +119,11 @@ export default function HomeHub() {
 
         </div>
       </section>
+
+      {/* Botanical Transition Ribbon */}
+      <div className="-mt-16 mb-4 pointer-events-none">
+        <PadraoBotanico className="w-full h-16" fillColor="#8C1A13" />
+      </div>
 
       {/* SEÇÃO: COMO FUNCIONA */}
       <section id="como-funciona" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
