@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Proposal, ProposalStatus } from '@/lib/types';
+import { Proposal } from '@/lib/types';
+import { isAuthorizedAdmin } from '@/lib/auth-config';
+import { auth, googleProvider } from '@/lib/firebase';
+import { signInWithPopup, signOut, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { 
   ShieldCheck, 
   CheckCircle2, 
@@ -16,12 +19,20 @@ import {
   RefreshCw,
   Search,
   ArrowLeft,
-  AlertCircle
+  AlertCircle,
+  LogOut,
+  Lock,
+  Loader2,
+  ShieldAlert
 } from 'lucide-react';
 
 export default function ModerationAdminPage() {
+  const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [authError, setAuthError] = useState('');
+
   const [proposals, setProposals] = useState<Proposal[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState<string>('todos');
 
   // Rejection modal state
@@ -29,6 +40,43 @@ export default function ModerationAdminPage() {
   const [motivoRejeicao, setMotivoRejeicao] = useState('');
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [feedbackMsg, setFeedbackMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // Monitor Firebase Auth state
+  useEffect(() => {
+    if (!auth) {
+      setAuthLoading(false);
+      return;
+    }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setAuthLoading(false);
+      if (user && isAuthorizedAdmin(user.email)) {
+        fetchProposals();
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleGoogleLogin = async () => {
+    setAuthError('');
+    if (!auth) {
+      setAuthError('Configurações de autenticação do Firebase ausentes no ambiente.');
+      return;
+    }
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err: any) {
+      console.error('Erro de Login Google:', err);
+      setAuthError(err.message || 'Erro ao realizar login com o Google.');
+    }
+  };
+
+  const handleLogout = async () => {
+    if (auth) {
+      await signOut(auth);
+      setCurrentUser(null);
+    }
+  };
 
   const fetchProposals = async () => {
     setLoading(true);
@@ -44,10 +92,6 @@ export default function ModerationAdminPage() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchProposals();
-  }, []);
 
   const handleApprove = async (proposalId: string) => {
     setProcessingId(proposalId);
@@ -117,6 +161,109 @@ export default function ModerationAdminPage() {
     }
   };
 
+  // Auth Loading screen
+  if (authLoading) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-4">
+        <Loader2 className="w-10 h-10 animate-spin text-emerald-600" />
+        <p className="text-slate-600 text-sm font-medium">Verificando autenticação de moderação...</p>
+      </div>
+    );
+  }
+
+  // 1. STATE: NOT LOGGED IN
+  if (!currentUser) {
+    return (
+      <div className="min-h-[75vh] flex items-center justify-center p-4">
+        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-2xl max-w-md w-full text-center space-y-6">
+          <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto shadow-md shadow-emerald-500/10">
+            <Lock className="w-8 h-8" />
+          </div>
+
+          <div>
+            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+              Painel de Moderação
+            </h1>
+            <p className="text-slate-500 text-xs mt-1.5 leading-relaxed">
+              Área restrita à equipe de mobilização. Faça login com o seu e-mail autorizando para gerenciar as propostas.
+            </p>
+          </div>
+
+          {authError && (
+            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-xl flex items-center gap-2 text-left">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+              <span>{authError}</span>
+            </div>
+          )}
+
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm py-4 px-6 rounded-2xl shadow-lg shadow-slate-900/20 transition-all flex items-center justify-center gap-3 scale-100 hover:scale-[1.02] active:scale-95"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
+              <path
+                fill="#EA4335"
+                d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.3 9 5 12 5z"
+              />
+              <path
+                fill="#4285F4"
+                d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 10.8 0 12.5s.7 2.8 1.9 5.2l3.7-2.9z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.3-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z"
+              />
+            </svg>
+            <span>Entrar com o Google</span>
+          </button>
+
+          <p className="text-[11px] text-slate-400 pt-2 border-t border-slate-100">
+            Acesso liberado para os e-mails autorizados (ex: iury.decarvalho@gmail.com).
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // 2. STATE: LOGGED IN BUT NOT AUTHORIZED
+  if (!isAuthorizedAdmin(currentUser.email)) {
+    return (
+      <div className="min-h-[75vh] flex items-center justify-center p-4">
+        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-rose-100 shadow-2xl max-w-md w-full text-center space-y-6">
+          <div className="w-16 h-16 bg-rose-50 text-rose-600 rounded-3xl flex items-center justify-center mx-auto shadow-md shadow-rose-500/10">
+            <ShieldAlert className="w-8 h-8" />
+          </div>
+
+          <div>
+            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+              Acesso Não Autorizado
+            </h1>
+            <p className="text-slate-600 text-xs mt-2 leading-relaxed">
+              O e-mail <strong>{currentUser.email}</strong> não possui permissões de moderação no sistema.
+            </p>
+          </div>
+
+          <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-900 text-left">
+            Caso você faça parte da equipe das Marinas, solicite a liberação para o seu e-mail ou entre com a conta principal (ex: <code>iury.decarvalho@gmail.com</code>).
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm py-3.5 px-6 rounded-2xl transition-all flex items-center justify-center gap-2"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Sair e Trocar de Conta</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. STATE: LOGGED IN & AUTHORIZED ADMIN
   const filteredProposals = proposals.filter((p) => {
     if (filterStatus === 'todos') return true;
     return p.status === filterStatus;
@@ -130,15 +277,19 @@ export default function ModerationAdminPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
-      {/* Back link */}
-      <div>
-        <Link
-          href="/suasideias"
-          className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-emerald-600 transition-colors"
+      {/* Top Admin User Info Bar */}
+      <div className="flex items-center justify-between bg-slate-900 text-white rounded-2xl px-6 py-3 shadow-sm text-xs">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span>Autenticado como: <strong>{currentUser.email}</strong></span>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="inline-flex items-center gap-1.5 hover:text-emerald-400 transition-colors font-semibold"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Voltar para a Plataforma Pública</span>
-        </Link>
+          <LogOut className="w-3.5 h-3.5" />
+          <span>Sair</span>
+        </button>
       </div>
 
       {/* Header */}

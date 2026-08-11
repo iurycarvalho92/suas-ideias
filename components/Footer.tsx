@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Heart, MessageCircle, Share2, Sparkles } from 'lucide-react';
+import { Heart, MessageCircle, Sparkles } from 'lucide-react';
 
 export default function Footer() {
   const shareWhatsApp = () => {
@@ -18,7 +18,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           
           {/* Col 1: Brand */}
-          <div className="md:col-span-5 space-y-4">
+          <div className="md:col-span-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold shadow-md shadow-emerald-500/20">
                 <Sparkles className="w-5 h-5" />
@@ -27,13 +27,13 @@ export default function Footer() {
                 Marinas por SP
               </span>
             </div>
-            <p className="text-slate-400 text-sm leading-relaxed pr-4">
-              <strong>Coragem pra fazer diferente.</strong> Marina Helou e Marina Bragante estão juntas para proteger as pessoas, cuidar das cidades e preparar São Paulo para os desafios do presente e do futuro.
+            <p className="text-slate-400 text-sm leading-relaxed max-w-md">
+              <strong>Coragem pra fazer diferente.</strong> Marina Helou e Marina Bragante estão juntas para proteger as pessoas, cuidar das cidades e preparar São Paulo para os desafios de agora.
             </p>
             <div className="pt-2 flex items-center gap-3">
               <button
                 onClick={shareWhatsApp}
-                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2.5 rounded-full transition-all shadow-md shadow-emerald-600/20"
+                className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs px-5 py-2.5 rounded-full transition-all shadow-md shadow-[#25D366]/20 scale-100 hover:scale-105 active:scale-95"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Compartilhar no WhatsApp</span>
@@ -45,6 +45,16 @@ export default function Footer() {
           <div className="md:col-span-3 space-y-3">
             <h4 className="text-white font-bold text-base tracking-wide">Plataforma Suas Ideias</h4>
             <ul className="space-y-2 text-sm text-slate-400">
+              <li>
+                <Link href="/suasideias#as-marinas" className="hover:text-emerald-400 transition-colors">
+                  As Marinas
+                </Link>
+              </li>
+              <li>
+                <Link href="/suasideias#nossas-prioridades" className="hover:text-emerald-400 transition-colors">
+                  Nossas Prioridades
+                </Link>
+              </li>
               <li>
                 <Link href="/suasideias#como-funciona" className="hover:text-emerald-400 transition-colors">
                   Como Funciona
@@ -60,16 +70,11 @@ export default function Footer() {
                   Enviar Nova Proposta
                 </Link>
               </li>
-              <li>
-                <Link href="/suasideias/admin" className="hover:text-emerald-400 transition-colors">
-                  Painel de Moderação
-                </Link>
-              </li>
             </ul>
           </div>
 
           {/* Col 3: Legal & Notice */}
-          <div className="md:col-span-4 space-y-3">
+          <div className="md:col-span-3 space-y-3">
             <h4 className="text-white font-bold text-base tracking-wide">Participação Cidadã</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
               Todas as propostas enviadas nesta plataforma passam por uma análise rápida antes da publicação pública para garantir um espaço seguro, respeitoso e construtivo de debate.

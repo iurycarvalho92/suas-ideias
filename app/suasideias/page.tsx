@@ -5,8 +5,7 @@ import Link from 'next/link';
 import ProposalCard from '@/components/ProposalCard';
 import ProposalForm from '@/components/ProposalForm';
 import CityAutocomplete from '@/components/CityAutocomplete';
-import { PAUTAS } from '@/lib/types';
-import { Proposal } from '@/lib/types';
+import { PAUTAS, Proposal } from '@/lib/types';
 import { 
   Sparkles, 
   Send, 
@@ -18,7 +17,15 @@ import {
   ShieldCheck, 
   Share2,
   Inbox,
-  ArrowDown
+  Award,
+  Users,
+  Sun,
+  Shield,
+  TreePine,
+  Baby,
+  ArrowRight,
+  Quote,
+  Check
 } from 'lucide-react';
 
 export default function HomeHub() {
@@ -38,12 +45,10 @@ export default function HomeHub() {
         params.set('cidade', selectedCidade);
       }
 
-      // Fetch proposals via internal store endpoint
       const res = await fetch(`/api/suasideias/moderacao?${params.toString()}`);
       const data = await res.json();
 
       if (data.proposals) {
-        // Filter approved proposals for the public gallery
         let approved = (data.proposals as Proposal[]).filter(p => p.status === 'aprovado');
         
         if (selectedPauta !== 'Todas') {
@@ -66,22 +71,25 @@ export default function HomeHub() {
   }, [selectedPauta, selectedCidade]);
 
   return (
-    <div className="space-y-20 pb-20">
+    <div className="space-y-20 pb-20 overflow-x-hidden">
       
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-50/70 via-white to-[#FAFAFB] pt-12 sm:pt-20 pb-16 sm:pb-24 border-b border-slate-100">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-tr from-emerald-200/30 via-teal-200/20 to-transparent blur-3xl -z-10 rounded-full" />
+      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-50/80 via-white to-[#FAFAFB] pt-12 sm:pt-20 pb-16 sm:pb-24 border-b border-slate-100">
+        
+        {/* Glowing background ambient lights */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-tr from-emerald-200/30 via-teal-200/20 to-amber-100/20 blur-3xl -z-10 rounded-full pointer-events-none" />
+        <div className="absolute top-20 right-10 w-72 h-72 bg-emerald-400/10 blur-2xl -z-10 rounded-full pointer-events-none" />
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
           
           {/* Superior Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white text-emerald-800 text-xs font-bold rounded-full border border-emerald-200 shadow-xs animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white text-emerald-800 text-xs font-bold rounded-full border border-emerald-200/80 shadow-xs animate-in fade-in slide-in-from-bottom-2 duration-300">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>Plataforma de Participação Cidadã</span>
           </div>
 
           {/* Main Title */}
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.12]">
             Suas ideias para as <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 bg-clip-text text-transparent">Marinas</span>
           </h1>
 
@@ -90,11 +98,27 @@ export default function HomeHub() {
             Nós queremos ouvir quem vive a realidade de São Paulo todos os dias. Compartilhe sua proposta para São Paulo e para o Brasil, conheça ideias de outras pessoas e ajude a construir uma vida mais justa e sustentável para todos.
           </p>
 
+          {/* Highlights Pills */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-slate-700">
+            <span className="px-3.5 py-1.5 bg-white/80 border border-slate-200 rounded-full shadow-2xs flex items-center gap-1.5">
+              <Award className="w-3.5 h-3.5 text-emerald-600" />
+              <span>+20 Leis Aprovadas</span>
+            </span>
+            <span className="px-3.5 py-1.5 bg-white/80 border border-slate-200 rounded-full shadow-2xs flex items-center gap-1.5">
+              <Users className="w-3.5 h-3.5 text-teal-600" />
+              <span>Escuta Ativa em todo SP</span>
+            </span>
+            <span className="px-3.5 py-1.5 bg-white/80 border border-slate-200 rounded-full shadow-2xs flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+              <span>Transparência e Resultado</span>
+            </span>
+          </div>
+
           {/* CTAs */}
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="#formulario-de-envio"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base px-8 py-4 rounded-full shadow-lg shadow-emerald-600/25 hover:shadow-xl hover:shadow-emerald-600/35 transition-all scale-100 hover:scale-105 active:scale-95"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-base px-8 py-4 rounded-full shadow-lg shadow-emerald-600/25 hover:shadow-xl hover:shadow-emerald-600/35 transition-all scale-100 hover:scale-105 active:scale-95"
             >
               <Send className="w-5 h-5" />
               <span>Enviar minha ideia</span>
@@ -110,6 +134,135 @@ export default function HomeHub() {
           </div>
 
         </div>
+      </section>
+
+      {/* SEÇÃO: AS MARINAS (#TôComAsMarinas) */}
+      <section id="as-marinas" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            #TôComAsMarinas
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            As Marinas
+          </h2>
+          <p className="text-slate-600 text-sm sm:text-base">
+            Duas trajetórias conectadas pelo compromisso com a infância, clima, segurança e justiça social.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
+          {/* Card Marina Helou */}
+          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-soft-lg transition-all space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-extrabold text-xl flex items-center justify-center shadow-md shadow-emerald-600/20">
+                MH
+              </div>
+              <div>
+                <h3 className="font-extrabold text-xl text-slate-900">Marina Helou</h3>
+                <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                  Deputada Estadual (ALESP)
+                </span>
+              </div>
+            </div>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Dois mandatos na Assembleia Legislativa de São Paulo, mais de <strong>20 leis aprovadas</strong> e uma atuação referência no diálogo, na transparência e na defesa firme da primeira infância, mulheres e proteção ambiental.
+            </p>
+            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span>Propostas para o Estado e Brasil</span>
+              <span className="font-bold text-emerald-700">Conhecer prioridades →</span>
+            </div>
+          </div>
+
+          {/* Card Marina Bragante */}
+          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-soft-lg transition-all space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-teal-600 text-white font-extrabold text-xl flex items-center justify-center shadow-md shadow-teal-600/20">
+                MB
+              </div>
+              <div>
+                <h3 className="font-extrabold text-xl text-slate-900">Marina Bragante</h3>
+                <span className="text-xs font-semibold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200">
+                  Vereadora de São Paulo
+                </span>
+              </div>
+            </div>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Mais de <strong>20 anos de experiência</strong> no setor público, atuando com força para reduzir desigualdades urbanas, fortalecer a saúde pública e preparar as cidades paulistas para os impactos da crise climática.
+            </p>
+            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span>Propostas para os Municípios</span>
+              <span className="font-bold text-teal-700">Conhecer prioridades →</span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Quote Card */}
+        <div className="mt-8 bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
+          <div className="max-w-3xl space-y-3 relative z-10">
+            <Quote className="w-8 h-8 text-emerald-400 opacity-60" />
+            <p className="text-lg sm:text-xl font-medium leading-relaxed">
+              "As Marinas mostram que é possível fazer política com escuta, coragem e resultado. Política feita com técnica e com afeto muda a vida de quem mais precisa."
+            </p>
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 block pt-1">
+              #TôComAsMarinas • Vozes da Sociedade Civil
+            </span>
+          </div>
+        </div>
+
+      </section>
+
+      {/* SEÇÃO: NOSSAS PRIORIDADES */}
+      <section id="nossas-prioridades" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+        
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Nossas Prioridades
+          </h2>
+          <p className="text-slate-600 text-sm sm:text-base">
+            As Marinas estão juntas para cuidar do que mais importa em São Paulo e no Brasil.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          {/* Pillar 1 */}
+          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-soft-lg transition-all space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+              <Baby className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">Crianças e Famílias</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Escolas em tempo integral e protegidas do calor extremo, apoio contínuo às mães e regras firmes para enfrentar os riscos do ambiente digital e das apostas (bets).
+            </p>
+          </div>
+
+          {/* Pillar 2 */}
+          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-soft-lg transition-all space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+              <TreePine className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">Natureza & Clima</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Enfrentamento à crise climática com prevenção de desastres, ampliação de áreas verdes e parques esponja, e firmeza contra retrocessos ambientais.
+            </p>
+          </div>
+
+          {/* Pillar 3 */}
+          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-soft-lg transition-all space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+              <Shield className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900">Segurança com Inteligência</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Investimento, inteligência e prevenção para acolher mulheres com Delegacias da Mulher 24h, combater o crime organizado e proteger as pessoas de golpes e roubos.
+            </p>
+          </div>
+
+        </div>
+
       </section>
 
       {/* SEÇÃO: COMO FUNCIONA */}
