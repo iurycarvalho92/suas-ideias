@@ -91,13 +91,13 @@ export default function SupportModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-2 border-[#8C1A13] max-h-[90vh] overflow-y-auto">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100 transition-colors"
+          className="absolute top-5 right-5 text-slate-400 hover:text-[#8C1A13] p-1.5 rounded-full hover:bg-[#FFF6D5] transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -107,14 +107,14 @@ export default function SupportModal({
             
             {/* Header */}
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
-                <Heart className="w-5 h-5 fill-rose-500 text-rose-500" />
+              <div className="w-10 h-10 rounded-2xl bg-[#F0AECA] text-[#8C1A13] flex items-center justify-center font-bold">
+                <Heart className="w-5 h-5 fill-[#8C1A13] text-[#8C1A13]" />
               </div>
               <div>
-                <h3 className="font-extrabold text-slate-900 text-xl">
+                <h3 className="font-serif font-extrabold text-[#8C1A13] text-xl">
                   Apoie a ideia de {authorFirstName}
                 </h3>
-                <p className="text-xs text-slate-500 truncate max-w-xs">
+                <p className="text-xs text-slate-600 truncate max-w-xs">
                   "{proposalTitle}"
                 </p>
               </div>
@@ -129,7 +129,7 @@ export default function SupportModal({
             <form onSubmit={handleSubmit} className="space-y-4">
               
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-1.5">
                   Seu Nome completo*
                 </label>
                 <input
@@ -138,13 +138,13 @@ export default function SupportModal({
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
                   placeholder="Ex: João Souza"
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white"
+                  className="w-full px-4 py-2.5 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13]"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-1.5">
                     WhatsApp*
                   </label>
                   <input
@@ -153,12 +153,12 @@ export default function SupportModal({
                     value={whatsapp}
                     onChange={handleWhatsappChange}
                     placeholder="(11) 99999-9999"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white"
+                    className="w-full px-4 py-2.5 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-1.5">
                     E-mail*
                   </label>
                   <input
@@ -167,13 +167,13 @@ export default function SupportModal({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="seu@email.com"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white"
+                    className="w-full px-4 py-2.5 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-1.5">
                   Sua Cidade*
                 </label>
                 <CityAutocomplete
@@ -185,12 +185,12 @@ export default function SupportModal({
               </div>
 
               <div className="pt-1">
-                <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-600">
+                <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-700">
                   <input
                     type="checkbox"
                     checked={consentimento}
                     onChange={(e) => setConsentimento(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500"
+                    className="mt-0.5 w-4 h-4 text-[#F1891D] border-[#8C1A13] rounded focus:ring-[#F1891D]"
                   />
                   <span>Autorizo que a equipe das Marinas entre em contato para atualizações sobre o projeto.</span>
                 </label>
@@ -200,7 +200,7 @@ export default function SupportModal({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-3.5 px-5 rounded-xl shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-[#F1891D] hover:bg-[#d9750e] text-white font-bold text-sm py-3.5 px-5 rounded-xl border-2 border-[#8C1A13] shadow-md transition-all flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>
@@ -220,26 +220,26 @@ export default function SupportModal({
           </div>
         ) : (
           <div className="text-center py-4 space-y-4">
-            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle2 className="w-10 h-10" />
+            <div className="w-16 h-16 bg-[#FFF6D5] text-[#8C1A13] rounded-full flex items-center justify-center mx-auto border-2 border-[#8C1A13]">
+              <CheckCircle2 className="w-10 h-10 text-[#4F6219]" />
             </div>
-            <h3 className="font-extrabold text-slate-900 text-xl">
+            <h3 className="font-serif font-extrabold text-[#8C1A13] text-xl">
               Apoio registrado com sucesso!
             </h3>
-            <p className="text-slate-600 text-sm leading-relaxed">
+            <p className="text-slate-700 text-sm leading-relaxed">
               Muito obrigado por se juntar a nós! Ajude essa ideia a crescer compartilhando no WhatsApp com seus amigos e grupos.
             </p>
             <div className="pt-2 space-y-3">
               <button
                 onClick={handleShareWhatsApp}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-3 px-5 rounded-xl shadow-md shadow-emerald-600/20 transition-all flex items-center justify-center gap-2"
+                className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm py-3 px-5 rounded-xl border-2 border-[#8C1A13] shadow-md transition-all flex items-center justify-center gap-2"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Compartilhar no WhatsApp agora</span>
               </button>
               <button
                 onClick={onClose}
-                className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-2.5 px-4 rounded-xl transition-colors"
+                className="w-full bg-[#FFF6D5] hover:bg-[#8C1A13] hover:text-[#FFF6D5] text-[#8C1A13] font-bold text-xs py-2.5 px-4 rounded-xl border-2 border-[#8C1A13] transition-colors"
               >
                 Fechar janela
               </button>

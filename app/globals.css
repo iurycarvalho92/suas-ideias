@@ -8,21 +8,22 @@
   }
 
   body {
-    @apply bg-[#FAFAFB] text-slate-900 antialiased selection:bg-emerald-100 selection:text-emerald-900;
+    @apply bg-[#FFF6D5] text-[#8C1A13] antialiased selection:bg-[#F0AECA] selection:text-[#8C1A13];
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3 {
+    font-family: Georgia, Cambria, serif;
   }
 }
 
-/* Glassmorphism utilities */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* Organic section divider curves */
+.organic-divider-top {
+  border-radius: 50% 50% 0 0 / 20px 20px 0 0;
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+.organic-card {
+  background-color: #FFFFFF;
+  border: 2px solid #8C1A13;
+  border-radius: 1.5rem;
 }

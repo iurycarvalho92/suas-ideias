@@ -100,25 +100,25 @@ function ProposalFormContent() {
   };
 
   return (
-    <div id="formulario-de-envio" className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-100 shadow-xl relative overflow-hidden">
+    <div id="formulario-de-envio" className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-[#8C1A13] shadow-lg relative overflow-hidden">
       
       {/* Header Badge & Title */}
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-800 text-xs font-semibold rounded-full border border-emerald-200 mb-3">
-          <Sparkles className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#FFF6D5] text-[#8C1A13] text-xs font-bold rounded-full border border-[#8C1A13]/30 mb-3">
+          <Sparkles className="w-3.5 h-3.5 text-[#F1891D]" />
           <span>Participe do Plano de Ação</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#8C1A13] tracking-tight">
           Qual é a sua ideia?
         </h2>
-        <p className="text-slate-600 text-sm sm:text-base mt-1.5">
+        <p className="text-slate-700 text-sm sm:text-base mt-1.5">
           Preencha os campos abaixo. Leva menos de 2 minutos.
         </p>
       </div>
 
       {errorMsg && (
-        <div className="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-800 text-sm rounded-2xl flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+        <div className="mb-6 p-4 bg-[#F0AECA]/30 border-2 border-[#8C1A13] text-[#8C1A13] text-sm rounded-2xl flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-[#8C1A13] shrink-0 mt-0.5" />
           <div>{errorMsg}</div>
         </div>
       )}
@@ -130,7 +130,7 @@ function ProposalFormContent() {
           
           {/* Nome */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-2">
               Nome completo*
             </label>
             <input
@@ -139,13 +139,13 @@ function ProposalFormContent() {
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Ex: Marina Silva"
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all placeholder:text-slate-400"
+              className="w-full px-4 py-3 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13] transition-all placeholder:text-slate-400"
             />
           </div>
 
           {/* WhatsApp */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-2">
               WhatsApp / Celular*
             </label>
             <input
@@ -154,7 +154,7 @@ function ProposalFormContent() {
               value={whatsapp}
               onChange={handleWhatsappChange}
               placeholder="(11) 99999-9999"
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all placeholder:text-slate-400"
+              className="w-full px-4 py-3 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13] transition-all placeholder:text-slate-400"
             />
           </div>
 
@@ -164,7 +164,7 @@ function ProposalFormContent() {
           
           {/* Email */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-2">
               E-mail principal*
             </label>
             <input
@@ -173,13 +173,13 @@ function ProposalFormContent() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="seuemail@exemplo.com"
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all placeholder:text-slate-400"
+              className="w-full px-4 py-3 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13] transition-all placeholder:text-slate-400"
             />
           </div>
 
           {/* Cidade Autocomplete */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-2">
               Sua cidade em SP*
             </label>
             <CityAutocomplete
@@ -194,14 +194,14 @@ function ProposalFormContent() {
 
         {/* Pauta / Tema Selection */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-2">
             Qual a pauta principal da sua ideia?*
           </label>
           <select
             required
             value={pauta}
             onChange={(e) => setPauta(e.target.value as Pauta)}
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
+            className="w-full px-4 py-3 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13] transition-all"
           >
             <option value="">Selecione o tema</option>
             {PAUTAS.map((p) => (
@@ -215,10 +215,10 @@ function ProposalFormContent() {
         {/* Título da Ideia */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13]">
               Título da sua proposta*
             </label>
-            <span className={`text-xs ${titulo.length > 80 ? 'text-rose-600 font-bold' : 'text-slate-400'}`}>
+            <span className={`text-xs ${titulo.length > 80 ? 'text-[#8C1A13] font-bold' : 'text-slate-500'}`}>
               {titulo.length}/80 caracteres
             </span>
           </div>
@@ -229,17 +229,17 @@ function ProposalFormContent() {
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
             placeholder="Ex: Regulação de Publicidade de Bets — máx. 80 caracteres"
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all placeholder:text-slate-400 font-medium"
+            className="w-full px-4 py-3 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13] transition-all placeholder:text-slate-400 font-medium"
           />
         </div>
 
         {/* Descrição em Detalhes */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13]">
               Descreva sua ideia em detalhes*
             </label>
-            <span className={`text-xs ${descricao.length < 50 || descricao.length > 1000 ? 'text-amber-600 font-medium' : 'text-emerald-600 font-medium'}`}>
+            <span className={`text-xs ${descricao.length < 50 || descricao.length > 1000 ? 'text-[#F1891D] font-bold' : 'text-[#4F6219] font-bold'}`}>
               {descricao.length}/1000 caracteres (mín. 50)
             </span>
           </div>
@@ -251,12 +251,12 @@ function ProposalFormContent() {
             value={descricao}
             onChange={(e) => setDescricao(e.target.value)}
             placeholder="Conte para nós o problema atual e qual mudança você sugere... — min. 50 e máx. 1000 caracteres"
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all placeholder:text-slate-400 leading-relaxed"
+            className="w-full px-4 py-3 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13] transition-all placeholder:text-slate-400 leading-relaxed"
           />
         </div>
 
         {/* LGPD Checkboxes */}
-        <div className="space-y-3 pt-2 border-t border-slate-100 text-xs text-slate-700">
+        <div className="space-y-3 pt-2 border-t border-[#8C1A13]/10 text-xs text-slate-700">
           
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
@@ -264,9 +264,9 @@ function ProposalFormContent() {
               required
               checked={lgpd1}
               onChange={(e) => setLgpd1(e.target.checked)}
-              className="mt-0.5 w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500 cursor-pointer"
+              className="mt-0.5 w-4 h-4 text-[#F1891D] border-[#8C1A13] rounded focus:ring-[#F1891D] cursor-pointer"
             />
-            <span className="group-hover:text-slate-900 transition-colors">
+            <span className="group-hover:text-[#8C1A13] transition-colors">
               Li e concordo com os Termos de Uso e Política de Privacidade.*
             </span>
           </label>
@@ -277,9 +277,9 @@ function ProposalFormContent() {
               required
               checked={lgpd2}
               onChange={(e) => setLgpd2(e.target.checked)}
-              className="mt-0.5 w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500 cursor-pointer"
+              className="mt-0.5 w-4 h-4 text-[#F1891D] border-[#8C1A13] rounded focus:ring-[#F1891D] cursor-pointer"
             />
-            <span className="group-hover:text-slate-900 transition-colors">
+            <span className="group-hover:text-[#8C1A13] transition-colors">
               Autorizo a exibição pública do meu primeiro nome, cidade e proposta neste site.*
             </span>
           </label>
@@ -290,9 +290,9 @@ function ProposalFormContent() {
               required
               checked={lgpd3}
               onChange={(e) => setLgpd3(e.target.checked)}
-              className="mt-0.5 w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500 cursor-pointer"
+              className="mt-0.5 w-4 h-4 text-[#F1891D] border-[#8C1A13] rounded focus:ring-[#F1891D] cursor-pointer"
             />
-            <span className="group-hover:text-slate-900 transition-colors">
+            <span className="group-hover:text-[#8C1A13] transition-colors">
               Autorizo que a equipe das Marinas entre em contato comigo por WhatsApp ou e-mail para conversar sobre esta proposta.*
             </span>
           </label>
@@ -304,7 +304,7 @@ function ProposalFormContent() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-bold text-base py-4 px-6 rounded-2xl shadow-lg shadow-emerald-600/20 hover:shadow-xl hover:shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 group active:scale-[0.99]"
+            className="w-full bg-[#F1891D] hover:bg-[#d9750e] disabled:bg-[#F1891D]/60 text-white font-bold text-base py-4 px-6 rounded-2xl shadow-md border-2 border-[#8C1A13] transition-all flex items-center justify-center gap-2 group active:scale-[0.99]"
           >
             {loading ? (
               <>
@@ -328,9 +328,9 @@ function ProposalFormContent() {
 export default function ProposalForm() {
   return (
     <Suspense fallback={
-      <div className="bg-white rounded-3xl p-10 border border-slate-100 shadow-xl text-center py-20">
-        <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mx-auto mb-2" />
-        <p className="text-slate-500 text-sm">Carregando formulário...</p>
+      <div className="bg-white rounded-3xl p-10 border-2 border-[#8C1A13] text-center py-20">
+        <Loader2 className="w-8 h-8 animate-spin text-[#8C1A13] mx-auto mb-2" />
+        <p className="text-slate-600 text-sm">Carregando formulário...</p>
       </div>
     }>
       <ProposalFormContent />

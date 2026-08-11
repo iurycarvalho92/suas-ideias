@@ -15,50 +15,50 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
     ? `${proposal.descricao.substring(0, 75).trim()}...` 
     : proposal.descricao;
 
-  // Theme color mapper for badges
+  // Theme badge styling using official brand palette
   const getBadgeStyle = (pauta: string) => {
     switch (pauta) {
       case 'Educação':
-        return 'bg-blue-50 text-blue-700 border-blue-200';
+        return 'bg-[#16437F]/10 text-[#16437F] border-[#16437F]/30';
       case 'Saúde':
-        return 'bg-rose-50 text-rose-700 border-rose-200';
+        return 'bg-[#F0AECA] text-[#8C1A13] border-[#8C1A13]/20';
       case 'Meio Ambiente & Clima':
-        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        return 'bg-[#4F6219]/10 text-[#4F6219] border-[#4F6219]/30';
       case 'Mobilidade Urbana':
-        return 'bg-amber-50 text-amber-700 border-amber-200';
+        return 'bg-[#F1891D]/10 text-[#F1891D] border-[#F1891D]/30';
       case 'Segurança':
-        return 'bg-indigo-50 text-indigo-700 border-indigo-200';
+        return 'bg-[#8C1A13]/10 text-[#8C1A13] border-[#8C1A13]/30';
       case 'Economia & Emprego':
-        return 'bg-teal-50 text-teal-700 border-teal-200';
+        return 'bg-[#CACB5F]/30 text-[#8C1A13] border-[#8C1A13]/20';
       case 'Cidadania & Direitos':
-        return 'bg-purple-50 text-purple-700 border-purple-200';
+        return 'bg-[#F0AECA]/50 text-[#8C1A13] border-[#8C1A13]/30';
       default:
-        return 'bg-slate-50 text-slate-700 border-slate-200';
+        return 'bg-[#FFF6D5] text-[#8C1A13] border-[#8C1A13]/20';
     }
   };
 
   return (
-    <div className="group bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
+    <div className="group bg-white rounded-3xl p-6 border-2 border-[#8C1A13]/15 hover:border-[#8C1A13] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
       <div>
         
         {/* Top Pauta Badge & Apoios Count */}
         <div className="flex items-center justify-between gap-2 mb-4">
-          <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${getBadgeStyle(proposal.pauta)}`}>
+          <span className={`px-3 py-1 text-xs font-bold rounded-full border ${getBadgeStyle(proposal.pauta)}`}>
             {proposal.pauta}
           </span>
-          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-100 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full">
-            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
+          <div className="flex items-center gap-1.5 bg-[#FFF6D5] border border-[#8C1A13]/20 text-[#8C1A13] text-xs font-bold px-2.5 py-1 rounded-full">
+            <Heart className="w-3.5 h-3.5 text-[#8C1A13] fill-[#8C1A13]" />
             <span>{proposal.apoiosCount} {proposal.apoiosCount === 1 ? 'apoio' : 'apoios'}</span>
           </div>
         </div>
 
         {/* Title */}
-        <h3 className="font-bold text-slate-900 text-lg leading-snug group-hover:text-emerald-600 transition-colors mb-2.5 line-clamp-2">
+        <h3 className="font-serif font-bold text-[#8C1A13] text-xl leading-snug group-hover:text-[#F1891D] transition-colors mb-2.5 line-clamp-2">
           {proposal.titulo}
         </h3>
 
         {/* Short Description (75 chars) */}
-        <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-3">
+        <p className="text-slate-700 text-sm leading-relaxed mb-4 line-clamp-3">
           {descricaoResumida}
         </p>
 
@@ -66,22 +66,22 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
 
       <div>
         {/* Author & City Metadata */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 pt-3 border-t border-slate-100 mb-4">
+        <div className="flex items-center gap-2 text-xs text-slate-600 pt-3 border-t border-[#8C1A13]/10 mb-4">
           <div className="flex items-center gap-1">
-            <User className="w-3.5 h-3.5 text-slate-400" />
-            <span>Por <strong>{primeiroNome}</strong></span>
+            <User className="w-3.5 h-3.5 text-[#8C1A13]" />
+            <span>Por <strong className="text-[#8C1A13]">{primeiroNome}</strong></span>
           </div>
           <span>•</span>
           <div className="flex items-center gap-1 truncate">
-            <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="truncate">{proposal.cidade}</span>
+            <MapPin className="w-3.5 h-3.5 text-[#4F6219]" />
+            <span className="truncate text-slate-700">{proposal.cidade}</span>
           </div>
         </div>
 
         {/* CTA Link */}
         <Link
           href={`/suasideias/proposta/${proposal.slug}`}
-          className="w-full inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-emerald-600 text-slate-700 hover:text-white font-bold text-xs py-3 px-4 rounded-2xl transition-all duration-200 border border-slate-200 hover:border-emerald-600 shadow-xs"
+          className="w-full inline-flex items-center justify-center gap-2 bg-[#FFF6D5] hover:bg-[#8C1A13] text-[#8C1A13] hover:text-[#FFF6D5] font-bold text-xs py-3 px-4 rounded-2xl transition-all duration-200 border-2 border-[#8C1A13]"
         >
           <span>Conhecer e apoiar proposta</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

@@ -8,33 +8,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#F2F9F6',
-          100: '#E1F3EC',
-          200: '#C2E5D7',
-          300: '#94D0BA',
-          400: '#5DB396',
-          500: '#00A86B', // Vibrant Civic Emerald Green
-          600: '#008A57',
-          700: '#006D46',
-          800: '#055639',
-          900: '#064730',
-          950: '#02281C',
-        },
-        marinas: {
-          teal: '#00A499',
-          orange: '#FF6B35',
-          navy: '#0A2540',
-          yellow: '#FFB800',
-          purple: '#6B46C1',
-        }
+        // Paleta Oficial Marinas por SP (Direção Visual)
+        creme: '#FFF6D5',      // Fundo principal e áreas de respiro
+        vinho: '#8C1A13',      // Títulos, faixas e contraste institucional
+        laranja: '#F1891D',    // Números, CTAs e acentos
+        verdeEscuro: '#4F6219',// Seções de propostas e natureza
+        verdeLima: '#CACB5F',  // Destaques e fundos secundários
+        rosa: '#F0AECA',       // Fundos de apoio e contraste afetivo
+        azul: '#16437F',       // Ícones e estados informativos
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'Inter', 'sans-serif'],
-      },
-      boxShadow: {
-        'card-hover': '0 20px 30px -10px rgba(0, 168, 107, 0.12), 0 10px 15px -5px rgba(10, 37, 64, 0.05)',
-        'soft-lg': '0 10px 30px -5px rgba(0, 0, 0, 0.05)',
+        serif: ['Georgia', 'Cambria', 'serif'],
+        sans: ['var(--font-sans)', 'Inter', 'Arial', 'sans-serif'],
       },
       borderRadius: {
         '3xl': '1.5rem',
