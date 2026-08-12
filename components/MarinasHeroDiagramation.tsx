@@ -23,12 +23,12 @@ export default function MarinasHeroDiagramation() {
         </div>
 
         {/* ============================================================ */}
-        {/* DESKTOP LAYOUT (hidden md:grid - LOWER BLOCK HIGH UP)        */}
+        {/* DESKTOP LAYOUT (Photos brought closer to the center column)  */}
         {/* ============================================================ */}
-        <div className="hidden md:grid md:grid-cols-12 items-end">
+        <div className="hidden md:grid md:grid-cols-12 items-end max-w-5xl mx-auto">
           
-          {/* Left Photo: Marina Helou */}
-          <div className="md:col-span-4 flex justify-start z-10 -mb-10">
+          {/* Left Photo: Marina Helou (Pushed closer to center) */}
+          <div className="md:col-span-4 flex justify-end z-10 -mb-10 pr-2 lg:pr-6">
             <div className="relative w-80 h-[460px] lg:w-96 lg:h-[510px]">
               <Image
                 src="/assets/fotos/MH-03.png"
@@ -57,8 +57,8 @@ export default function MarinasHeroDiagramation() {
             </a>
           </div>
 
-          {/* Right Photo: Marina Bragante (+10% Larger Container on Desktop) */}
-          <div className="md:col-span-4 flex justify-end z-10 -mb-10">
+          {/* Right Photo: Marina Bragante (Pushed closer to center) */}
+          <div className="md:col-span-4 flex justify-start z-10 -mb-10 pl-2 lg:pl-6">
             <div className="relative w-[350px] h-[500px] lg:w-[420px] lg:h-[560px]">
               <Image
                 src="/assets/fotos/MAB 02.png"
@@ -73,7 +73,7 @@ export default function MarinasHeroDiagramation() {
         </div>
 
         {/* ============================================================ */}
-        {/* MOBILE LAYOUT (block md:hidden - ZERO OVERLAP WITH LOGO)     */}
+        {/* MOBILE LAYOUT (block md:hidden)                              */}
         {/* ============================================================ */}
         <div className="flex md:hidden flex-col items-center gap-2 pt-2">
           
@@ -108,7 +108,7 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante (Right: +10% Larger Container on Mobile) */}
+            {/* Marina Bragante (Right) */}
             <div className="relative w-[160px] h-[230px] sm:w-[210px] sm:h-[265px]">
               <Image
                 src="/assets/fotos/MAB 02.png"
@@ -166,11 +166,11 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE */}
-          <div className="flex md:hidden flex-row items-center justify-center gap-5 pt-0 -mt-2">
+          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE (Marina Bragante +15% larger) */}
+          <div className="flex md:hidden flex-row items-center justify-center gap-4 pt-0 -mt-2">
             
             {/* Marina Helou 4044 Vertical */}
-            <div className="relative h-28 w-28 sm:h-32 sm:w-32">
+            <div className="relative h-24 w-24 sm:h-28 sm:w-28">
               <Image
                 src="/assets/logos/lockup-marina-helou-vertical.png"
                 alt="Marina Helou 4044 Deputada Federal"
@@ -180,8 +180,8 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante 40444 Vertical */}
-            <div className="relative h-28 w-28 sm:h-32 sm:w-32">
+            {/* Marina Bragante 40444 Vertical (+15% larger: h-32 w-32 / sm:h-36 sm:w-36) */}
+            <div className="relative h-32 w-32 sm:h-36 sm:w-36">
               <Image
                 src="/assets/logos/lockup-marina-bragante-vertical.png"
                 alt="Marina Bragante 40444 Deputada Estadual"
