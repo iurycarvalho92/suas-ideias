@@ -6,13 +6,13 @@ import Link from 'next/link';
 
 export default function MarinasHeroDiagramation() {
   return (
-    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-4 sm:pt-6">
+    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-2">
       
-      {/* Clean Hero Container - No background SVGs */}
+      {/* Clean Hero Container - Compact vertical spacing */}
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* ENLARGED HERO LOGO GRAPHIC - Increased scale and pushed down slightly */}
-        <div className="relative h-52 sm:h-72 w-full max-w-4xl mx-auto pt-2 -mb-10 sm:-mb-14">
+        {/* HERO LOGO GRAPHIC */}
+        <div className="relative h-44 sm:h-60 w-full max-w-3xl mx-auto pt-2 -mb-20 sm:-mb-32">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -22,12 +22,12 @@ export default function MarinasHeroDiagramation() {
           />
         </div>
 
-        {/* Candidate Photos & Center Action Buttons (Moved UPWARDS into the logo area) */}
+        {/* Candidate Photos & Discrete Center CTAs (Moved UP & Photos ENLARGED) */}
         <div className="relative grid grid-cols-1 md:grid-cols-12 items-end">
           
-          {/* Left Candidate Photo: Marina Helou (Moved UPWARDS) */}
-          <div className="md:col-span-4 flex justify-center md:justify-start z-10 -mt-6 sm:-mt-10 -mb-8 sm:-mb-10">
-            <div className="relative w-64 h-80 sm:w-84 sm:h-[450px]">
+          {/* Left Candidate Photo: Marina Helou (ENLARGED) */}
+          <div className="md:col-span-4 flex justify-center md:justify-start z-10 -mb-8 sm:-mb-10">
+            <div className="relative w-72 h-96 sm:w-96 sm:h-[490px]">
               <Image
                 src="/assets/fotos/MH-03.png"
                 alt="Marina Helou"
@@ -38,29 +38,29 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* Center Action Buttons (Moved UPWARDS & Styled consistently with site buttons) */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center gap-3.5 pb-8 sm:pb-12 z-20 -mt-4 sm:-mt-8">
+          {/* Center Action Buttons (Moved HIGHER UP & MORE DISCREET) */}
+          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-10 sm:pb-16 z-20 -mt-10 sm:-mt-20">
             
-            {/* Primary Action Button (Matches site primary: Navy + Gold border) */}
+            {/* Primary Action Button (Discreet style) */}
             <Link
               href="/suasideias/enviar"
-              className="w-64 sm:w-72 bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-extrabold text-base py-3.5 px-6 rounded-full border-2 border-[#A3B12D] shadow-lg transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+              className="w-56 sm:w-64 bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-bold text-xs sm:text-sm py-2.5 px-5 rounded-full border border-[#A3B12D] shadow-sm transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
             >
               <span>Enviar minha ideia</span>
             </Link>
 
-            {/* Secondary Action Button (Matches site secondary: Creme + Navy border) */}
+            {/* Secondary Action Button (Discreet style) */}
             <a
               href="#galeria-de-ideias"
-              className="w-64 sm:w-72 bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] hover:text-white text-center font-bold text-base py-3.5 px-6 rounded-full border-2 border-[#14447B] shadow-md transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+              className="w-56 sm:w-64 bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] hover:text-white text-center font-bold text-xs sm:text-sm py-2.5 px-5 rounded-full border border-[#14447B] shadow-xs transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
             >
               <span>Conhecer e apoiar ideias</span>
             </a>
           </div>
 
-          {/* Right Candidate Photo: Marina Bragante (Moved UPWARDS) */}
-          <div className="md:col-span-4 flex justify-center md:justify-end z-10 -mt-6 sm:-mt-10 -mb-8 sm:-mb-10">
-            <div className="relative w-64 h-80 sm:w-84 sm:h-[450px]">
+          {/* Right Candidate Photo: Marina Bragante (ENLARGED) */}
+          <div className="md:col-span-4 flex justify-center md:justify-end z-10 -mb-8 sm:-mb-10">
+            <div className="relative w-72 h-96 sm:w-96 sm:h-[490px]">
               <Image
                 src="/assets/fotos/MAB 02.png"
                 alt="Marina Bragante"
