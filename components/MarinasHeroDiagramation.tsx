@@ -11,8 +11,8 @@ export default function MarinasHeroDiagramation() {
       {/* Hero Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* CENTRAL HERO LOGO GRAPHIC */}
-        <div className="relative h-40 sm:h-64 lg:h-72 w-full max-w-4xl mx-auto pt-1 -mb-28 sm:-mb-52 lg:-mb-60">
+        {/* CENTRAL HERO LOGO GRAPHIC (Responsive Margins: clean on mobile, high-overlap on desktop) */}
+        <div className="relative h-40 sm:h-64 lg:h-72 w-full max-w-4xl mx-auto pt-1 -mb-4 md:-mb-52 lg:-mb-60">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -23,7 +23,7 @@ export default function MarinasHeroDiagramation() {
         </div>
 
         {/* ============================================================ */}
-        {/* DESKTOP LAYOUT (md:grid - LOWER BLOCK PULLED WAY UP)         */}
+        {/* DESKTOP LAYOUT (hidden md:grid - LOWER BLOCK HIGH UP)        */}
         {/* ============================================================ */}
         <div className="hidden md:grid md:grid-cols-12 items-end">
           
@@ -40,7 +40,7 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* Center Action Buttons - PULLED SIGNIFICANTLY HIGHER UP */}
+          {/* Center Action Buttons - DISCREET & HIGH UP ON DESKTOP */}
           <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-20 lg:pb-28 z-20 -mt-28 lg:-mt-36">
             <Link
               href="/suasideias/enviar"
@@ -73,12 +73,12 @@ export default function MarinasHeroDiagramation() {
         </div>
 
         {/* ============================================================ */}
-        {/* MOBILE LAYOUT (Compact & Discreet)                           */}
+        {/* MOBILE LAYOUT (block md:hidden - ZERO OVERLAP WITH LOGO)     */}
         {/* ============================================================ */}
         <div className="flex md:hidden flex-col items-center gap-2 pt-2">
           
-          {/* Action Buttons (Discreet & Placed cleanly between logo & photos) */}
-          <div className="flex flex-col items-center gap-2 w-full z-20 px-4 mt-2 mb-1">
+          {/* Action Buttons (Placed cleanly BELOW the logo on mobile, ZERO overlap) */}
+          <div className="flex flex-col items-center gap-2 w-full z-20 px-4 mt-1 mb-1">
             <Link
               href="/suasideias/enviar"
               className="w-52 bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-semibold text-[11px] py-2 px-4 rounded-full border border-[#A3B12D] shadow-xs transition-all active:scale-95"
@@ -128,7 +128,7 @@ export default function MarinasHeroDiagramation() {
       {/* ============================================================ */}
       {/* ORGANIC GREEN WAVE BANNER (#A3B12D)                          */}
       {/* ============================================================ */}
-      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-6 pb-10 z-20 -mt-10 lg:-mt-16">
+      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-6 pb-10 z-20 -mt-6 md:-mt-16">
         
         {/* Soft Organic Wave Divider Top Transition */}
         <div className="absolute -top-8 inset-x-0 h-8 overflow-hidden pointer-events-none">
@@ -180,7 +180,7 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante 40444 Vertical (+15% larger for perfect visual balance) */}
+            {/* Marina Bragante 40444 Vertical (+15% larger) */}
             <div className="relative h-28 w-28 sm:h-32 sm:w-32">
               <Image
                 src="/assets/logos/lockup-marina-bragante-vertical.png"
