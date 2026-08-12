@@ -12,7 +12,7 @@ export default function MarinasHeroDiagramation() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
         {/* CENTRAL HERO LOGO GRAPHIC */}
-        <div className="relative h-40 sm:h-64 lg:h-72 w-full max-w-4xl mx-auto pt-1 -mb-10 sm:-mb-24">
+        <div className="relative h-40 sm:h-64 lg:h-72 w-full max-w-4xl mx-auto pt-1 -mb-28 sm:-mb-52 lg:-mb-60">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -23,7 +23,7 @@ export default function MarinasHeroDiagramation() {
         </div>
 
         {/* ============================================================ */}
-        {/* DESKTOP LAYOUT (md:grid 3 columns: Photo - Buttons - Photo) */}
+        {/* DESKTOP LAYOUT (md:grid - LOWER BLOCK PULLED WAY UP)         */}
         {/* ============================================================ */}
         <div className="hidden md:grid md:grid-cols-12 items-end">
           
@@ -40,8 +40,8 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* Center Action Buttons - DISCREET & RAISED IN THE MIDDLE */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-16 lg:pb-24 z-20 -mt-20 lg:-mt-28">
+          {/* Center Action Buttons - PULLED SIGNIFICANTLY HIGHER UP */}
+          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-20 lg:pb-28 z-20 -mt-28 lg:-mt-36">
             <Link
               href="/suasideias/enviar"
               className="w-52 lg:w-56 bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-semibold text-xs py-2.5 px-4 rounded-full border border-[#A3B12D] shadow-xs transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
@@ -73,11 +73,11 @@ export default function MarinasHeroDiagramation() {
         </div>
 
         {/* ============================================================ */}
-        {/* MOBILE LAYOUT (Buttons positioned cleanly between logo & photos) */}
+        {/* MOBILE LAYOUT (Compact & Discreet)                           */}
         {/* ============================================================ */}
         <div className="flex md:hidden flex-col items-center gap-2 pt-2">
           
-          {/* Action Buttons (DISCREET & Placed cleanly between logo & photos) */}
+          {/* Action Buttons (Discreet & Placed cleanly between logo & photos) */}
           <div className="flex flex-col items-center gap-2 w-full z-20 px-4 mt-2 mb-1">
             <Link
               href="/suasideias/enviar"
@@ -128,7 +128,7 @@ export default function MarinasHeroDiagramation() {
       {/* ============================================================ */}
       {/* ORGANIC GREEN WAVE BANNER (#A3B12D)                          */}
       {/* ============================================================ */}
-      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-6 pb-10 z-20 -mt-6 sm:-mt-10">
+      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-6 pb-10 z-20 -mt-10 lg:-mt-16">
         
         {/* Soft Organic Wave Divider Top Transition */}
         <div className="absolute -top-8 inset-x-0 h-8 overflow-hidden pointer-events-none">
@@ -166,11 +166,11 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* MOBILE LOGOS: Exact Attached Vertical Lockups Side by Side (Pushed close to top of green banner) */}
-          <div className="flex md:hidden flex-row items-center justify-center gap-6 pt-0 -mt-2">
+          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE (Marina Bragante +15% larger) */}
+          <div className="flex md:hidden flex-row items-center justify-center gap-5 pt-0 -mt-2">
             
-            {/* Marina Helou 4044 Vertical (Attached Image 1) */}
-            <div className="relative h-28 w-28 sm:h-32 sm:w-32">
+            {/* Marina Helou 4044 Vertical */}
+            <div className="relative h-24 w-24 sm:h-28 sm:w-28">
               <Image
                 src="/assets/logos/lockup-marina-helou-vertical.png"
                 alt="Marina Helou 4044 Deputada Federal"
@@ -180,7 +180,7 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante 40444 Vertical (Attached Image 2) */}
+            {/* Marina Bragante 40444 Vertical (+15% larger for perfect visual balance) */}
             <div className="relative h-28 w-28 sm:h-32 sm:w-32">
               <Image
                 src="/assets/logos/lockup-marina-bragante-vertical.png"
