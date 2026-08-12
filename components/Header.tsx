@@ -10,7 +10,7 @@ export default function Header() {
     <header className="sticky top-0 z-40 w-full bg-[#FFF6D5]/95 backdrop-blur-md border-b-2 border-[#14447B]/15 shadow-sm transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
         
-        {/* Official Brand Logo - Significantly Larger */}
+        {/* Official Brand Logo - Large Scale */}
         <Link href="/suasideias" className="flex items-center gap-3 group">
           <div className="relative h-20 w-72 sm:w-96">
             <Image

@@ -8,12 +8,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Paleta baseada no Logo "Suas Ideias para as Marinas"
+        // Paleta Oficial com fundo Creme #FFF6D5
         azulNavy: '#14447B',        // Azul principal das marcas "Suas ideias" e "Marinas"
         azulDark: '#0D2E55',        // Azul marinho profundo para contraste e rodapé
         verdeDourado: '#A3B12D',    // Verde Dourado/Lima principal de "para as"
         verdeDouradoClaro: '#D7E365',// Verde claro para destaques e hovers
-        cremeFundo: '#FAF8F2',      // Fundo creme suave da página
+        cremeFundo: '#FFF6D5',      // Fundo creme oficial da página #FFF6D5
         cremeCard: '#F4F2E8',       // Fundo de cards e containers
         cremeBorder: '#DCD8C5',     // Bordas neutras e elegantes
       },
