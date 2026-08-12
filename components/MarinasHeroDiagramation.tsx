@@ -57,9 +57,9 @@ export default function MarinasHeroDiagramation() {
             </a>
           </div>
 
-          {/* Right Photo: Marina Bragante */}
+          {/* Right Photo: Marina Bragante (+10% Larger Container on Desktop) */}
           <div className="md:col-span-4 flex justify-end z-10 -mb-10">
-            <div className="relative w-80 h-[460px] lg:w-96 lg:h-[510px]">
+            <div className="relative w-[350px] h-[500px] lg:w-[420px] lg:h-[560px]">
               <Image
                 src="/assets/fotos/MAB 02.png"
                 alt="Marina Bragante"
@@ -108,8 +108,8 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante (Right) */}
-            <div className="relative w-36 h-52 sm:w-44 sm:h-60">
+            {/* Marina Bragante (Right: +10% Larger Container on Mobile) */}
+            <div className="relative w-[160px] h-[230px] sm:w-[210px] sm:h-[265px]">
               <Image
                 src="/assets/fotos/MAB 02.png"
                 alt="Marina Bragante"
