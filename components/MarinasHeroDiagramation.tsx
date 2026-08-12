@@ -6,13 +6,13 @@ import Link from 'next/link';
 
 export default function MarinasHeroDiagramation() {
   return (
-    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-2 sm:pt-4">
+    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-1 sm:pt-2">
       
       {/* Hero Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
         {/* HUGE CENTRAL HERO LOGO GRAPHIC (+20% Scale) */}
-        <div className="relative h-48 sm:h-72 lg:h-80 w-full max-w-5xl mx-auto pt-2 -mb-10 sm:-mb-24">
+        <div className="relative h-44 sm:h-72 lg:h-80 w-full max-w-5xl mx-auto pt-1 -mb-24 sm:-mb-44">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -40,8 +40,8 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* Center Action Buttons - Well Distributed */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center gap-4 pb-14 lg:pb-20 z-20 -mt-8">
+          {/* Center Action Buttons - Tight & Well Distributed */}
+          <div className="md:col-span-4 flex flex-col items-center justify-center gap-3 pb-12 lg:pb-16 z-20 -mt-16 lg:-mt-24">
             <Link
               href="/suasideias/enviar"
               className="w-64 lg:w-72 bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-bold text-sm lg:text-base py-3 px-6 rounded-full border-2 border-[#A3B12D] shadow-md transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
@@ -73,32 +73,32 @@ export default function MarinasHeroDiagramation() {
         </div>
 
         {/* ============================================================ */}
-        {/* MOBILE LAYOUT (Side-by-Side Photos & Compact Centered CTAs)  */}
+        {/* MOBILE LAYOUT (Tight Gap & Side-by-Side Photos & CTAs)       */}
         {/* ============================================================ */}
-        <div className="flex md:hidden flex-col items-center gap-4 pt-4">
+        <div className="flex md:hidden flex-col items-center gap-3 pt-0">
           
-          {/* Action Buttons (Distributed above photos on mobile) */}
-          <div className="flex flex-col items-center gap-2.5 w-full z-20 px-4">
+          {/* Action Buttons (Positioned close to logo on mobile) */}
+          <div className="flex flex-col items-center gap-2 w-full z-20 px-4 -mt-2">
             <Link
               href="/suasideias/enviar"
-              className="w-full max-w-xs bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-bold text-sm py-3 px-5 rounded-full border-2 border-[#A3B12D] shadow-md transition-all active:scale-95"
+              className="w-full max-w-xs bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-bold text-xs py-2.5 px-5 rounded-full border border-[#A3B12D] shadow-sm transition-all active:scale-95"
             >
               Enviar minha ideia
             </Link>
 
             <a
               href="#galeria-de-ideias"
-              className="w-full max-w-xs bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] text-center font-bold text-sm py-3 px-5 rounded-full border-2 border-[#14447B] shadow-sm transition-all active:scale-95"
+              className="w-full max-w-xs bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] text-center font-bold text-xs py-2.5 px-5 rounded-full border border-[#14447B] shadow-xs transition-all active:scale-95"
             >
               Conhecer e apoiar ideias
             </a>
           </div>
 
           {/* Mobile Photos: SIDE BY SIDE standing on the green wave */}
-          <div className="flex flex-row items-end justify-center gap-3 w-full -mb-8 z-10 pt-2">
+          <div className="flex flex-row items-end justify-center gap-2 w-full -mb-8 z-10 pt-1">
             
             {/* Marina Helou (Left) */}
-            <div className="relative w-40 h-56 sm:w-48 sm:h-64">
+            <div className="relative w-36 h-52 sm:w-44 sm:h-60">
               <Image
                 src="/assets/fotos/MH-03.png"
                 alt="Marina Helou"
@@ -109,7 +109,7 @@ export default function MarinasHeroDiagramation() {
             </div>
 
             {/* Marina Bragante (Right) */}
-            <div className="relative w-40 h-56 sm:w-48 sm:h-64">
+            <div className="relative w-36 h-52 sm:w-44 sm:h-60">
               <Image
                 src="/assets/fotos/MAB 02.png"
                 alt="Marina Bragante"
@@ -128,7 +128,7 @@ export default function MarinasHeroDiagramation() {
       {/* ============================================================ */}
       {/* ORGANIC GREEN WAVE BANNER (#A3B12D)                          */}
       {/* ============================================================ */}
-      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-8 pb-10 z-20 -mt-2 sm:-mt-6">
+      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-8 pb-10 z-20 -mt-6 sm:-mt-10">
         
         {/* Soft Organic Wave Divider Top Transition */}
         <div className="absolute -top-8 inset-x-0 h-8 overflow-hidden pointer-events-none">
@@ -166,27 +166,27 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE */}
+          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE (Marina Helou on Left, Marina Bragante on Right) */}
           <div className="flex md:hidden flex-row items-center justify-center gap-6 pt-2">
             
-            {/* Marina Helou Vertical Logo */}
+            {/* Marina Helou 4044 (Left Candidate Logo) */}
             <div className="relative h-28 w-28 sm:h-32 sm:w-32">
               <Image
                 src="/assets/logos/logo-marina-vertical-verde-numero-v2-202607@4x.png"
-                alt="Marina Helou 4044"
+                alt="Marina Helou 4044 Deputada Federal"
                 fill
                 className="object-contain filter brightness-0 invert"
                 priority
               />
             </div>
 
-            {/* Marina Bragante Vertical Logo */}
+            {/* Marina Bragante 40444 (Right Candidate Logo) */}
             <div className="relative h-28 w-28 sm:h-32 sm:w-32">
               <Image
                 src="/assets/logos/logo-bragante-vertical-bege-numero-v2-202607@4x.png"
-                alt="Marina Bragante 40444"
+                alt="Marina Bragante 40444 Deputada Estadual"
                 fill
-                className="object-contain"
+                className="object-contain filter brightness-0 invert"
                 priority
               />
             </div>
