@@ -166,7 +166,7 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE (Marina Bragante +15% larger) */}
+          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE (Marina Bragante reduced by 5%) */}
           <div className="flex md:hidden flex-row items-center justify-center gap-4 pt-0 -mt-2">
             
             {/* Marina Helou 4044 Vertical */}
@@ -180,8 +180,8 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante 40444 Vertical (+15% larger: h-32 w-32 / sm:h-36 sm:w-36) */}
-            <div className="relative h-32 w-32 sm:h-36 sm:w-36">
+            {/* Marina Bragante 40444 Vertical (-5% fine tuning: h-[116px] w-[116px] / sm:h-[132px] sm:w-[132px]) */}
+            <div className="relative h-[116px] w-[116px] sm:h-[132px] sm:w-[132px]">
               <Image
                 src="/assets/logos/lockup-marina-bragante-vertical.png"
                 alt="Marina Bragante 40444 Deputada Estadual"
