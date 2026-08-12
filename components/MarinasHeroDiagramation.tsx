@@ -6,13 +6,13 @@ import Link from 'next/link';
 
 export default function MarinasHeroDiagramation() {
   return (
-    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-2">
+    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-1 sm:pt-3">
       
-      {/* Clean Hero Container - Compact vertical spacing */}
+      {/* Clean Hero Container - Ultra compact high-density layout */}
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* HERO LOGO GRAPHIC */}
-        <div className="relative h-44 sm:h-60 w-full max-w-3xl mx-auto pt-2 -mb-20 sm:-mb-32">
+        {/* HERO LOGO GRAPHIC (+15% Larger & Lowered) */}
+        <div className="relative h-52 sm:h-72 w-full max-w-4xl mx-auto pt-4 sm:pt-6 -mb-24 sm:-mb-36">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -22,10 +22,10 @@ export default function MarinasHeroDiagramation() {
           />
         </div>
 
-        {/* Candidate Photos & Discrete Center CTAs (Moved UP & Photos ENLARGED) */}
+        {/* Candidate Photos & Ultra-Compact Discrete CTAs */}
         <div className="relative grid grid-cols-1 md:grid-cols-12 items-end">
           
-          {/* Left Candidate Photo: Marina Helou (ENLARGED) */}
+          {/* Left Candidate Photo: Marina Helou */}
           <div className="md:col-span-4 flex justify-center md:justify-start z-10 -mb-8 sm:-mb-10">
             <div className="relative w-72 h-96 sm:w-96 sm:h-[490px]">
               <Image
@@ -38,8 +38,8 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* Center Action Buttons (Moved HIGHER UP & MORE DISCREET) */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-10 sm:pb-16 z-20 -mt-10 sm:-mt-20">
+          {/* Center Action Buttons (Positioned High & Tight Gap) */}
+          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2 pb-10 sm:pb-16 z-20 -mt-12 sm:-mt-24">
             
             {/* Primary Action Button (Discreet style) */}
             <Link
@@ -58,7 +58,7 @@ export default function MarinasHeroDiagramation() {
             </a>
           </div>
 
-          {/* Right Candidate Photo: Marina Bragante (ENLARGED) */}
+          {/* Right Candidate Photo: Marina Bragante */}
           <div className="md:col-span-4 flex justify-center md:justify-end z-10 -mb-8 sm:-mb-10">
             <div className="relative w-72 h-96 sm:w-96 sm:h-[490px]">
               <Image
@@ -87,11 +87,11 @@ export default function MarinasHeroDiagramation() {
 
         <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-6">
           
-          {/* CANDIDATE LOGOS - Equalized visual sizes */}
+          {/* CANDIDATE LOGOS (+15% Larger & Equalized) */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 pt-2">
             
-            {/* Marina Helou Lockup */}
-            <div className="relative h-16 sm:h-20 w-72 sm:w-[330px]">
+            {/* Marina Helou Lockup (+15%) */}
+            <div className="relative h-20 sm:h-24 w-80 sm:w-[380px]">
               <Image
                 src="/assets/logos/lockup-marina-helou-white.png"
                 alt="Marina Helou 4044 Deputada Federal"
@@ -101,8 +101,8 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante Lockup */}
-            <div className="relative h-20 sm:h-24 w-80 sm:w-[420px]">
+            {/* Marina Bragante Lockup (+15%) */}
+            <div className="relative h-24 sm:h-28 w-96 sm:w-[480px]">
               <Image
                 src="/assets/logos/lockup-marina-bragante-white.png"
                 alt="Marina Bragante 40444 Deputada Estadual"
