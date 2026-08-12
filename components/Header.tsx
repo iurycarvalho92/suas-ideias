@@ -2,30 +2,24 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Sparkles, Send } from 'lucide-react';
+import Image from 'next/image';
+import { Send } from 'lucide-react';
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-40 w-full bg-[#FFF6D5]/95 backdrop-blur-md border-b-2 border-[#8C1A13]/20 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         
-        {/* Brand logo */}
+        {/* Official Brand Logo */}
         <Link href="/suasideias" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-2xl bg-[#8C1A13] text-[#FFF6D5] flex items-center justify-center font-bold shadow-sm group-hover:scale-105 transition-transform">
-            <Sparkles className="w-5 h-5 text-[#F1891D]" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-serif font-bold text-xl tracking-tight text-[#8C1A13] group-hover:text-[#F1891D] transition-colors">
-                Marinas por SP
-              </span>
-              <span className="px-2.5 py-0.5 text-[11px] font-bold bg-[#F0AECA] text-[#8C1A13] rounded-full border border-[#8C1A13]/30">
-                Suas Ideias
-              </span>
-            </div>
-            <p className="text-xs text-[#8C1A13]/80 font-medium hidden md:block">
-              Plataforma de Participação Cidadã
-            </p>
+          <div className="relative h-12 w-48 sm:w-56">
+            <Image
+              src="/assets/logos/LogoSuasIdeias.png"
+              alt="Suas ideias para as Marinas"
+              fill
+              className="object-contain object-left group-hover:scale-105 transition-transform"
+              priority
+            />
           </div>
         </Link>
 
