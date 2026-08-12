@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProposalCard from '@/components/ProposalCard';
 import CityAutocomplete from '@/components/CityAutocomplete';
-import MarinasHeroPortrait from '@/components/MarinasHeroPortrait';
+import MarinasHeroDiagramation from '@/components/MarinasHeroDiagramation';
 import OrganicWaveDivider from '@/components/svg/OrganicWaveDivider';
 import { PAUTAS, Proposal } from '@/lib/types';
 import { 
@@ -62,63 +62,32 @@ export default function HomeHub() {
   }, [selectedPauta, selectedCidade]);
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden bg-[#FAF8F2]">
       
       {/* ============================================================ */}
-      {/* SEÇÃO 1: HERO (Fundo Creme #FAF8F2 + Logo Grande + Fotos Fluidas) */}
+      {/* SEÇÃO 1: HERO (Diagramação idêntica à imagem anexa) */}
       {/* ============================================================ */}
-      <section className="relative bg-[#FAF8F2] pt-8 sm:pt-14 pb-12">
-        
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-6">
+      <MarinasHeroDiagramation />
+
+      {/* ============================================================ */}
+      {/* SEÇÃO DESCRITIVA (Posicionada abaixo das 2 Marinas) */}
+      {/* ============================================================ */}
+      <section className="py-12 sm:py-16 bg-[#FAF8F2]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
           
-          {/* Superior Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#14447B] text-white text-xs font-bold rounded-full border border-[#A3B12D] shadow-md animate-in fade-in slide-in-from-bottom-2 duration-300">
-            <Sparkles className="w-4 h-4 text-[#A3B12D]" />
-            <span>Plataforma de Participação Cidadã</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#8C1A13] text-[#FFF6D5] text-xs font-bold rounded-full border border-[#8C1A13]/30 shadow-sm">
+            <Sparkles className="w-4 h-4 text-[#F1891D]" />
+            <span>Escuta Ativa em todo SP</span>
           </div>
 
-          {/* LARGE HERO LOGO HEADER GRAPHIC */}
-          <div className="relative h-28 sm:h-44 w-full max-w-xl mx-auto my-2">
-            <Image
-              src="/assets/logos/LogoSuasIdeias.png"
-              alt="Suas ideias para as Marinas"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-
-          {/* Subtitle */}
-          <p className="text-[#14447B]/90 text-base sm:text-xl font-normal leading-relaxed max-w-3xl mx-auto">
+          <p className="text-[#8C1A13] text-lg sm:text-2xl font-serif font-medium leading-relaxed max-w-3xl mx-auto">
             Nós queremos ouvir quem vive a realidade de São Paulo todos os dias. Compartilhe sua proposta para São Paulo e para o Brasil, conheça ideias de outras pessoas e ajude a construir uma vida mais justa e sustentável para todos.
           </p>
-
-          {/* FLUID & UNBOXED HERO CANDIDATE PORTRAITS */}
-          <MarinasHeroPortrait />
-
-          {/* CTAs */}
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/suasideias/enviar"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#14447B] hover:bg-[#0D2E55] text-white font-bold text-base px-8 py-4 rounded-full shadow-xl border-2 border-[#A3B12D] transition-all scale-100 hover:scale-105 active:scale-95"
-            >
-              <Send className="w-5 h-5 text-[#A3B12D]" />
-              <span>Enviar minha ideia agora</span>
-            </Link>
-
-            <a
-              href="#galeria-de-ideias"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-[#FAF8F2] text-[#14447B] font-bold text-base px-8 py-4 rounded-full border-2 border-[#14447B] shadow-xs transition-all scale-100 hover:scale-105 active:scale-95"
-            >
-              <Heart className="w-5 h-5 text-[#14447B] fill-[#14447B]" />
-              <span>Conhecer e apoiar ideias</span>
-            </a>
-          </div>
 
         </div>
       </section>
 
-      {/* WAVE DIVIDER: Transição de Creme (#FAF8F2) para Azul Navy (#14447B) */}
+      {/* WAVE DIVIDER: Transição para a seção Como Funciona */}
       <OrganicWaveDivider fillColor="#14447B" />
 
       {/* ============================================================ */}
@@ -321,11 +290,11 @@ export default function HomeHub() {
         </div>
       </section>
 
-      {/* WAVE DIVIDER: Transição de Creme (#FAF8F2) para Verde Dourado (#A3B12D) */}
+      {/* WAVE DIVIDER: Transição para a Chamada do Formulário */}
       <OrganicWaveDivider fillColor="#A3B12D" />
 
       {/* ============================================================ */}
-      {/* SEÇÃO 4: CHAMADA FLUIDA PARA O FORMULÁRIO DE ENVIO (Fundo #A3B12D) */}
+      {/* SEÇÃO 4: CHAMADA PARA O FORMULÁRIO DE ENVIO (Fundo #A3B12D) */}
       {/* ============================================================ */}
       <section className="bg-[#A3B12D] text-[#14447B] py-16 sm:py-20 text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
