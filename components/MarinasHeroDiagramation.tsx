@@ -11,8 +11,8 @@ export default function MarinasHeroDiagramation() {
       {/* Hero Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* HUGE CENTRAL HERO LOGO GRAPHIC (+20% Scale) */}
-        <div className="relative h-44 sm:h-72 lg:h-80 w-full max-w-5xl mx-auto pt-1 -mb-24 sm:-mb-44">
+        {/* CENTRAL HERO LOGO GRAPHIC */}
+        <div className="relative h-40 sm:h-64 lg:h-72 w-full max-w-4xl mx-auto pt-1 -mb-10 sm:-mb-24">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -40,18 +40,18 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* Center Action Buttons - Tight & Well Distributed */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center gap-3 pb-12 lg:pb-16 z-20 -mt-16 lg:-mt-24">
+          {/* Center Action Buttons - DISCREET & RAISED IN THE MIDDLE */}
+          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-16 lg:pb-24 z-20 -mt-20 lg:-mt-28">
             <Link
               href="/suasideias/enviar"
-              className="w-64 lg:w-72 bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-bold text-sm lg:text-base py-3 px-6 rounded-full border-2 border-[#A3B12D] shadow-md transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+              className="w-52 lg:w-56 bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-semibold text-xs py-2.5 px-4 rounded-full border border-[#A3B12D] shadow-xs transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
             >
               <span>Enviar minha ideia</span>
             </Link>
 
             <a
               href="#galeria-de-ideias"
-              className="w-64 lg:w-72 bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] hover:text-white text-center font-bold text-sm lg:text-base py-3 px-6 rounded-full border-2 border-[#14447B] shadow-sm transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+              className="w-52 lg:w-56 bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] hover:text-white text-center font-semibold text-xs py-2.5 px-4 rounded-full border border-[#14447B] shadow-xs transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
             >
               <span>Conhecer e apoiar ideias</span>
             </a>
@@ -73,22 +73,22 @@ export default function MarinasHeroDiagramation() {
         </div>
 
         {/* ============================================================ */}
-        {/* MOBILE LAYOUT (Tight Gap & Side-by-Side Photos & CTAs)       */}
+        {/* MOBILE LAYOUT (Buttons positioned cleanly between logo & photos) */}
         {/* ============================================================ */}
-        <div className="flex md:hidden flex-col items-center gap-3 pt-0">
+        <div className="flex md:hidden flex-col items-center gap-2 pt-2">
           
-          {/* Action Buttons (Positioned close to logo on mobile) */}
-          <div className="flex flex-col items-center gap-2 w-full z-20 px-4 -mt-2">
+          {/* Action Buttons (DISCREET & Placed cleanly between logo & photos) */}
+          <div className="flex flex-col items-center gap-2 w-full z-20 px-4 mt-2 mb-1">
             <Link
               href="/suasideias/enviar"
-              className="w-full max-w-xs bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-bold text-xs py-2.5 px-5 rounded-full border border-[#A3B12D] shadow-sm transition-all active:scale-95"
+              className="w-52 bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-semibold text-[11px] py-2 px-4 rounded-full border border-[#A3B12D] shadow-xs transition-all active:scale-95"
             >
               Enviar minha ideia
             </Link>
 
             <a
               href="#galeria-de-ideias"
-              className="w-full max-w-xs bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] text-center font-bold text-xs py-2.5 px-5 rounded-full border border-[#14447B] shadow-xs transition-all active:scale-95"
+              className="w-52 bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] text-center font-semibold text-[11px] py-2 px-4 rounded-full border border-[#14447B] shadow-xs transition-all active:scale-95"
             >
               Conhecer e apoiar ideias
             </a>
@@ -128,7 +128,7 @@ export default function MarinasHeroDiagramation() {
       {/* ============================================================ */}
       {/* ORGANIC GREEN WAVE BANNER (#A3B12D)                          */}
       {/* ============================================================ */}
-      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-8 pb-10 z-20 -mt-6 sm:-mt-10">
+      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-6 pb-10 z-20 -mt-6 sm:-mt-10">
         
         {/* Soft Organic Wave Divider Top Transition */}
         <div className="absolute -top-8 inset-x-0 h-8 overflow-hidden pointer-events-none">
@@ -166,27 +166,27 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE (Marina Helou on Left, Marina Bragante on Right) */}
-          <div className="flex md:hidden flex-row items-center justify-center gap-6 pt-2">
+          {/* MOBILE LOGOS: Exact Attached Vertical Lockups Side by Side (Pushed close to top of green banner) */}
+          <div className="flex md:hidden flex-row items-center justify-center gap-6 pt-0 -mt-2">
             
-            {/* Marina Helou 4044 (Left Candidate Logo) */}
+            {/* Marina Helou 4044 Vertical (Attached Image 1) */}
             <div className="relative h-28 w-28 sm:h-32 sm:w-32">
               <Image
-                src="/assets/logos/logo-marina-vertical-verde-numero-v2-202607@4x.png"
+                src="/assets/logos/lockup-marina-helou-vertical.png"
                 alt="Marina Helou 4044 Deputada Federal"
                 fill
-                className="object-contain filter brightness-0 invert"
+                className="object-contain"
                 priority
               />
             </div>
 
-            {/* Marina Bragante 40444 (Right Candidate Logo) */}
+            {/* Marina Bragante 40444 Vertical (Attached Image 2) */}
             <div className="relative h-28 w-28 sm:h-32 sm:w-32">
               <Image
-                src="/assets/logos/logo-bragante-vertical-bege-numero-v2-202607@4x.png"
+                src="/assets/logos/lockup-marina-bragante-vertical.png"
                 alt="Marina Bragante 40444 Deputada Estadual"
                 fill
-                className="object-contain filter brightness-0 invert"
+                className="object-contain"
                 priority
               />
             </div>
@@ -194,7 +194,7 @@ export default function MarinasHeroDiagramation() {
           </div>
 
           {/* DESCRIPTIVE COPY */}
-          <div className="max-w-3xl mx-auto text-center pt-4 border-t border-[#14447B]/20">
+          <div className="max-w-3xl mx-auto text-center pt-3 border-t border-[#14447B]/20">
             <p className="text-[#14447B] text-sm sm:text-lg font-sans font-semibold leading-relaxed">
               Política se faz com presença e escuta de quem vive a realidade todos os dias. Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual.
             </p>
