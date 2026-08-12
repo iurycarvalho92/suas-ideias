@@ -19,26 +19,22 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
   const getBadgeStyle = (pauta: string) => {
     switch (pauta) {
       case 'Educação':
-        return 'bg-[#16437F]/10 text-[#16437F] border-[#16437F]/30';
+        return 'bg-[#14447B]/10 text-[#14447B] border-[#14447B]/30';
       case 'Saúde':
-        return 'bg-[#F0AECA] text-[#8C1A13] border-[#8C1A13]/20';
+        return 'bg-[#A3B12D]/20 text-[#14447B] border-[#A3B12D]/40';
       case 'Meio Ambiente & Clima':
-        return 'bg-[#4F6219]/10 text-[#4F6219] border-[#4F6219]/30';
+        return 'bg-[#A3B12D] text-[#14447B] border-[#14447B]/20 font-bold';
       case 'Mobilidade Urbana':
-        return 'bg-[#F1891D]/10 text-[#F1891D] border-[#F1891D]/30';
+        return 'bg-[#14447B]/15 text-[#14447B] border-[#14447B]/30';
       case 'Segurança':
-        return 'bg-[#8C1A13]/10 text-[#8C1A13] border-[#8C1A13]/30';
-      case 'Economia & Emprego':
-        return 'bg-[#CACB5F]/30 text-[#8C1A13] border-[#8C1A13]/20';
-      case 'Cidadania & Direitos':
-        return 'bg-[#F0AECA]/50 text-[#8C1A13] border-[#8C1A13]/30';
+        return 'bg-[#0D2E55] text-white border-[#0D2E55]';
       default:
-        return 'bg-[#FFF6D5] text-[#8C1A13] border-[#8C1A13]/20';
+        return 'bg-[#FAF8F2] text-[#14447B] border-[#14447B]/20';
     }
   };
 
   return (
-    <div className="group bg-white rounded-3xl p-6 border-2 border-[#8C1A13]/15 hover:border-[#8C1A13] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
+    <div className="group bg-white rounded-3xl p-6 border-2 border-[#14447B]/15 hover:border-[#14447B] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
       <div>
         
         {/* Top Pauta Badge & Apoios Count */}
@@ -46,18 +42,18 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
           <span className={`px-3 py-1 text-xs font-bold rounded-full border ${getBadgeStyle(proposal.pauta)}`}>
             {proposal.pauta}
           </span>
-          <div className="flex items-center gap-1.5 bg-[#FFF6D5] border border-[#8C1A13]/20 text-[#8C1A13] text-xs font-bold px-2.5 py-1 rounded-full">
-            <Heart className="w-3.5 h-3.5 text-[#8C1A13] fill-[#8C1A13]" />
+          <div className="flex items-center gap-1.5 bg-[#FAF8F2] border border-[#14447B]/20 text-[#14447B] text-xs font-bold px-2.5 py-1 rounded-full">
+            <Heart className="w-3.5 h-3.5 text-[#14447B] fill-[#14447B]" />
             <span>{proposal.apoiosCount} {proposal.apoiosCount === 1 ? 'apoio' : 'apoios'}</span>
           </div>
         </div>
 
         {/* Title */}
-        <h3 className="font-serif font-bold text-[#8C1A13] text-xl leading-snug group-hover:text-[#F1891D] transition-colors mb-2.5 line-clamp-2">
+        <h3 className="font-serif font-bold text-[#14447B] text-xl leading-snug group-hover:text-[#A3B12D] transition-colors mb-2.5 line-clamp-2">
           {proposal.titulo}
         </h3>
 
-        {/* Short Description (75 chars) */}
+        {/* Short Description */}
         <p className="text-slate-700 text-sm leading-relaxed mb-4 line-clamp-3">
           {descricaoResumida}
         </p>
@@ -66,14 +62,14 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
 
       <div>
         {/* Author & City Metadata */}
-        <div className="flex items-center gap-2 text-xs text-slate-600 pt-3 border-t border-[#8C1A13]/10 mb-4">
+        <div className="flex items-center gap-2 text-xs text-slate-600 pt-3 border-t border-[#14447B]/10 mb-4">
           <div className="flex items-center gap-1">
-            <User className="w-3.5 h-3.5 text-[#8C1A13]" />
-            <span>Por <strong className="text-[#8C1A13]">{primeiroNome}</strong></span>
+            <User className="w-3.5 h-3.5 text-[#14447B]" />
+            <span>Por <strong className="text-[#14447B]">{primeiroNome}</strong></span>
           </div>
           <span>•</span>
           <div className="flex items-center gap-1 truncate">
-            <MapPin className="w-3.5 h-3.5 text-[#4F6219]" />
+            <MapPin className="w-3.5 h-3.5 text-[#A3B12D]" />
             <span className="truncate text-slate-700">{proposal.cidade}</span>
           </div>
         </div>
@@ -81,7 +77,7 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
         {/* CTA Link */}
         <Link
           href={`/suasideias/proposta/${proposal.slug}`}
-          className="w-full inline-flex items-center justify-center gap-2 bg-[#FFF6D5] hover:bg-[#8C1A13] text-[#8C1A13] hover:text-[#FFF6D5] font-bold text-xs py-3 px-4 rounded-2xl transition-all duration-200 border-2 border-[#8C1A13]"
+          className="w-full inline-flex items-center justify-center gap-2 bg-[#FAF8F2] hover:bg-[#14447B] text-[#14447B] hover:text-white font-bold text-xs py-3 px-4 rounded-2xl transition-all duration-200 border-2 border-[#14447B]"
         >
           <span>Conhecer e apoiar proposta</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

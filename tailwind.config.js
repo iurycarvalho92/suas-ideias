@@ -8,14 +8,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Paleta Oficial Marinas por SP (Direção Visual)
-        creme: '#FFF6D5',      // Fundo principal e áreas de respiro
-        vinho: '#8C1A13',      // Títulos, faixas e contraste institucional
-        laranja: '#F1891D',    // Números, CTAs e acentos
-        verdeEscuro: '#4F6219',// Seções de propostas e natureza
-        verdeLima: '#CACB5F',  // Destaques e fundos secundários
-        rosa: '#F0AECA',       // Fundos de apoio e contraste afetivo
-        azul: '#16437F',       // Ícones e estados informativos
+        // Paleta baseada no Logo "Suas Ideias para as Marinas"
+        azulNavy: '#14447B',        // Azul principal das marcas "Suas ideias" e "Marinas"
+        azulDark: '#0D2E55',        // Azul marinho profundo para contraste e rodapé
+        verdeDourado: '#A3B12D',    // Verde Dourado/Lima principal de "para as"
+        verdeDouradoClaro: '#D7E365',// Verde claro para destaques e hovers
+        cremeFundo: '#FAF8F2',      // Fundo creme suave da página
+        cremeCard: '#F4F2E8',       // Fundo de cards e containers
+        cremeBorder: '#DCD8C5',     // Bordas neutras e elegantes
       },
       fontFamily: {
         serif: ['Georgia', 'Cambria', 'serif'],

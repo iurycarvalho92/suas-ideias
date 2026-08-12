@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply bg-[#FFF6D5] text-[#8C1A13] antialiased selection:bg-[#F0AECA] selection:text-[#8C1A13];
+    @apply bg-[#FAF8F2] text-[#14447B] antialiased selection:bg-[#A3B12D] selection:text-white;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
@@ -17,13 +17,8 @@
   }
 }
 
-/* Organic section divider curves */
-.organic-divider-top {
-  border-radius: 50% 50% 0 0 / 20px 20px 0 0;
-}
-
 .organic-card {
   background-color: #FFFFFF;
-  border: 2px solid #8C1A13;
+  border: 2px solid #14447B;
   border-radius: 1.5rem;
 }
