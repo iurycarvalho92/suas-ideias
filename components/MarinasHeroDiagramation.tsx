@@ -11,7 +11,7 @@ export default function MarinasHeroDiagramation() {
       {/* Hero Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* CENTRAL HERO LOGO GRAPHIC (Responsive Margins: clean on mobile, high-overlap on desktop) */}
+        {/* CENTRAL HERO LOGO GRAPHIC */}
         <div className="relative h-40 sm:h-64 lg:h-72 w-full max-w-4xl mx-auto pt-1 -mb-4 md:-mb-52 lg:-mb-60">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
@@ -77,7 +77,7 @@ export default function MarinasHeroDiagramation() {
         {/* ============================================================ */}
         <div className="flex md:hidden flex-col items-center gap-2 pt-2">
           
-          {/* Action Buttons (Placed cleanly BELOW the logo on mobile, ZERO overlap) */}
+          {/* Action Buttons (Placed cleanly BELOW the logo on mobile) */}
           <div className="flex flex-col items-center gap-2 w-full z-20 px-4 mt-1 mb-1">
             <Link
               href="/suasideias/enviar"
@@ -166,8 +166,8 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE (Marina Bragante +15% larger) */}
-          <div className="flex md:hidden flex-row items-center justify-center gap-5 pt-0 -mt-2">
+          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE (Marina Bragante +10% larger) */}
+          <div className="flex md:hidden flex-row items-center justify-center gap-4 pt-0 -mt-2">
             
             {/* Marina Helou 4044 Vertical */}
             <div className="relative h-24 w-24 sm:h-28 sm:w-28">
@@ -180,8 +180,8 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante 40444 Vertical (+15% larger) */}
-            <div className="relative h-28 w-28 sm:h-32 sm:w-32">
+            {/* Marina Bragante 40444 Vertical (+10% larger: h-32 w-32 / sm:h-36 sm:w-36) */}
+            <div className="relative h-32 w-32 sm:h-36 sm:w-36">
               <Image
                 src="/assets/logos/lockup-marina-bragante-vertical.png"
                 alt="Marina Bragante 40444 Deputada Estadual"
@@ -193,10 +193,10 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* DESCRIPTIVE COPY */}
+          {/* DESCRIPTIVE COPY (UPDATED TEXT COPY) */}
           <div className="max-w-3xl mx-auto text-center pt-3 border-t border-[#14447B]/20">
             <p className="text-[#14447B] text-sm sm:text-lg font-sans font-semibold leading-relaxed">
-              Política se faz com presença e escuta de quem vive a realidade todos os dias. Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual.
+              Política se faz com presença, escutando de quem vive a realidade todos os dias! Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual.
             </p>
           </div>
 
