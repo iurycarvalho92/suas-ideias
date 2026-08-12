@@ -6,27 +6,27 @@ import Link from 'next/link';
 
 export default function MarinasHeroDiagramation() {
   return (
-    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-1 sm:pt-3">
+    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-0">
       
-      {/* Clean Hero Container - Ultra compact high-density layout */}
+      {/* Clean Hero Container - Ultra-tight overlap to pull everything up */}
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* HERO LOGO GRAPHIC (+15% Larger & Lowered) */}
-        <div className="relative h-52 sm:h-72 w-full max-w-4xl mx-auto pt-4 sm:pt-6 -mb-24 sm:-mb-36">
+        {/* HERO LOGO GRAPHIC */}
+        <div className="relative h-44 sm:h-60 w-full max-w-4xl mx-auto pt-0 -mb-28 sm:-mb-44">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
             fill
-            className="object-contain"
+            className="object-contain object-top"
             priority
           />
         </div>
 
-        {/* Candidate Photos & Ultra-Compact Discrete CTAs */}
+        {/* Candidate Photos & Discrete CTAs (PULLED WAY UP UNDER THE LOGO) */}
         <div className="relative grid grid-cols-1 md:grid-cols-12 items-end">
           
           {/* Left Candidate Photo: Marina Helou */}
-          <div className="md:col-span-4 flex justify-center md:justify-start z-10 -mb-8 sm:-mb-10">
+          <div className="md:col-span-4 flex justify-center md:justify-start z-10 -mb-10 sm:-mb-14">
             <div className="relative w-72 h-96 sm:w-96 sm:h-[490px]">
               <Image
                 src="/assets/fotos/MH-03.png"
@@ -38,10 +38,10 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* Center Action Buttons (Positioned High & Tight Gap) */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2 pb-10 sm:pb-16 z-20 -mt-12 sm:-mt-24">
+          {/* Center Action Buttons (PULLED WAY UP & DISCREET) */}
+          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2 pb-14 sm:pb-24 z-20 -mt-16 sm:-mt-32">
             
-            {/* Primary Action Button (Discreet style) */}
+            {/* Primary Action Button */}
             <Link
               href="/suasideias/enviar"
               className="w-56 sm:w-64 bg-[#14447B] hover:bg-[#0D2E55] text-white text-center font-bold text-xs sm:text-sm py-2.5 px-5 rounded-full border border-[#A3B12D] shadow-sm transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
@@ -49,7 +49,7 @@ export default function MarinasHeroDiagramation() {
               <span>Enviar minha ideia</span>
             </Link>
 
-            {/* Secondary Action Button (Discreet style) */}
+            {/* Secondary Action Button */}
             <a
               href="#galeria-de-ideias"
               className="w-56 sm:w-64 bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] hover:text-white text-center font-bold text-xs sm:text-sm py-2.5 px-5 rounded-full border border-[#14447B] shadow-xs transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
@@ -59,7 +59,7 @@ export default function MarinasHeroDiagramation() {
           </div>
 
           {/* Right Candidate Photo: Marina Bragante */}
-          <div className="md:col-span-4 flex justify-center md:justify-end z-10 -mb-8 sm:-mb-10">
+          <div className="md:col-span-4 flex justify-center md:justify-end z-10 -mb-10 sm:-mb-14">
             <div className="relative w-72 h-96 sm:w-96 sm:h-[490px]">
               <Image
                 src="/assets/fotos/MAB 02.png"
@@ -75,8 +75,8 @@ export default function MarinasHeroDiagramation() {
 
       </div>
 
-      {/* ORGANIC GREEN WAVE BANNER (#A3B12D) */}
-      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-8 pb-10 z-20">
+      {/* ORGANIC GREEN WAVE BANNER (#A3B12D) - PULLED WAY UP */}
+      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-8 pb-10 z-20 -mt-6 sm:-mt-12">
         
         {/* Soft Organic Wave Divider Top Transition */}
         <div className="absolute -top-8 inset-x-0 h-8 overflow-hidden pointer-events-none">
@@ -87,10 +87,10 @@ export default function MarinasHeroDiagramation() {
 
         <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-6">
           
-          {/* CANDIDATE LOGOS (+15% Larger & Equalized) */}
+          {/* CANDIDATE LOGOS */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 pt-2">
             
-            {/* Marina Helou Lockup (+15%) */}
+            {/* Marina Helou Lockup */}
             <div className="relative h-20 sm:h-24 w-80 sm:w-[380px]">
               <Image
                 src="/assets/logos/lockup-marina-helou-white.png"
@@ -101,7 +101,7 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante Lockup (+15%) */}
+            {/* Marina Bragante Lockup */}
             <div className="relative h-24 sm:h-28 w-96 sm:w-[480px]">
               <Image
                 src="/assets/logos/lockup-marina-bragante-white.png"
