@@ -11,7 +11,6 @@ import { PAUTAS, Proposal } from '@/lib/types';
 import { 
   Sparkles, 
   Send, 
-  Heart, 
   PenTool, 
   ShieldCheck, 
   Share2,
@@ -65,29 +64,11 @@ export default function HomeHub() {
     <div className="overflow-x-hidden bg-[#FAF8F2]">
       
       {/* ============================================================ */}
-      {/* SEÇÃO 1: HERO (Diagramação idêntica à imagem anexa) */}
+      {/* SEÇÃO 1: HERO (Diagramação idêntica com cores e texto na faixa verde) */}
       {/* ============================================================ */}
       <MarinasHeroDiagramation />
 
-      {/* ============================================================ */}
-      {/* SEÇÃO DESCRITIVA (Posicionada abaixo das 2 Marinas) */}
-      {/* ============================================================ */}
-      <section className="py-12 sm:py-16 bg-[#FAF8F2]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-6">
-          
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#8C1A13] text-[#FFF6D5] text-xs font-bold rounded-full border border-[#8C1A13]/30 shadow-sm">
-            <Sparkles className="w-4 h-4 text-[#F1891D]" />
-            <span>Escuta Ativa em todo SP</span>
-          </div>
-
-          <p className="text-[#8C1A13] text-lg sm:text-2xl font-serif font-medium leading-relaxed max-w-3xl mx-auto">
-            Nós queremos ouvir quem vive a realidade de São Paulo todos os dias. Compartilhe sua proposta para São Paulo e para o Brasil, conheça ideias de outras pessoas e ajude a construir uma vida mais justa e sustentável para todos.
-          </p>
-
-        </div>
-      </section>
-
-      {/* WAVE DIVIDER: Transição para a seção Como Funciona */}
+      {/* WAVE DIVIDER: Transição da faixa verde para a seção Como Funciona em Azul Navy */}
       <OrganicWaveDivider fillColor="#14447B" />
 
       {/* ============================================================ */}
@@ -111,7 +92,7 @@ export default function HomeHub() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             {/* Passo 1 */}
-            <div className="bg-white rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
+            <div className="bg-[#FAF8F2] rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
               <div className="w-14 h-14 rounded-2xl bg-[#FAF8F2] text-[#14447B] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#14447B]/20">
                 <PenTool className="w-7 h-7 text-[#A3B12D]" />
               </div>
@@ -125,7 +106,7 @@ export default function HomeHub() {
             </div>
 
             {/* Passo 2 */}
-            <div className="bg-white rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
+            <div className="bg-[#FAF8F2] rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
               <div className="w-14 h-14 rounded-2xl bg-[#FAF8F2] text-[#14447B] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#14447B]/20">
                 <ShieldCheck className="w-7 h-7 text-[#14447B]" />
               </div>
@@ -139,7 +120,7 @@ export default function HomeHub() {
             </div>
 
             {/* Passo 3 */}
-            <div className="bg-white rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
+            <div className="bg-[#FAF8F2] rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
               <div className="w-14 h-14 rounded-2xl bg-[#FAF8F2] text-[#14447B] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#14447B]/20">
                 <Share2 className="w-7 h-7 text-[#14447B]" />
               </div>
@@ -179,13 +160,13 @@ export default function HomeHub() {
               </p>
             </div>
             
-            <div className="text-xs text-[#14447B] font-bold bg-white px-3.5 py-1.5 rounded-full border-2 border-[#14447B]/20 self-start md:self-auto">
+            <div className="text-xs text-[#14447B] font-bold bg-[#FAF8F2] px-3.5 py-1.5 rounded-full border-2 border-[#14447B]/20 self-start md:self-auto">
               {proposals.length} {proposals.length === 1 ? 'proposta exibida' : 'propostas exibidas'}
             </div>
           </div>
 
           {/* Filtros Container */}
-          <div className="bg-white rounded-3xl p-6 border-2 border-[#14447B]/20 shadow-sm mb-8 space-y-4">
+          <div className="bg-[#FAF8F2] rounded-3xl p-6 border-2 border-[#14447B]/20 shadow-sm mb-8 space-y-4">
             
             {/* Filtro 1: Pauta Horizontal Scroll */}
             <div>
@@ -198,7 +179,7 @@ export default function HomeHub() {
                   className={`px-4 py-2 text-xs font-bold rounded-full transition-all whitespace-nowrap border-2 ${
                     selectedPauta === 'Todas'
                       ? 'bg-[#14447B] text-white border-[#14447B]'
-                      : 'bg-[#FAF8F2] text-[#14447B] border-[#14447B]/20 hover:border-[#14447B]'
+                      : 'bg-white text-[#14447B] border-[#14447B]/20 hover:border-[#14447B]'
                   }`}
                 >
                   Todas as pautas
@@ -210,7 +191,7 @@ export default function HomeHub() {
                     className={`px-4 py-2 text-xs font-bold rounded-full transition-all whitespace-nowrap border-2 ${
                       selectedPauta === pauta
                         ? 'bg-[#14447B] text-white border-[#14447B]'
-                        : 'bg-[#FAF8F2] text-[#14447B] border-[#14447B]/20 hover:border-[#14447B]'
+                        : 'bg-white text-[#14447B] border-[#14447B]/20 hover:border-[#14447B]'
                     }`}
                   >
                     {pauta}
@@ -251,7 +232,7 @@ export default function HomeHub() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-white rounded-3xl p-6 border-2 border-[#14447B]/15 animate-pulse h-64 space-y-4">
+                <div key={i} className="bg-[#FAF8F2] rounded-3xl p-6 border-2 border-[#14447B]/15 animate-pulse h-64 space-y-4">
                   <div className="h-4 bg-slate-100 rounded w-1/3" />
                   <div className="h-6 bg-slate-100 rounded w-3/4" />
                   <div className="h-12 bg-slate-100 rounded w-full" />
@@ -267,8 +248,8 @@ export default function HomeHub() {
             </div>
           ) : (
             /* ESTADO VAZIO */
-            <div className="bg-white rounded-3xl p-12 text-center border-2 border-[#14447B]/20 shadow-sm max-w-xl mx-auto space-y-4">
-              <div className="w-16 h-16 bg-[#FAF8F2] text-[#14447B] rounded-full flex items-center justify-center mx-auto border-2 border-[#14447B]/20">
+            <div className="bg-[#FAF8F2] rounded-3xl p-12 text-center border-2 border-[#14447B]/20 shadow-sm max-w-xl mx-auto space-y-4">
+              <div className="w-16 h-16 bg-white text-[#14447B] rounded-full flex items-center justify-center mx-auto border-2 border-[#14447B]/20">
                 <Inbox className="w-8 h-8 text-[#14447B]" />
               </div>
               <h3 className="text-2xl font-serif font-bold text-[#14447B]">
