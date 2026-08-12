@@ -140,10 +140,10 @@ export default function MarinasHeroDiagramation() {
         <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-6">
           
           {/* DESKTOP LOGOS: Horizontal Lockups Side by Side */}
-          <div className="hidden md:flex md:flex-row items-center justify-between gap-8 pt-2">
+          <div className="hidden md:flex md:flex-row items-center justify-between gap-10 pt-2">
             
-            {/* Marina Helou Lockup */}
-            <div className="relative h-24 sm:h-28 w-80 sm:w-[380px]">
+            {/* Marina Helou Horizontal Lockup */}
+            <div className="relative h-20 sm:h-24 w-80 sm:w-[380px]">
               <Image
                 src="/assets/logos/lockup-marina-helou-white.png"
                 alt="Marina Helou 4044 Deputada Federal"
@@ -153,7 +153,7 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante Lockup */}
+            {/* Marina Bragante Horizontal Lockup */}
             <div className="relative h-24 sm:h-28 w-96 sm:w-[480px]">
               <Image
                 src="/assets/logos/lockup-marina-bragante-white.png"
@@ -167,10 +167,10 @@ export default function MarinasHeroDiagramation() {
           </div>
 
           {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE */}
-          <div className="flex md:hidden flex-row items-center justify-center gap-4 pt-0 -mt-2">
+          <div className="flex md:hidden flex-row items-center justify-center gap-5 pt-0 -mt-2">
             
             {/* Marina Helou 4044 Vertical */}
-            <div className="relative h-24 w-32 sm:h-28 sm:w-36">
+            <div className="relative h-28 w-28 sm:h-32 sm:w-32">
               <Image
                 src="/assets/logos/lockup-marina-helou-vertical.png"
                 alt="Marina Helou 4044 Deputada Federal"
@@ -181,7 +181,7 @@ export default function MarinasHeroDiagramation() {
             </div>
 
             {/* Marina Bragante 40444 Vertical */}
-            <div className="relative h-24 w-24 sm:h-28 sm:w-28">
+            <div className="relative h-28 w-28 sm:h-32 sm:w-32">
               <Image
                 src="/assets/logos/lockup-marina-bragante-vertical.png"
                 alt="Marina Bragante 40444 Deputada Estadual"
