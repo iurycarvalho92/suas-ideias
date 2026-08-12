@@ -61,15 +61,17 @@ export default function HomeHub() {
   }, [selectedPauta, selectedCidade]);
 
   return (
-    <div className="overflow-x-hidden bg-[#FAF8F2]">
+    <div className="overflow-x-hidden bg-[#FFF6D5]">
       
       {/* ============================================================ */}
-      {/* SEÇÃO 1: HERO (Diagramação idêntica com cores e texto na faixa verde) */}
+      {/* SEÇÃO 1: HERO (Fundo Creme #FFF6D5 com Faixa Verde #A3B12D) */}
       {/* ============================================================ */}
       <MarinasHeroDiagramation />
 
-      {/* WAVE DIVIDER: Transição da faixa verde para a seção Como Funciona em Azul Navy */}
-      <OrganicWaveDivider fillColor="#14447B" />
+      {/* WAVE DIVIDER SEM FOLGA: Transição DIRETA da Faixa Verde (#A3B12D) para Azul Navy (#14447B) */}
+      <div className="bg-[#A3B12D] -mt-1">
+        <OrganicWaveDivider fillColor="#14447B" />
+      </div>
 
       {/* ============================================================ */}
       {/* SEÇÃO 2: COMO FUNCIONA (Fundo Azul Navy #14447B) */}
@@ -92,8 +94,8 @@ export default function HomeHub() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             {/* Passo 1 */}
-            <div className="bg-[#FAF8F2] rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
-              <div className="w-14 h-14 rounded-2xl bg-[#FAF8F2] text-[#14447B] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#14447B]/20">
+            <div className="bg-[#FFF6D5] rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
+              <div className="w-14 h-14 rounded-2xl bg-[#FFF6D5] text-[#14447B] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#14447B]/20">
                 <PenTool className="w-7 h-7 text-[#A3B12D]" />
               </div>
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#A3B12D]">Passo 01</span>
@@ -106,8 +108,8 @@ export default function HomeHub() {
             </div>
 
             {/* Passo 2 */}
-            <div className="bg-[#FAF8F2] rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
-              <div className="w-14 h-14 rounded-2xl bg-[#FAF8F2] text-[#14447B] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#14447B]/20">
+            <div className="bg-[#FFF6D5] rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
+              <div className="w-14 h-14 rounded-2xl bg-[#FFF6D5] text-[#14447B] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#14447B]/20">
                 <ShieldCheck className="w-7 h-7 text-[#14447B]" />
               </div>
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#14447B]">Passo 02</span>
@@ -120,8 +122,8 @@ export default function HomeHub() {
             </div>
 
             {/* Passo 3 */}
-            <div className="bg-[#FAF8F2] rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
-              <div className="w-14 h-14 rounded-2xl bg-[#FAF8F2] text-[#14447B] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#14447B]/20">
+            <div className="bg-[#FFF6D5] rounded-3xl p-8 border-2 border-[#A3B12D] text-[#14447B] shadow-lg hover:scale-102 transition-transform relative group">
+              <div className="w-14 h-14 rounded-2xl bg-[#FFF6D5] text-[#14447B] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#14447B]/20">
                 <Share2 className="w-7 h-7 text-[#14447B]" />
               </div>
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#14447B]">Passo 03</span>
@@ -138,13 +140,13 @@ export default function HomeHub() {
         </div>
       </section>
 
-      {/* WAVE DIVIDER: Transição de Azul Navy (#14447B) para Creme (#FAF8F2) */}
-      <OrganicWaveDivider fillColor="#FAF8F2" />
+      {/* WAVE DIVIDER: Transição de Azul Navy (#14447B) para Creme (#FFF6D5) */}
+      <OrganicWaveDivider fillColor="#FFF6D5" />
 
       {/* ============================================================ */}
-      {/* SEÇÃO 3: GALERIA DE IDEIAS (Fundo Creme #FAF8F2) */}
+      {/* SEÇÃO 3: GALERIA DE IDEIAS (Fundo Creme #FFF6D5) */}
       {/* ============================================================ */}
-      <section id="galeria-de-ideias" className="bg-[#FAF8F2] py-8 scroll-mt-24">
+      <section id="galeria-de-ideias" className="bg-[#FFF6D5] py-8 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -160,13 +162,13 @@ export default function HomeHub() {
               </p>
             </div>
             
-            <div className="text-xs text-[#14447B] font-bold bg-[#FAF8F2] px-3.5 py-1.5 rounded-full border-2 border-[#14447B]/20 self-start md:self-auto">
+            <div className="text-xs text-[#14447B] font-bold bg-[#FFF6D5] px-3.5 py-1.5 rounded-full border-2 border-[#14447B]/20 self-start md:self-auto">
               {proposals.length} {proposals.length === 1 ? 'proposta exibida' : 'propostas exibidas'}
             </div>
           </div>
 
           {/* Filtros Container */}
-          <div className="bg-[#FAF8F2] rounded-3xl p-6 border-2 border-[#14447B]/20 shadow-sm mb-8 space-y-4">
+          <div className="bg-white rounded-3xl p-6 border-2 border-[#14447B]/20 shadow-sm mb-8 space-y-4">
             
             {/* Filtro 1: Pauta Horizontal Scroll */}
             <div>
@@ -179,7 +181,7 @@ export default function HomeHub() {
                   className={`px-4 py-2 text-xs font-bold rounded-full transition-all whitespace-nowrap border-2 ${
                     selectedPauta === 'Todas'
                       ? 'bg-[#14447B] text-white border-[#14447B]'
-                      : 'bg-white text-[#14447B] border-[#14447B]/20 hover:border-[#14447B]'
+                      : 'bg-[#FFF6D5] text-[#14447B] border-[#14447B]/20 hover:border-[#14447B]'
                   }`}
                 >
                   Todas as pautas
@@ -191,7 +193,7 @@ export default function HomeHub() {
                     className={`px-4 py-2 text-xs font-bold rounded-full transition-all whitespace-nowrap border-2 ${
                       selectedPauta === pauta
                         ? 'bg-[#14447B] text-white border-[#14447B]'
-                        : 'bg-white text-[#14447B] border-[#14447B]/20 hover:border-[#14447B]'
+                        : 'bg-[#FFF6D5] text-[#14447B] border-[#14447B]/20 hover:border-[#14447B]'
                     }`}
                   >
                     {pauta}
@@ -232,7 +234,7 @@ export default function HomeHub() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-[#FAF8F2] rounded-3xl p-6 border-2 border-[#14447B]/15 animate-pulse h-64 space-y-4">
+                <div key={i} className="bg-white rounded-3xl p-6 border-2 border-[#14447B]/15 animate-pulse h-64 space-y-4">
                   <div className="h-4 bg-slate-100 rounded w-1/3" />
                   <div className="h-6 bg-slate-100 rounded w-3/4" />
                   <div className="h-12 bg-slate-100 rounded w-full" />
@@ -248,8 +250,8 @@ export default function HomeHub() {
             </div>
           ) : (
             /* ESTADO VAZIO */
-            <div className="bg-[#FAF8F2] rounded-3xl p-12 text-center border-2 border-[#14447B]/20 shadow-sm max-w-xl mx-auto space-y-4">
-              <div className="w-16 h-16 bg-white text-[#14447B] rounded-full flex items-center justify-center mx-auto border-2 border-[#14447B]/20">
+            <div className="bg-white rounded-3xl p-12 text-center border-2 border-[#14447B]/20 shadow-sm max-w-xl mx-auto space-y-4">
+              <div className="w-16 h-16 bg-[#FFF6D5] text-[#14447B] rounded-full flex items-center justify-center mx-auto border-2 border-[#14447B]/20">
                 <Inbox className="w-8 h-8 text-[#14447B]" />
               </div>
               <h3 className="text-2xl font-serif font-bold text-[#14447B]">
@@ -271,7 +273,7 @@ export default function HomeHub() {
         </div>
       </section>
 
-      {/* WAVE DIVIDER: Transição para a Chamada do Formulário */}
+      {/* WAVE DIVIDER: Transição para a Chamada do Formulário em Verde Dourado */}
       <OrganicWaveDivider fillColor="#A3B12D" />
 
       {/* ============================================================ */}

@@ -6,13 +6,13 @@ import Link from 'next/link';
 
 export default function MarinasHeroDiagramation() {
   return (
-    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-2 sm:pt-4">
+    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-1">
       
       {/* Clean Hero Container - No background SVGs */}
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* HUGE HERO LOGO GRAPHIC - Tight vertical spacing below */}
-        <div className="relative h-44 sm:h-64 w-full max-w-3xl mx-auto -mb-4 sm:-mb-6">
+        {/* HUGE HERO LOGO GRAPHIC - Extremely tight vertical spacing */}
+        <div className="relative h-44 sm:h-64 w-full max-w-3xl mx-auto -mb-12 sm:-mb-20">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -22,7 +22,7 @@ export default function MarinasHeroDiagramation() {
           />
         </div>
 
-        {/* Candidate Photos & Center Pill CTAs Row (Photos close to logo & touching green banner) */}
+        {/* Candidate Photos & Center Pill CTAs Row (Tightened vertically) */}
         <div className="relative grid grid-cols-1 md:grid-cols-12 items-end">
           
           {/* Left Candidate Photo: Marina Helou (standing directly on green banner, no gap) */}
@@ -39,7 +39,7 @@ export default function MarinasHeroDiagramation() {
           </div>
 
           {/* Center Pill Action Buttons */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center gap-3.5 pb-6 sm:pb-8 z-20">
+          <div className="md:col-span-4 flex flex-col items-center justify-center gap-3 pb-6 sm:pb-8 z-20">
             <Link
               href="/suasideias/enviar"
               className="w-64 sm:w-72 bg-[#FFF6D5] hover:bg-[#14447B] text-[#14447B] hover:text-white text-center font-extrabold text-base py-3.5 px-6 rounded-full border-2 border-[#14447B] shadow-md transition-all scale-100 hover:scale-105 active:scale-95"
@@ -73,7 +73,7 @@ export default function MarinasHeroDiagramation() {
       </div>
 
       {/* ORGANIC GREEN WAVE BANNER (#A3B12D) */}
-      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-8 pb-12 z-20">
+      <div className="relative w-full bg-[#A3B12D] text-[#14447B] pt-8 pb-10 z-20">
         
         {/* Soft Organic Wave Divider Top Transition */}
         <div className="absolute -top-8 inset-x-0 h-8 overflow-hidden pointer-events-none">
@@ -82,13 +82,13 @@ export default function MarinasHeroDiagramation() {
           </svg>
         </div>
 
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-8">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-6">
           
-          {/* STANDARDIZED & ENLARGED CANDIDATE LOGOS (Both Large and Identically Scaled) */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-4">
+          {/* CANDIDATE LOGOS - Marina Bragante increased to visually match Marina Helou */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 pt-2">
             
-            {/* Marina Helou Lockup - Significantly Larger */}
-            <div className="relative h-20 sm:h-24 w-80 sm:w-[380px]">
+            {/* Marina Helou Lockup */}
+            <div className="relative h-16 sm:h-20 w-72 sm:w-[330px]">
               <Image
                 src="/assets/logos/lockup-marina-helou-white.png"
                 alt="Marina Helou 4044 Deputada Federal"
@@ -98,8 +98,8 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante Lockup - Significantly Larger & Balanced */}
-            <div className="relative h-20 sm:h-24 w-80 sm:w-[380px]">
+            {/* Marina Bragante Lockup - Increased size for perfect visual balance */}
+            <div className="relative h-20 sm:h-24 w-80 sm:w-[420px]">
               <Image
                 src="/assets/logos/lockup-marina-bragante-white.png"
                 alt="Marina Bragante 40444 Deputada Estadual"
@@ -111,9 +111,9 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* DESCRIPTIVE COPY - COMFORTABLE SPACING BELOW LOCKUPS */}
-          <div className="max-w-3xl mx-auto text-center pt-6 border-t border-[#14447B]/20">
-            <p className="text-[#14447B] text-base sm:text-xl font-serif font-bold leading-relaxed">
+          {/* DESCRIPTIVE COPY IN SANS-SERIF FONT */}
+          <div className="max-w-3xl mx-auto text-center pt-4 border-t border-[#14447B]/20">
+            <p className="text-[#14447B] text-base sm:text-lg font-sans font-semibold leading-relaxed">
               "Política se faz com presença e escuta de quem vive a realidade todos os dias. Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual."
             </p>
           </div>
