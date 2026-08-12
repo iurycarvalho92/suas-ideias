@@ -6,13 +6,13 @@ import Link from 'next/link';
 
 export default function MarinasHeroDiagramation() {
   return (
-    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-1">
+    <div className="relative w-full overflow-hidden bg-[#FFF6D5] pt-0">
       
       {/* Clean Hero Container - No background SVGs */}
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* HUGE HERO LOGO GRAPHIC - Extremely tight vertical spacing */}
-        <div className="relative h-44 sm:h-64 w-full max-w-3xl mx-auto -mb-12 sm:-mb-20">
+        {/* HUGE HERO LOGO GRAPHIC - Extremely tight vertical spacing to photos */}
+        <div className="relative h-44 sm:h-64 w-full max-w-3xl mx-auto -mb-16 sm:-mb-24">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -22,10 +22,10 @@ export default function MarinasHeroDiagramation() {
           />
         </div>
 
-        {/* Candidate Photos & Center Pill CTAs Row (Tightened vertically) */}
+        {/* Candidate Photos & Center Pill CTAs Row (Tightened vertically against the logo) */}
         <div className="relative grid grid-cols-1 md:grid-cols-12 items-end">
           
-          {/* Left Candidate Photo: Marina Helou (standing directly on green banner, no gap) */}
+          {/* Left Candidate Photo: Marina Helou (standing directly on green banner) */}
           <div className="md:col-span-4 flex justify-center md:justify-start z-10 -mb-8 sm:-mb-10">
             <div className="relative w-64 h-80 sm:w-80 sm:h-[430px]">
               <Image
@@ -55,7 +55,7 @@ export default function MarinasHeroDiagramation() {
             </a>
           </div>
 
-          {/* Right Candidate Photo: Marina Bragante (standing directly on green banner, no gap) */}
+          {/* Right Candidate Photo: Marina Bragante (standing directly on green banner) */}
           <div className="md:col-span-4 flex justify-center md:justify-end z-10 -mb-8 sm:-mb-10">
             <div className="relative w-64 h-80 sm:w-80 sm:h-[430px]">
               <Image
@@ -84,7 +84,7 @@ export default function MarinasHeroDiagramation() {
 
         <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-6">
           
-          {/* CANDIDATE LOGOS - Marina Bragante increased to visually match Marina Helou */}
+          {/* CANDIDATE LOGOS - Equalized visual sizes */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 pt-2">
             
             {/* Marina Helou Lockup */}
@@ -98,7 +98,7 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante Lockup - Increased size for perfect visual balance */}
+            {/* Marina Bragante Lockup */}
             <div className="relative h-20 sm:h-24 w-80 sm:w-[420px]">
               <Image
                 src="/assets/logos/lockup-marina-bragante-white.png"
@@ -111,10 +111,10 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* DESCRIPTIVE COPY IN SANS-SERIF FONT */}
+          {/* DESCRIPTIVE COPY - WITHOUT QUOTATION MARKS & SANS-SERIF FONT */}
           <div className="max-w-3xl mx-auto text-center pt-4 border-t border-[#14447B]/20">
             <p className="text-[#14447B] text-base sm:text-lg font-sans font-semibold leading-relaxed">
-              "Política se faz com presença e escuta de quem vive a realidade todos os dias. Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual."
+              Política se faz com presença e escuta de quem vive a realidade todos os dias. Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual.
             </p>
           </div>
 

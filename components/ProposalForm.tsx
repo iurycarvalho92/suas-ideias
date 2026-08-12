@@ -101,7 +101,7 @@ function ProposalFormContent() {
       
       {/* Header Badge & Title */}
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-white text-[#14447B] text-xs font-bold rounded-full border border-[#14447B]/30 mb-3">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#FFF6D5] text-[#14447B] text-xs font-bold rounded-full border border-[#14447B]/30 mb-3">
           <Sparkles className="w-3.5 h-3.5 text-[#A3B12D]" />
           <span>Participe do Plano de Ação</span>
         </div>
@@ -136,7 +136,7 @@ function ProposalFormContent() {
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Ex: Marina Silva"
-              className="w-full px-4 py-3 bg-white border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400"
+              className="w-full px-4 py-3 bg-[#FFF6D5] border-2 border-[#14447B]/30 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400"
             />
           </div>
 
@@ -151,7 +151,7 @@ function ProposalFormContent() {
               value={whatsapp}
               onChange={handleWhatsappChange}
               placeholder="(11) 99999-9999"
-              className="w-full px-4 py-3 bg-white border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400"
+              className="w-full px-4 py-3 bg-[#FFF6D5] border-2 border-[#14447B]/30 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400"
             />
           </div>
 
@@ -170,7 +170,7 @@ function ProposalFormContent() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="seuemail@exemplo.com"
-              className="w-full px-4 py-3 bg-white border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400"
+              className="w-full px-4 py-3 bg-[#FFF6D5] border-2 border-[#14447B]/30 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400"
             />
           </div>
 
@@ -198,7 +198,7 @@ function ProposalFormContent() {
             required
             value={pauta}
             onChange={(e) => setPauta(e.target.value as Pauta)}
-            className="w-full px-4 py-3 bg-white border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all"
+            className="w-full px-4 py-3 bg-[#FFF6D5] border-2 border-[#14447B]/30 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all"
           >
             <option value="">Selecione o tema</option>
             {PAUTAS.map((p) => (
@@ -226,7 +226,7 @@ function ProposalFormContent() {
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
             placeholder="Ex: Regulação de Publicidade de Bets — máx. 80 caracteres"
-            className="w-full px-4 py-3 bg-white border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400 font-medium"
+            className="w-full px-4 py-3 bg-[#FFF6D5] border-2 border-[#14447B]/30 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400 font-medium"
           />
         </div>
 
@@ -248,7 +248,7 @@ function ProposalFormContent() {
             value={descricao}
             onChange={(e) => setDescricao(e.target.value)}
             placeholder="Conte para nós o problema atual e qual mudança você sugere... — min. 50 e máx. 1000 caracteres"
-            className="w-full px-4 py-3 bg-white border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400 leading-relaxed"
+            className="w-full px-4 py-3 bg-[#FFF6D5] border-2 border-[#14447B]/30 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400 leading-relaxed"
           />
         </div>
 
