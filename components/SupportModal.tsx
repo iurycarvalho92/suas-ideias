@@ -92,12 +92,12 @@ export default function SupportModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-2 border-[#8C1A13] max-h-[90vh] overflow-y-auto">
+      <div className="bg-[#FFF6D5] rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-2 border-[#14447B] max-h-[90vh] overflow-y-auto">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-slate-400 hover:text-[#8C1A13] p-1.5 rounded-full hover:bg-[#FFF6D5] transition-colors"
+          className="absolute top-5 right-5 text-slate-400 hover:text-[#14447B] p-1.5 rounded-full hover:bg-white transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -107,11 +107,11 @@ export default function SupportModal({
             
             {/* Header */}
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-2xl bg-[#F0AECA] text-[#8C1A13] flex items-center justify-center font-bold">
-                <Heart className="w-5 h-5 fill-[#8C1A13] text-[#8C1A13]" />
+              <div className="w-10 h-10 rounded-2xl bg-[#A3B12D] text-[#14447B] flex items-center justify-center font-bold">
+                <Heart className="w-5 h-5 fill-[#14447B] text-[#14447B]" />
               </div>
               <div>
-                <h3 className="font-serif font-extrabold text-[#8C1A13] text-xl">
+                <h3 className="font-serif font-extrabold text-[#14447B] text-xl">
                   Apoie a ideia de {authorFirstName}
                 </h3>
                 <p className="text-xs text-slate-600 truncate max-w-xs">
@@ -129,7 +129,7 @@ export default function SupportModal({
             <form onSubmit={handleSubmit} className="space-y-4">
               
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#14447B] mb-1.5">
                   Seu Nome completo*
                 </label>
                 <input
@@ -138,13 +138,13 @@ export default function SupportModal({
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
                   placeholder="Ex: João Souza"
-                  className="w-full px-4 py-2.5 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13]"
+                  className="w-full px-4 py-2.5 bg-white border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B]"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#14447B] mb-1.5">
                     WhatsApp*
                   </label>
                   <input
@@ -153,12 +153,12 @@ export default function SupportModal({
                     value={whatsapp}
                     onChange={handleWhatsappChange}
                     placeholder="(11) 99999-9999"
-                    className="w-full px-4 py-2.5 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13]"
+                    className="w-full px-4 py-2.5 bg-white border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#14447B] mb-1.5">
                     E-mail*
                   </label>
                   <input
@@ -167,13 +167,13 @@ export default function SupportModal({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="seu@email.com"
-                    className="w-full px-4 py-2.5 bg-[#FFF6D5]/40 border-2 border-[#8C1A13]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#8C1A13]"
+                    className="w-full px-4 py-2.5 bg-white border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#8C1A13] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#14447B] mb-1.5">
                   Sua Cidade*
                 </label>
                 <CityAutocomplete
@@ -190,7 +190,7 @@ export default function SupportModal({
                     type="checkbox"
                     checked={consentimento}
                     onChange={(e) => setConsentimento(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 text-[#F1891D] border-[#8C1A13] rounded focus:ring-[#F1891D]"
+                    className="mt-0.5 w-4 h-4 text-[#14447B] border-[#14447B] rounded focus:ring-[#14447B]"
                   />
                   <span>Autorizo que a equipe das Marinas entre em contato para atualizações sobre o projeto.</span>
                 </label>
@@ -200,16 +200,16 @@ export default function SupportModal({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#F1891D] hover:bg-[#d9750e] text-white font-bold text-sm py-3.5 px-5 rounded-xl border-2 border-[#8C1A13] shadow-md transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-[#14447B] hover:bg-[#0D2E55] text-white font-bold text-sm py-3.5 px-5 rounded-xl border-2 border-[#A3B12D] shadow-md transition-all flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-4 h-4 animate-spin text-white" />
                       <span>Registrando apoio...</span>
                     </>
                   ) : (
                     <>
-                      <Heart className="w-4 h-4 fill-white" />
+                      <Heart className="w-4 h-4 fill-white text-white" />
                       <span>Confirmar meu apoio</span>
                     </>
                   )}
@@ -220,10 +220,10 @@ export default function SupportModal({
           </div>
         ) : (
           <div className="text-center py-4 space-y-4">
-            <div className="w-16 h-16 bg-[#FFF6D5] text-[#8C1A13] rounded-full flex items-center justify-center mx-auto border-2 border-[#8C1A13]">
-              <CheckCircle2 className="w-10 h-10 text-[#4F6219]" />
+            <div className="w-16 h-16 bg-white text-[#14447B] rounded-full flex items-center justify-center mx-auto border-2 border-[#14447B]">
+              <CheckCircle2 className="w-10 h-10 text-[#A3B12D]" />
             </div>
-            <h3 className="font-serif font-extrabold text-[#8C1A13] text-xl">
+            <h3 className="font-serif font-extrabold text-[#14447B] text-xl">
               Apoio registrado com sucesso!
             </h3>
             <p className="text-slate-700 text-sm leading-relaxed">
@@ -232,14 +232,14 @@ export default function SupportModal({
             <div className="pt-2 space-y-3">
               <button
                 onClick={handleShareWhatsApp}
-                className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm py-3 px-5 rounded-xl border-2 border-[#8C1A13] shadow-md transition-all flex items-center justify-center gap-2"
+                className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm py-3 px-5 rounded-xl border-2 border-[#14447B] shadow-md transition-all flex items-center justify-center gap-2"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Compartilhar no WhatsApp agora</span>
               </button>
               <button
                 onClick={onClose}
-                className="w-full bg-[#FFF6D5] hover:bg-[#8C1A13] hover:text-[#FFF6D5] text-[#8C1A13] font-bold text-xs py-2.5 px-4 rounded-xl border-2 border-[#8C1A13] transition-colors"
+                className="w-full bg-white hover:bg-[#14447B] hover:text-white text-[#14447B] font-bold text-xs py-2.5 px-4 rounded-xl border-2 border-[#14447B] transition-colors"
               >
                 Fechar janela
               </button>

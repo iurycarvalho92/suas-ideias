@@ -29,12 +29,12 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
       case 'Segurança':
         return 'bg-[#0D2E55] text-white border-[#0D2E55]';
       default:
-        return 'bg-[#FAF8F2] text-[#14447B] border-[#14447B]/20';
+        return 'bg-[#FFF6D5] text-[#14447B] border-[#14447B]/20';
     }
   };
 
   return (
-    <div className="group bg-white rounded-3xl p-6 border-2 border-[#14447B]/15 hover:border-[#14447B] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
+    <div className="group bg-[#FFF6D5] rounded-3xl p-6 border-2 border-[#14447B]/20 hover:border-[#14447B] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
       <div>
         
         {/* Top Pauta Badge & Apoios Count */}
@@ -42,7 +42,7 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
           <span className={`px-3 py-1 text-xs font-bold rounded-full border ${getBadgeStyle(proposal.pauta)}`}>
             {proposal.pauta}
           </span>
-          <div className="flex items-center gap-1.5 bg-[#FAF8F2] border border-[#14447B]/20 text-[#14447B] text-xs font-bold px-2.5 py-1 rounded-full">
+          <div className="flex items-center gap-1.5 bg-white/70 border border-[#14447B]/20 text-[#14447B] text-xs font-bold px-2.5 py-1 rounded-full">
             <Heart className="w-3.5 h-3.5 text-[#14447B] fill-[#14447B]" />
             <span>{proposal.apoiosCount} {proposal.apoiosCount === 1 ? 'apoio' : 'apoios'}</span>
           </div>
@@ -77,7 +77,7 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
         {/* CTA Link */}
         <Link
           href={`/suasideias/proposta/${proposal.slug}`}
-          className="w-full inline-flex items-center justify-center gap-2 bg-[#FAF8F2] hover:bg-[#14447B] text-[#14447B] hover:text-white font-bold text-xs py-3 px-4 rounded-2xl transition-all duration-200 border-2 border-[#14447B]"
+          className="w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-[#14447B] text-[#14447B] hover:text-white font-bold text-xs py-3 px-4 rounded-2xl transition-all duration-200 border-2 border-[#14447B]"
         >
           <span>Conhecer e apoiar proposta</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
