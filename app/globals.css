@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply bg-[#FFF6D5] text-[#14447B] antialiased selection:bg-[#A3B12D] selection:text-white;
+    @apply bg-[#FEF6D5] text-[#506324] antialiased selection:bg-[#F28919] selection:text-white;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
@@ -18,7 +18,7 @@
 }
 
 .organic-card {
-  background-color: #FFFFFF;
-  border: 2px solid #14447B;
+  background-color: #FEF6D5;
+  border: 2px solid #506324;
   border-radius: 1.5rem;
 }

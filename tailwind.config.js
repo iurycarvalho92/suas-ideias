@@ -8,14 +8,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Paleta Oficial com fundo Creme #FFF6D5
-        azulNavy: '#14447B',        // Azul principal das marcas "Suas ideias" e "Marinas"
-        azulDark: '#0D2E55',        // Azul marinho profundo para contraste e rodapé
-        verdeDourado: '#A3B12D',    // Verde Dourado/Lima principal de "para as"
-        verdeDouradoClaro: '#D7E365',// Verde claro para destaques e hovers
-        cremeFundo: '#FFF6D5',      // Fundo creme oficial da página #FFF6D5
-        cremeCard: '#F4F2E8',       // Fundo de cards e containers
-        cremeBorder: '#DCD8C5',     // Bordas neutras e elegantes
+        // Nova Paleta Oficial
+        verdeEscuro: '#506324',     // Verde escuro principal (substitui o azul navy)
+        verdeAmarelado: '#CACB60', // Verde oliva/amarelado para detalhes e badges
+        laranja: '#F28919',        // Laranja vibrante para botões e CTAs
+        begeFundo: '#FEF6D5',      // Bege fundo oficial #FEF6D5
+        
+        // Mapeamento retrocompatível para evitar quebras
+        azulNavy: '#506324',
+        azulDark: '#3A491A',
+        verdeDourado: '#CACB60',
+        verdeDouradoClaro: '#D4D576',
+        cremeFundo: '#FEF6D5',
+        cremeCard: '#F8F1CD',
+        cremeBorder: '#E4DCB0',
       },
       fontFamily: {
         serif: ['Georgia', 'Cambria', 'serif'],

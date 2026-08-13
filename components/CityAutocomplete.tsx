@@ -58,8 +58,8 @@ export default function CityAutocomplete({
   return (
     <div className={`relative ${className}`} ref={containerRef}>
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#14447B]">
-          <MapPin className="h-4 w-4 text-[#A3B12D]" />
+        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#506324]">
+          <MapPin className="h-4 w-4 text-[#F28919]" />
         </div>
         <input
           type="text"
@@ -72,14 +72,14 @@ export default function CityAutocomplete({
           onFocus={() => setIsOpen(true)}
           placeholder={placeholder}
           required={required}
-          className="w-full pl-10 pr-10 py-3 bg-[#FFF6D5] border-2 border-[#14447B]/20 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#14447B] transition-all placeholder:text-slate-400"
+          className="w-full pl-10 pr-10 py-3 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#506324] transition-all placeholder:text-slate-400"
         />
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center gap-1">
           {searchTerm && (
             <button
               type="button"
               onClick={handleClear}
-              className="text-slate-400 hover:text-[#14447B] p-1 rounded-full hover:bg-white/50"
+              className="text-slate-400 hover:text-[#506324] p-1 rounded-full hover:bg-white/50"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -87,7 +87,7 @@ export default function CityAutocomplete({
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="text-slate-400 hover:text-[#14447B] p-1"
+            className="text-slate-400 hover:text-[#506324] p-1"
           >
             <ChevronDown className="w-4 h-4" />
           </button>
@@ -95,21 +95,21 @@ export default function CityAutocomplete({
       </div>
 
       {isOpen && suggestions.length > 0 && (
-        <div className="absolute z-50 mt-1.5 w-full bg-[#FFF6D5] rounded-xl shadow-xl border-2 border-[#14447B]/20 max-h-60 overflow-y-auto py-1 text-sm">
+        <div className="absolute z-50 mt-1.5 w-full bg-[#FEF6D5] rounded-xl shadow-xl border-2 border-[#506324]/30 max-h-60 overflow-y-auto py-1 text-sm">
           {suggestions.map((city) => (
             <button
               key={city}
               type="button"
               onClick={() => handleSelect(city)}
-              className={`w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-[#14447B] hover:text-white transition-colors ${
+              className={`w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-[#506324] hover:text-white transition-colors ${
                 city.toLowerCase() === value.toLowerCase()
-                  ? 'bg-[#14447B] text-white font-semibold'
+                  ? 'bg-[#506324] text-white font-semibold'
                   : 'text-slate-700'
               }`}
             >
               <span>{city}</span>
               {city.toLowerCase() === value.toLowerCase() && (
-                <Check className="w-4 h-4 text-[#A3B12D]" />
+                <Check className="w-4 h-4 text-[#F28919]" />
               )}
             </button>
           ))}
