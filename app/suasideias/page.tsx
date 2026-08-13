@@ -66,22 +66,17 @@ export default function HomeHub() {
       {/* ============================================================ */}
       <MarinasHeroDiagramation />
 
-      {/* WAVE DIVIDER: Transição DIRETA da Faixa Verde (#506324) para Seção Verde Escuro (#506324) */}
-      <div className="bg-[#506324] -mt-1">
-        <OrganicWaveDivider fillColor="#506324" />
-      </div>
-
       {/* ============================================================ */}
-      {/* SEÇÃO 2: COMO FUNCIONA (Espaçamento Compactado)              */}
+      {/* SEÇÃO 2: COMO FUNCIONA (Transição Direta sem lacunas)         */}
       {/* ============================================================ */}
-      <section id="como-funciona" className="bg-[#506324] text-white pt-4 pb-10 sm:py-10 scroll-mt-24">
+      <section id="como-funciona" className="bg-[#506324] text-white pt-2 pb-8 sm:pb-10 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-8 space-y-1.5">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#506324] bg-[#CACB60] px-3.5 py-1 rounded-full font-sans">
+          <div className="text-center max-w-2xl mx-auto mb-6 space-y-1">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#506324] bg-[#CACB60] px-3.5 py-1 rounded-full font-sans inline-block">
               PASSO A PASSO
             </span>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#FEF6D5] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#FEF6D5] tracking-tight pt-1">
               Como funciona a sua participação
             </h2>
             <p className="text-[#FEF6D5]/80 text-xs sm:text-sm">
