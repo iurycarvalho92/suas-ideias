@@ -19,9 +19,7 @@ function ProposalFormContent() {
   const [pauta, setPauta] = useState<Pauta | ''>('');
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
-  const [lgpd1, setLgpd1] = useState(false);
-  const [lgpd2, setLgpd2] = useState(false);
-  const [lgpd3, setLgpd3] = useState(false);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -39,7 +37,6 @@ function ProposalFormContent() {
   }, [searchParams]);
 
   const handleWhatsappChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Only allow digits up to 11 characters
     let val = e.target.value.replace(/\D/g, '');
     if (val.length > 11) val = val.slice(0, 11);
     setWhatsapp(val);
@@ -49,8 +46,8 @@ function ProposalFormContent() {
     e.preventDefault();
     setErrorMsg('');
 
-    if (!lgpd1 || !lgpd2 || !lgpd3) {
-      setErrorMsg('Por favor, confirme os 3 termos de consentimento e LGPD para prosseguir.');
+    if (!lgpdConsent) {
+      setErrorMsg('Por favor, autorize a publicação e o contato para enviar sua proposta.');
       return;
     }
 
@@ -75,9 +72,9 @@ function ProposalFormContent() {
           pauta,
           titulo,
           descricao,
-          lgpd1,
-          lgpd2,
-          lgpd3,
+          lgpd1: true,
+          lgpd2: true,
+          lgpd3: true,
         }),
       });
 
@@ -122,8 +119,6 @@ function ProposalFormContent() {
         
         {/* Separar Nome e Sobrenome */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          
-          {/* Nome */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
               NOME*
@@ -138,7 +133,6 @@ function ProposalFormContent() {
             />
           </div>
 
-          {/* Sobrenome */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
               SOBRENOME*
@@ -152,12 +146,9 @@ function ProposalFormContent() {
               className="w-full px-4 py-3 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#506324] transition-all placeholder:text-slate-400"
             />
           </div>
-
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          
-          {/* WhatsApp / Telefone */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
               WHATSAPP / CELULAR*
@@ -172,7 +163,6 @@ function ProposalFormContent() {
             />
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
               E-MAIL PRINCIPAL*
@@ -186,7 +176,6 @@ function ProposalFormContent() {
               className="w-full px-4 py-3 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-[#506324] transition-all placeholder:text-slate-400"
             />
           </div>
-
         </div>
 
         {/* Cidade Autocomplete */}
@@ -265,48 +254,20 @@ function ProposalFormContent() {
           />
         </div>
 
-        {/* LGPD Checkboxes */}
-        <div className="space-y-3 pt-2 border-t border-[#506324]/10 text-xs text-slate-700">
-          
+        {/* Single Succinct Checkbox */}
+        <div className="pt-2 border-t border-[#506324]/10 text-xs text-slate-700">
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
               type="checkbox"
               required
-              checked={lgpd1}
-              onChange={(e) => setLgpd1(e.target.checked)}
-              className="mt-0.5 w-4 h-4 text-[#506324] border-[#506324] rounded focus:ring-[#506324] cursor-pointer"
+              checked={lgpdConsent}
+              onChange={(e) => setLgpdConsent(e.target.checked)}
+              className="mt-0.5 w-4 h-4 text-[#506324] border-[#506324] rounded focus:ring-[#506324] cursor-pointer shrink-0"
             />
-            <span className="group-hover:text-[#506324] transition-colors">
-              Li e concordo com os Termos de Uso e Política de Privacidade.*
+            <span className="group-hover:text-[#506324] transition-colors leading-relaxed">
+              Autorizo a publicação da proposta no site e o contato da equipe das Marinas por WhatsApp ou e-mail.*
             </span>
           </label>
-
-          <label className="flex items-start gap-3 cursor-pointer group">
-            <input
-              type="checkbox"
-              required
-              checked={lgpd2}
-              onChange={(e) => setLgpd2(e.target.checked)}
-              className="mt-0.5 w-4 h-4 text-[#506324] border-[#506324] rounded focus:ring-[#506324] cursor-pointer"
-            />
-            <span className="group-hover:text-[#506324] transition-colors">
-              Autorizo a exibição pública do meu primeiro nome, cidade e proposta neste site.*
-            </span>
-          </label>
-
-          <label className="flex items-start gap-3 cursor-pointer group">
-            <input
-              type="checkbox"
-              required
-              checked={lgpd3}
-              onChange={(e) => setLgpd3(e.target.checked)}
-              className="mt-0.5 w-4 h-4 text-[#506324] border-[#506324] rounded focus:ring-[#506324] cursor-pointer"
-            />
-            <span className="group-hover:text-[#506324] transition-colors">
-              Autorizo que a equipe das Marinas entre em contato comigo por WhatsApp ou e-mail para conversar sobre esta proposta.*
-            </span>
-          </label>
-
         </div>
 
         {/* Submit Button */}
