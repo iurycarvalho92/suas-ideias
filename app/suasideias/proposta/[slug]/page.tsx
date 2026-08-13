@@ -12,9 +12,7 @@ import {
   MessageCircle, 
   ArrowLeft, 
   CheckCircle2, 
-  Sparkles,
   User,
-  Calendar,
   Loader2,
   AlertCircle
 } from 'lucide-react';
@@ -31,9 +29,17 @@ export default function ProposalDetailPage() {
 
   const fetchProposal = async () => {
     setLoading(true);
+    setErrorMsg('');
+
     try {
-      const res = await fetch(`/api/suasideias/propostas?slug=${slug}`);
-      const data = await res.json();
+      const res = await fetch(`/api/suasideias/propostas?slug=${encodeURIComponent(slug)}`);
+      
+      let data: any = {};
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        throw new Error('Não foi possível interpretar a resposta do servidor.');
+      }
 
       if (!res.ok || !data.proposal) {
         throw new Error(data.error || 'Proposta não encontrada.');
@@ -106,7 +112,7 @@ export default function ProposalDetailPage() {
     );
   }
 
-  const primeiroNome = proposal.nome.split(' ')[0];
+  const primeiroNome = proposal.nome ? proposal.nome.split(' ')[0] : 'Cidadão';
 
   return (
     <div className="min-h-screen bg-[#FEF6D5] py-8 sm:py-12">
@@ -173,7 +179,6 @@ export default function ProposalDetailPage() {
           {/* Action CTAs: Apoiar & Compartilhar */}
           <div className="pt-6 border-t-2 border-[#506324]/10 flex flex-col sm:flex-row items-center gap-4">
             
-            {/* Botão Principal de Apoiar: Laranja #F28919 */}
             <button
               onClick={() => setIsModalOpen(true)}
               className="w-full sm:w-auto flex-1 bg-[#F28919] hover:bg-[#d9750e] text-white font-bold text-base py-4 px-8 rounded-2xl border-2 border-[#506324] shadow-md transition-all flex items-center justify-center gap-2.5 active:scale-95"
@@ -182,7 +187,6 @@ export default function ProposalDetailPage() {
               <span>Apoiar esta proposta</span>
             </button>
 
-            {/* Botão WhatsApp */}
             <button
               onClick={handleShareWhatsApp}
               className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-base py-4 px-6 rounded-2xl border-2 border-[#506324] shadow-md transition-all flex items-center justify-center gap-2 active:scale-95"
@@ -191,7 +195,6 @@ export default function ProposalDetailPage() {
               <span>Compartilhar no WhatsApp</span>
             </button>
 
-            {/* Botão Copiar Link */}
             <button
               onClick={handleCopyLink}
               className="w-full sm:w-auto bg-[#FEF6D5] hover:bg-[#506324] hover:text-white text-[#506324] font-bold text-sm py-4 px-5 rounded-2xl border-2 border-[#506324] transition-all flex items-center justify-center gap-2"

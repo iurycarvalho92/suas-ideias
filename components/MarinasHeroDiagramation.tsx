@@ -11,8 +11,8 @@ export default function MarinasHeroDiagramation() {
       {/* Hero Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* CENTRAL HERO LOGO GRAPHIC */}
-        <div className="relative h-40 sm:h-64 lg:h-72 w-full max-w-4xl mx-auto pt-1 -mb-4 md:-mb-52 lg:-mb-60">
+        {/* CENTRAL HERO LOGO GRAPHIC (Scaled down to 50%) */}
+        <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto pt-1 -mb-2 md:-mb-24 lg:-mb-28">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -41,7 +41,7 @@ export default function MarinasHeroDiagramation() {
           </div>
 
           {/* Center Action Buttons */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-20 lg:pb-28 z-20 -mt-28 lg:-mt-36">
+          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-16 lg:pb-24 z-20 -mt-16 lg:-mt-20">
             <Link
               href="/suasideias/enviar"
               className="w-52 lg:w-56 bg-[#F28919] hover:bg-[#d9750e] text-white text-center font-bold text-xs py-2.5 px-4 rounded-full border border-[#506324] shadow-md transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
@@ -94,10 +94,8 @@ export default function MarinasHeroDiagramation() {
             </a>
           </div>
 
-          {/* Mobile Photos: SIDE BY SIDE */}
+          {/* Mobile Photos */}
           <div className="flex flex-row items-end justify-center gap-2 w-full -mb-8 z-10 pt-1">
-            
-            {/* Marina Helou (Left) */}
             <div className="relative w-36 h-52 sm:w-44 sm:h-60">
               <Image
                 src="/assets/fotos/MH-03.png"
@@ -108,7 +106,6 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante (Right) */}
             <div className="relative w-[160px] h-[230px] sm:w-[210px] sm:h-[265px]">
               <Image
                 src="/assets/fotos/MAB 02.png"
@@ -118,7 +115,6 @@ export default function MarinasHeroDiagramation() {
                 priority
               />
             </div>
-
           </div>
 
         </div>
@@ -128,7 +124,7 @@ export default function MarinasHeroDiagramation() {
       {/* ============================================================ */}
       {/* ORGANIC GREEN WAVE BANNER (#506324)                          */}
       {/* ============================================================ */}
-      <div className="relative w-full bg-[#506324] text-[#FEF6D5] pt-6 pb-10 z-20 -mt-6 md:-mt-16">
+      <div className="relative w-full bg-[#506324] text-[#FEF6D5] pt-4 pb-6 sm:pb-8 z-20 -mt-6 md:-mt-16">
         
         {/* Soft Organic Wave Divider Top Transition */}
         <div className="absolute -top-8 inset-x-0 h-8 overflow-hidden pointer-events-none">
@@ -137,7 +133,7 @@ export default function MarinasHeroDiagramation() {
           </svg>
         </div>
 
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-6">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-4">
           
           {/* DESKTOP LOGOS: Horizontal Lockups Side by Side */}
           <div className="hidden md:flex md:flex-row items-center justify-between gap-10 pt-2">
@@ -166,10 +162,8 @@ export default function MarinasHeroDiagramation() {
 
           </div>
 
-          {/* MOBILE LOGOS: Vertical Version SIDE BY SIDE */}
+          {/* MOBILE LOGOS */}
           <div className="flex md:hidden flex-row items-center justify-center gap-4 pt-0 -mt-2">
-            
-            {/* Marina Helou 4044 Vertical */}
             <div className="relative h-24 w-24 sm:h-28 sm:w-28">
               <Image
                 src="/assets/logos/lockup-marina-helou-vertical.png"
@@ -180,7 +174,6 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante 40444 Vertical */}
             <div className="relative h-[116px] w-[116px] sm:h-[132px] sm:w-[132px]">
               <Image
                 src="/assets/logos/lockup-marina-bragante-vertical.png"
@@ -190,12 +183,11 @@ export default function MarinasHeroDiagramation() {
                 priority
               />
             </div>
-
           </div>
 
-          {/* DESCRIPTIVE COPY */}
-          <div className="max-w-3xl mx-auto text-center pt-3 border-t border-[#FEF6D5]/20">
-            <p className="text-[#FEF6D5] text-sm sm:text-lg font-sans font-semibold leading-relaxed">
+          {/* DESCRIPTIVE COPY (Compact Spacing) */}
+          <div className="max-w-3xl mx-auto text-center pt-2 border-t border-[#FEF6D5]/20">
+            <p className="text-[#FEF6D5] text-sm sm:text-base font-sans font-semibold leading-relaxed">
               Política se faz com presença, escutando de quem vive a realidade todos os dias! Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual.
             </p>
           </div>

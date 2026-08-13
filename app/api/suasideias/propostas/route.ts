@@ -1,6 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createProposal } from '@/lib/db-store';
+import { createProposal, getProposalByIdOrSlug, getProposals } from '@/lib/db-store';
 import { sendEmailProposta } from '@/lib/brevo';
+
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const slug = searchParams.get('slug');
+    const id = searchParams.get('id');
+
+    if (slug || id) {
+      const target = slug || id || '';
+      const proposal = await getProposalByIdOrSlug(target);
+
+      if (!proposal) {
+        return NextResponse.json(
+          { error: 'Proposta não encontrada.' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json({ proposal });
+    }
+
+    const pauta = searchParams.get('pauta') || undefined;
+    const cidade = searchParams.get('cidade') || undefined;
+    const proposals = await getProposals({ pauta, cidade, status: 'aprovado' });
+
+    return NextResponse.json({ proposals });
+  } catch (error) {
+    console.error('Erro no GET /api/suasideias/propostas:', error);
+    return NextResponse.json(
+      { error: 'Erro ao buscar propostas.' },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -56,14 +90,18 @@ export async function POST(req: NextRequest) {
     const proposalUrl = `${protocol}://${host}/suasideias/proposta/${proposal.slug}`;
 
     // Trigger Brevo transactional Email 1
-    await sendEmailProposta({
-      email: proposal.email,
-      nome: proposal.nome,
-      titulo: proposal.titulo,
-      cidade: proposal.cidade,
-      url: proposalUrl,
-      status: 'recebido',
-    });
+    try {
+      await sendEmailProposta({
+        email: proposal.email,
+        nome: proposal.nome,
+        titulo: proposal.titulo,
+        cidade: proposal.cidade,
+        url: proposalUrl,
+        status: 'recebido',
+      });
+    } catch (emailErr) {
+      console.warn("Email notification error (non-fatal):", emailErr);
+    }
 
     return NextResponse.json({
       success: true,

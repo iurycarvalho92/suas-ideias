@@ -10,9 +10,9 @@ export default function Header() {
     <header className="sticky top-0 z-40 w-full bg-[#FEF6D5]/95 backdrop-blur-md border-b-2 border-[#506324]/15 shadow-sm transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         
-        {/* Official Brand Logo */}
+        {/* Official Brand Logo (Scaled to 80%) */}
         <Link href="/suasideias" className="flex items-center gap-2 group shrink-0">
-          <div className="relative h-12 w-48 sm:h-16 sm:w-72 md:w-80">
+          <div className="relative h-10 w-36 sm:h-12 sm:w-56 md:w-64">
             <Image
               src="/assets/logos/LogoSuasIdeias.png"
               alt="Suas ideias para as Marinas"

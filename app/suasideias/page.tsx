@@ -2,20 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import ProposalCard from '@/components/ProposalCard';
 import CityAutocomplete from '@/components/CityAutocomplete';
 import MarinasHeroDiagramation from '@/components/MarinasHeroDiagramation';
 import OrganicWaveDivider from '@/components/svg/OrganicWaveDivider';
 import { PAUTAS, Proposal } from '@/lib/types';
 import { 
-  Sparkles, 
-  Send, 
   PenTool, 
   ShieldCheck, 
   Share2,
   Inbox,
-  ArrowRight
+  ArrowRight,
+  Send
 } from 'lucide-react';
 
 export default function HomeHub() {
@@ -64,7 +62,7 @@ export default function HomeHub() {
     <div className="overflow-x-hidden bg-[#FEF6D5]">
       
       {/* ============================================================ */}
-      {/* SEÇÃO 1: HERO (Fundo Bege #FEF6D5 com Faixa Verde Escuro #506324) */}
+      {/* SEÇÃO 1: HERO                                               */}
       {/* ============================================================ */}
       <MarinasHeroDiagramation />
 
@@ -74,63 +72,63 @@ export default function HomeHub() {
       </div>
 
       {/* ============================================================ */}
-      {/* SEÇÃO 2: COMO FUNCIONA (Fundo Verde Escuro #506324)          */}
+      {/* SEÇÃO 2: COMO FUNCIONA (Espaçamento Compactado)              */}
       {/* ============================================================ */}
-      <section id="como-funciona" className="bg-[#506324] text-white py-12 sm:py-16 scroll-mt-24">
+      <section id="como-funciona" className="bg-[#506324] text-white pt-4 pb-10 sm:py-10 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <div className="text-center max-w-2xl mx-auto mb-8 space-y-1.5">
             <span className="text-xs font-bold uppercase tracking-widest text-[#506324] bg-[#CACB60] px-3.5 py-1 rounded-full font-sans">
-              Passo a Passo
+              PASSO A PASSO
             </span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#FEF6D5] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#FEF6D5] tracking-tight">
               Como funciona a sua participação
             </h2>
-            <p className="text-[#FEF6D5]/80 text-sm sm:text-base">
+            <p className="text-[#FEF6D5]/80 text-xs sm:text-sm">
               Um processo simples, rápido e transparente para transformar ideias em propostas de impacto.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Passo 1 */}
-            <div className="bg-[#FEF6D5] rounded-3xl p-8 border-2 border-[#CACB60] text-[#506324] shadow-lg hover:scale-102 transition-transform relative group">
-              <div className="w-14 h-14 rounded-2xl bg-[#FEF6D5] text-[#506324] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#506324]/20">
-                <PenTool className="w-7 h-7 text-[#F28919]" />
+            <div className="bg-[#FEF6D5] rounded-3xl p-6 border-2 border-[#CACB60] text-[#506324] shadow-lg hover:scale-102 transition-transform relative group">
+              <div className="w-12 h-12 rounded-2xl bg-[#FEF6D5] text-[#506324] flex items-center justify-center mb-4 font-black text-xl border-2 border-[#506324]/20">
+                <PenTool className="w-6 h-6 text-[#F28919]" />
               </div>
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#F28919]">Passo 01</span>
-              <h3 className="text-xl font-serif font-bold text-[#506324] mt-1 mb-2">
+              <h3 className="text-lg font-serif font-bold text-[#506324] mt-1 mb-1.5">
                 1. Escreva sua ideia
               </h3>
-              <p className="text-slate-700 text-sm leading-relaxed">
+              <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
                 Acesse o formulário exclusivo e envie sua proposta ou solução para o seu município ou para o estado!
               </p>
             </div>
 
             {/* Passo 2 */}
-            <div className="bg-[#FEF6D5] rounded-3xl p-8 border-2 border-[#CACB60] text-[#506324] shadow-lg hover:scale-102 transition-transform relative group">
-              <div className="w-14 h-14 rounded-2xl bg-[#FEF6D5] text-[#506324] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#506324]/20">
-                <ShieldCheck className="w-7 h-7 text-[#506324]" />
+            <div className="bg-[#FEF6D5] rounded-3xl p-6 border-2 border-[#CACB60] text-[#506324] shadow-lg hover:scale-102 transition-transform relative group">
+              <div className="w-12 h-12 rounded-2xl bg-[#FEF6D5] text-[#506324] flex items-center justify-center mb-4 font-black text-xl border-2 border-[#506324]/20">
+                <ShieldCheck className="w-6 h-6 text-[#506324]" />
               </div>
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#506324]">Passo 02</span>
-              <h3 className="text-xl font-serif font-bold text-[#506324] mt-1 mb-2">
+              <h3 className="text-lg font-serif font-bold text-[#506324] mt-1 mb-1.5">
                 2. Validação rápida
               </h3>
-              <p className="text-slate-700 text-sm leading-relaxed">
+              <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
                 Nossa equipe analisa o envio para garantir que a proposta respeita as diretrizes de viabilidade e constitucionalidade.
               </p>
             </div>
 
             {/* Passo 3 */}
-            <div className="bg-[#FEF6D5] rounded-3xl p-8 border-2 border-[#CACB60] text-[#506324] shadow-lg hover:scale-102 transition-transform relative group">
-              <div className="w-14 h-14 rounded-2xl bg-[#FEF6D5] text-[#506324] flex items-center justify-center mb-6 font-black text-xl border-2 border-[#506324]/20">
-                <Share2 className="w-7 h-7 text-[#506324]" />
+            <div className="bg-[#FEF6D5] rounded-3xl p-6 border-2 border-[#CACB60] text-[#506324] shadow-lg hover:scale-102 transition-transform relative group">
+              <div className="w-12 h-12 rounded-2xl bg-[#FEF6D5] text-[#506324] flex items-center justify-center mb-4 font-black text-xl border-2 border-[#506324]/20">
+                <Share2 className="w-6 h-6 text-[#506324]" />
               </div>
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#506324]">Passo 03</span>
-              <h3 className="text-xl font-serif font-bold text-[#506324] mt-1 mb-2">
+              <h3 className="text-lg font-serif font-bold text-[#506324] mt-1 mb-1.5">
                 3. Mobilize apoios
               </h3>
-              <p className="text-slate-700 text-sm leading-relaxed">
+              <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
                 Assim que aprovada, você recebe um link exclusivo para compartilhar no WhatsApp e conseguir apoiadores da sua região.
               </p>
             </div>
