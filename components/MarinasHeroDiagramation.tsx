@@ -6,13 +6,13 @@ import Link from 'next/link';
 
 export default function MarinasHeroDiagramation() {
   return (
-    <div className="relative w-full overflow-hidden bg-[#FEF6D5] pt-1 sm:pt-2">
+    <div className="relative w-full overflow-hidden bg-[#FEF6D5] pt-12 sm:pt-16 md:pt-24">
       
       {/* Hero Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* CENTRAL HERO LOGO GRAPHIC (Descido 100px no desktop) */}
-        <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto pt-6 sm:pt-8 md:pt-[110px] -mb-2 md:-mb-16 lg:-mb-20">
+        {/* CENTRAL HERO LOGO GRAPHIC (Descido 100px) */}
+        <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto mt-4 md:mt-8 -mb-2 md:-mb-16 lg:-mb-20">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -124,7 +124,7 @@ export default function MarinasHeroDiagramation() {
       {/* ============================================================ */}
       {/* ORGANIC GREEN WAVE BANNER (#506324)                          */}
       {/* ============================================================ */}
-      <div className="relative w-full bg-[#506324] text-[#FEF6D5] pt-4 pb-2 sm:pb-3 z-20 -mt-6 md:-mt-16">
+      <div className="relative w-full bg-[#506324] text-[#FEF6D5] pt-6 pb-6 sm:pb-8 z-20 -mt-6 md:-mt-16">
         
         {/* Soft Organic Wave Divider Top Transition */}
         <div className="absolute -top-8 inset-x-0 h-8 overflow-hidden pointer-events-none">
@@ -133,7 +133,7 @@ export default function MarinasHeroDiagramation() {
           </svg>
         </div>
 
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-3">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-4">
           
           {/* DESKTOP LOGOS: Horizontal Lockups Side by Side */}
           <div className="hidden md:flex md:flex-row items-center justify-between gap-10 pt-2">
@@ -185,8 +185,8 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* DESCRIPTIVE COPY */}
-          <div className="max-w-3xl mx-auto text-center pt-2 border-t border-[#FEF6D5]/20">
+          {/* DESCRIPTIVE COPY (Com 50px de espaçamento em relação aos logos acima) */}
+          <div className="max-w-3xl mx-auto text-center pt-[50px] mt-[50px] border-t border-[#FEF6D5]/20">
             <p className="text-[#FEF6D5] text-sm sm:text-base font-sans font-semibold leading-relaxed">
               Política se faz com presença, escutando de quem vive a realidade todos os dias! Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual.
             </p>
