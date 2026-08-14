@@ -6,13 +6,13 @@ import Link from 'next/link';
 
 export default function MarinasHeroDiagramation() {
   return (
-    <div className="relative w-full overflow-hidden bg-[#FEF6D5] pt-12 sm:pt-16 md:pt-24">
+    <div className="relative w-full overflow-hidden bg-[#FEF6D5] pt-1 sm:pt-2">
       
       {/* Hero Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* CENTRAL HERO LOGO GRAPHIC (Descido 100px) */}
-        <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto mt-4 md:mt-8 -mb-2 md:-mb-16 lg:-mb-20">
+        {/* CENTRAL HERO LOGO GRAPHIC (Apenas o logo deslocado para baixo) */}
+        <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto mt-10 sm:mt-14 md:mt-16 -mb-16 md:-mb-32 lg:-mb-36">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
