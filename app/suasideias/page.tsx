@@ -67,9 +67,9 @@ export default function HomeHub() {
       <MarinasHeroDiagramation />
 
       {/* ============================================================ */}
-      {/* SEÇÃO 2: COMO FUNCIONA (Transição Direta sem lacunas)         */}
+      {/* SEÇÃO 2: COMO FUNCIONA (Descer Passo a Passo em 50px)         */}
       {/* ============================================================ */}
-      <section id="como-funciona" className="bg-[#506324] text-white pt-2 pb-8 sm:pb-10 scroll-mt-24">
+      <section id="como-funciona" className="bg-[#506324] text-white pt-[50px] pb-8 sm:pb-10 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-6 space-y-1">

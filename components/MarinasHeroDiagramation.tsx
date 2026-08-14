@@ -11,8 +11,8 @@ export default function MarinasHeroDiagramation() {
       {/* Hero Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* CENTRAL HERO LOGO GRAPHIC (Lowered & centered) */}
-        <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto pt-6 sm:pt-8 md:pt-10 -mb-2 md:-mb-16 lg:-mb-20">
+        {/* CENTRAL HERO LOGO GRAPHIC (Descido 100px no desktop) */}
+        <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto pt-6 sm:pt-8 md:pt-[110px] -mb-2 md:-mb-16 lg:-mb-20">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -185,7 +185,7 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* DESCRIPTIVE COPY (Compact Bottom Spacing) */}
+          {/* DESCRIPTIVE COPY */}
           <div className="max-w-3xl mx-auto text-center pt-2 border-t border-[#FEF6D5]/20">
             <p className="text-[#FEF6D5] text-sm sm:text-base font-sans font-semibold leading-relaxed">
               Política se faz com presença, escutando de quem vive a realidade todos os dias! Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual.
