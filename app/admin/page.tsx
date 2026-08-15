@@ -7,12 +7,12 @@ import {
   ShieldCheck, 
   CheckCircle, 
   XCircle, 
-  MapPin, 
-  Heart, 
   ExternalLink,
   Search,
   Loader2,
-  Lock
+  Lock,
+  X,
+  AlertTriangle
 } from 'lucide-react';
 
 export default function AdminModerationPage() {
@@ -23,6 +23,11 @@ export default function AdminModerationPage() {
   const [filterStatus, setFilterStatus] = useState<'todos' | 'pendente' | 'aprovado' | 'rejeitado'>('pendente');
   const [searchQuery, setSearchQuery] = useState('');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+  // Modal de Rejeição State
+  const [rejectingProposal, setRejectingProposal] = useState<Proposal | null>(null);
+  const [motivoRejeicao, setMotivoRejeicao] = useState('');
+  const [rejectError, setRejectError] = useState('');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,25 +59,70 @@ export default function AdminModerationPage() {
     }
   }, [isAuthenticated]);
 
-  const handleStatusUpdate = async (id: string, newStatus: 'aprovado' | 'rejeitado') => {
+  const handleApprove = async (id: string) => {
     setUpdatingId(id);
     try {
       const res = await fetch('/api/moderacao', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ proposalId: id, status: newStatus }),
+        body: JSON.stringify({ proposalId: id, status: 'aprovado' }),
       });
 
       const data = await res.json();
       if (res.ok && data.success) {
         setProposals((prev) =>
-          prev.map((p) => (p.id === id ? { ...p, status: newStatus } : p))
+          prev.map((p) => (p.id === id ? { ...p, status: 'aprovado' } : p))
         );
       } else {
-        alert(data.error || 'Erro ao atualizar status.');
+        alert(data.error || 'Erro ao aprovar proposta.');
       }
     } catch (err) {
-      alert('Erro de conexão ao atualizar status.');
+      alert('Erro de conexão ao aprovar proposta.');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  const openRejectModal = (proposal: Proposal) => {
+    setRejectingProposal(proposal);
+    setMotivoRejeicao('');
+    setRejectError('');
+  };
+
+  const handleConfirmReject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rejectingProposal) return;
+    if (!motivoRejeicao.trim()) {
+      setRejectError('Por favor, informe a justificativa da rejeição.');
+      return;
+    }
+
+    setUpdatingId(rejectingProposal.id);
+    setRejectError('');
+
+    try {
+      const res = await fetch('/api/moderacao', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          proposalId: rejectingProposal.id, 
+          status: 'rejeitado',
+          motivoRejeicao: motivoRejeicao.trim()
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setProposals((prev) =>
+          prev.map((p) => (p.id === rejectingProposal.id ? { ...p, status: 'rejeitado', motivoRejeicao: motivoRejeicao.trim() } : p))
+        );
+        setRejectingProposal(null);
+        setMotivoRejeicao('');
+      } else {
+        setRejectError(data.error || 'Erro ao rejeitar proposta.');
+      }
+    } catch (err) {
+      setRejectError('Erro de conexão ao rejeitar proposta.');
     } finally {
       setUpdatingId(null);
     }
@@ -216,12 +266,18 @@ export default function AdminModerationPage() {
                     <span>Autor: <strong>{p.nome}</strong> ({p.email} | {p.whatsapp})</span>
                     <span>• Apoios: <strong>{p.apoiosCount}</strong></span>
                   </div>
+
+                  {p.motivoRejeicao && (
+                    <div className="text-xs bg-rose-50 text-rose-800 border border-rose-200 rounded-xl p-3 mt-2">
+                      <strong>Motivo da rejeição:</strong> {p.motivoRejeicao}
+                    </div>
+                  )}
                 </div>
 
                 {/* Actions */}
                 <div className="flex items-center gap-2 shrink-0 border-t md:border-t-0 pt-4 md:pt-0 border-[#506324]/10">
                   <button
-                    onClick={() => handleStatusUpdate(p.id, 'aprovado')}
+                    onClick={() => handleApprove(p.id)}
                     disabled={updatingId === p.id || p.status === 'aprovado'}
                     className="flex-1 md:flex-initial bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5"
                   >
@@ -230,7 +286,7 @@ export default function AdminModerationPage() {
                   </button>
 
                   <button
-                    onClick={() => handleStatusUpdate(p.id, 'rejeitado')}
+                    onClick={() => openRejectModal(p)}
                     disabled={updatingId === p.id || p.status === 'rejeitado'}
                     className="flex-1 md:flex-initial bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5"
                   >
@@ -256,6 +312,112 @@ export default function AdminModerationPage() {
         )}
 
       </div>
+
+      {/* ============================================================ */}
+      {/* MODAL DE REJEIÇÃO COM CAMPO DE JUSTIFICATIVA                 */}
+      {/* ============================================================ */}
+      {rejectingProposal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-[#FEF6D5] border-2 border-[#506324] rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-5 relative">
+            
+            <button
+              onClick={() => setRejectingProposal(null)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-[#506324] p-1.5 rounded-full hover:bg-[#506324]/10 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3 border-b border-[#506324]/15 pb-4">
+              <div className="w-10 h-10 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 border border-rose-300">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-serif font-bold text-[#506324]">Justificativa da Rejeição</h3>
+                <p className="text-xs text-slate-600">Este motivo será enviado por e-mail para o autor da proposta.</p>
+              </div>
+            </div>
+
+            <div className="bg-[#FEF6D5] border border-[#506324]/20 rounded-2xl p-3 text-xs space-y-1">
+              <p className="font-bold text-[#506324]">Proposta: "{rejectingProposal.titulo}"</p>
+              <p className="text-slate-600">Autor: {rejectingProposal.nome} ({rejectingProposal.email})</p>
+            </div>
+
+            <form onSubmit={handleConfirmReject} className="space-y-4">
+              
+              {/* Opções de Justificativa Rápida */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
+                  Sugestões Rápidas:
+                </label>
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    'Fora do escopo constitucional do cargo.',
+                    'Proposta duplicada já existente no site.',
+                    'Linguagem inadequada ou descumprimento das diretrizes.',
+                    'Falta de detalhamento sobre a solução proposta.'
+                  ].map((sugestao) => (
+                    <button
+                      key={sugestao}
+                      type="button"
+                      onClick={() => setMotivoRejeicao(sugestao)}
+                      className="text-[11px] font-semibold bg-[#FEF6D5] hover:bg-[#506324] text-[#506324] hover:text-white border border-[#506324]/30 rounded-lg px-2.5 py-1 transition-all text-left"
+                    >
+                      + {sugestao}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Textarea do Motivo */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
+                  Escreva a Justificativa (Obrigatório):
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  value={motivoRejeicao}
+                  onChange={(e) => setMotivoRejeicao(e.target.value)}
+                  placeholder="Explique o motivo para o autor poder entender e refazer a ideia..."
+                  className="w-full p-3.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-2xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-[#506324] transition-colors"
+                />
+              </div>
+
+              {rejectError && (
+                <p className="text-xs font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200">
+                  {rejectError}
+                </p>
+              )}
+
+              {/* Ações */}
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setRejectingProposal(null)}
+                  className="flex-1 bg-[#FEF6D5] hover:bg-slate-200 text-slate-700 font-bold text-xs py-3 px-4 rounded-xl border border-slate-300 transition-all"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={updatingId === rejectingProposal.id || !motivoRejeicao.trim()}
+                  className="flex-1 bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold text-xs py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                >
+                  {updatingId === rejectingProposal.id ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <XCircle className="w-4 h-4" />
+                  )}
+                  <span>Confirmar Rejeição</span>
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
