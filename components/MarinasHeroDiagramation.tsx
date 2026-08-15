@@ -11,7 +11,7 @@ export default function MarinasHeroDiagramation() {
       {/* Hero Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
-        {/* CENTRAL HERO LOGO GRAPHIC (Apenas o logo deslocado para baixo) */}
+        {/* CENTRAL HERO LOGO GRAPHIC */}
         <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto mt-10 sm:mt-14 md:mt-16 -mb-16 md:-mb-32 lg:-mb-36">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
@@ -43,7 +43,7 @@ export default function MarinasHeroDiagramation() {
           {/* Center Action Buttons */}
           <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-16 lg:pb-24 z-20 -mt-16 lg:-mt-20">
             <Link
-              href="/suasideias/enviar"
+              href="/enviar"
               className="w-52 lg:w-56 bg-[#F28919] hover:bg-[#d9750e] text-white text-center font-bold text-xs py-2.5 px-4 rounded-full border border-[#506324] shadow-md transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
             >
               <span>Enviar minha ideia</span>
@@ -80,7 +80,7 @@ export default function MarinasHeroDiagramation() {
           {/* Action Buttons */}
           <div className="flex flex-col items-center gap-2 w-full z-20 px-4 mt-1 mb-1">
             <Link
-              href="/suasideias/enviar"
+              href="/enviar"
               className="w-52 bg-[#F28919] hover:bg-[#d9750e] text-white text-center font-bold text-[11px] py-2 px-4 rounded-full border border-[#506324] shadow-sm transition-all active:scale-95"
             >
               Enviar minha ideia
@@ -135,10 +135,8 @@ export default function MarinasHeroDiagramation() {
 
         <div className="max-w-6xl mx-auto px-6 sm:px-10 space-y-4">
           
-          {/* DESKTOP LOGOS: Horizontal Lockups Side by Side */}
+          {/* DESKTOP LOGOS */}
           <div className="hidden md:flex md:flex-row items-center justify-between gap-10 pt-2">
-            
-            {/* Marina Helou Horizontal Lockup */}
             <div className="relative h-20 sm:h-24 w-80 sm:w-[380px]">
               <Image
                 src="/assets/logos/lockup-marina-helou-white.png"
@@ -149,7 +147,6 @@ export default function MarinasHeroDiagramation() {
               />
             </div>
 
-            {/* Marina Bragante Horizontal Lockup */}
             <div className="relative h-24 sm:h-28 w-96 sm:w-[480px]">
               <Image
                 src="/assets/logos/lockup-marina-bragante-white.png"
@@ -159,7 +156,6 @@ export default function MarinasHeroDiagramation() {
                 priority
               />
             </div>
-
           </div>
 
           {/* MOBILE LOGOS */}
@@ -185,7 +181,7 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* DESCRIPTIVE COPY (Com 50px de espaçamento em relação aos logos acima) */}
+          {/* DESCRIPTIVE COPY */}
           <div className="max-w-3xl mx-auto text-center pt-[50px] mt-[50px] border-t border-[#FEF6D5]/20">
             <p className="text-[#FEF6D5] text-sm sm:text-base font-sans font-semibold leading-relaxed">
               Política se faz com presença, escutando de quem vive a realidade todos os dias! Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual.

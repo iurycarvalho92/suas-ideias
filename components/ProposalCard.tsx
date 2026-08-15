@@ -76,7 +76,7 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
 
         {/* CTA Link - Background Laranja #F28919 */}
         <Link
-          href={`/suasideias/proposta/${proposal.slug}`}
+          href={`/proposta/${proposal.slug}`}
           className="w-full inline-flex items-center justify-center gap-2 bg-[#F28919] hover:bg-[#d9750e] text-white font-bold text-xs py-3.5 px-4 rounded-2xl transition-all duration-200 border-2 border-[#506324] shadow-xs"
         >
           <span>Conhecer e apoiar proposta</span>

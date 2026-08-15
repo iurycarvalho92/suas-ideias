@@ -49,37 +49,35 @@ export default function SupportModal({
     setErrorMsg('');
     setLoading(true);
 
-    const nomeCompleto = `${nome.trim()} ${sobrenome.trim()}`;
-
     try {
-      const res = await fetch(`/api/suasideias/proposta/${proposalId}/apoiar`, {
+      const res = await fetch(`/api/proposta/${proposalId}/apoiar`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          nome: nomeCompleto,
-          whatsapp,
-          email,
-          cidade,
+          nome: `${nome.trim()} ${sobrenome.trim()}`,
+          whatsapp: whatsapp,
+          email: email.trim(),
+          cidade: cidade.trim(),
           consentimentoContato: consentimento,
         }),
       });
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Não foi possível registrar o apoio.');
+        throw new Error(data.error || 'Erro ao registrar apoio. Tente novamente.');
       }
 
       setIsSuccess(true);
       onSuccess(data.newCount);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Erro ao registrar apoio.');
+      setErrorMsg(err.message || 'Erro de conexão ao enviar apoio.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleShareWhatsApp = () => {
-    const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://marinasporsp.com.br/suasideias/proposta/${proposalSlug}`;
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://suasideias.marinasporsp.com.br/proposta/${proposalSlug}`;
     const text = encodeURIComponent(
       `Acabei de ver uma excelente proposta para ${proposalCity} na plataforma 'Suas ideias para as Marinas': '${proposalTitle}'. Leia e dê seu apoio aqui: ${currentUrl}. Vamos construir juntos um São Paulo melhor!`
     );

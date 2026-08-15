@@ -84,7 +84,7 @@ function ProposalFormContent() {
         throw new Error(data.error || 'Não foi possível enviar a proposta.');
       }
 
-      router.push(`/suasideias/proposta/${data.proposal.slug}`);
+      router.push(`/proposta/${data.proposal.slug}`);
     } catch (err: any) {
       setErrorMsg(err.message || 'Ocorreu um erro ao enviar sua proposta. Tente novamente.');
       setLoading(false);

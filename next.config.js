@@ -4,9 +4,24 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/',
-        destination: '/suasideias',
-        permanent: false,
+        source: '/suasideias',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/suasideias/enviar',
+        destination: '/enviar',
+        permanent: true,
+      },
+      {
+        source: '/suasideias/admin',
+        destination: '/admin',
+        permanent: true,
+      },
+      {
+        source: '/suasideias/proposta/:slug*',
+        destination: '/proposta/:slug*',
+        permanent: true,
       },
     ];
   },
