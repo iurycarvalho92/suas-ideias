@@ -12,7 +12,7 @@ export default function MarinasHeroDiagramation() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 z-10">
         
         {/* CENTRAL HERO LOGO GRAPHIC */}
-        <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto mt-10 sm:mt-14 md:mt-16 -mb-16 md:-mb-32 lg:-mb-36">
+        <div className="relative h-20 sm:h-32 lg:h-36 w-full max-w-2xl mx-auto mt-4 sm:mt-6 md:mt-16 mb-2 md:-mb-32 lg:-mb-36">
           <Image
             src="/assets/logos/LogoSuasIdeias.png"
             alt="Suas ideias para as Marinas"
@@ -40,8 +40,8 @@ export default function MarinasHeroDiagramation() {
             </div>
           </div>
 
-          {/* Center Action Buttons */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-16 lg:pb-24 z-20 -mt-16 lg:-mt-20">
+          {/* Center Action Buttons (Subidos no desktop) */}
+          <div className="md:col-span-4 flex flex-col items-center justify-center gap-2.5 pb-28 lg:pb-36 z-20 -mt-28 lg:-mt-36">
             <Link
               href="/enviar"
               className="w-52 lg:w-56 bg-[#F28919] hover:bg-[#d9750e] text-white text-center font-bold text-xs py-2.5 px-4 rounded-full border border-[#506324] shadow-md transition-all scale-100 hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5"
@@ -77,8 +77,8 @@ export default function MarinasHeroDiagramation() {
         {/* ============================================================ */}
         <div className="flex md:hidden flex-col items-center gap-2 pt-2">
           
-          {/* Action Buttons */}
-          <div className="flex flex-col items-center gap-2 w-full z-20 px-4 mt-1 mb-1">
+          {/* Action Buttons (Abaixo do logo no mobile, sem sobreposição) */}
+          <div className="flex flex-col items-center gap-2 w-full z-20 px-4 mt-2 mb-3">
             <Link
               href="/enviar"
               className="w-52 bg-[#F28919] hover:bg-[#d9750e] text-white text-center font-bold text-[11px] py-2 px-4 rounded-full border border-[#506324] shadow-sm transition-all active:scale-95"
