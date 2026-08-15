@@ -339,6 +339,50 @@ export async function updateProposalStatus(proposalId: string, status: ProposalS
   return null;
 }
 
+export async function updateProposalDetails(
+  proposalId: string,
+  data: Partial<Pick<Proposal, 'titulo' | 'descricao' | 'pauta' | 'cidade' | 'nome' | 'email' | 'whatsapp'>>
+): Promise<Proposal | null> {
+  const now = new Date().toISOString();
+
+  if (adminDb) {
+    try {
+      const docRef = adminDb.collection('propostas').doc(proposalId);
+      const updateData = {
+        ...data,
+        updatedAt: now,
+      };
+      await docRef.update(updateData);
+      const updatedSnap = await docRef.get();
+      return updatedSnap.data() as Proposal;
+    } catch (err) {
+      console.warn("Firestore proposal detail update failed, using memory fallback:", err);
+    }
+  }
+
+  const prop = await getProposalByIdOrSlug(proposalId);
+  if (prop) {
+    Object.assign(prop, data, { updatedAt: now });
+    memoryProposalsStore.set(prop.id, prop);
+    return prop;
+  }
+
+  return null;
+}
+
+export async function deleteProposal(proposalId: string): Promise<boolean> {
+  if (adminDb) {
+    try {
+      await adminDb.collection('propostas').doc(proposalId).delete();
+      return true;
+    } catch (err) {
+      console.warn("Firestore proposal delete failed, using memory fallback:", err);
+    }
+  }
+
+  return memoryProposalsStore.delete(proposalId);
+}
+
 export async function getAllProposalsForAdmin(): Promise<Proposal[]> {
   if (adminDb) {
     try {

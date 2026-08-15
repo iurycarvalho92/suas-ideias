@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Proposal, PAUTAS } from '@/lib/types';
+import { Proposal, PAUTAS, Pauta } from '@/lib/types';
 import { auth, googleProvider } from '@/lib/firebase';
 import { signInWithPopup, signOut, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { isEmailAuthorized } from '@/lib/admin-whitelist';
+import CityAutocomplete from '@/components/CityAutocomplete';
 import { 
   ShieldCheck, 
   CheckCircle, 
@@ -25,7 +26,11 @@ import {
   MessageCircle,
   Mail,
   MapPin,
-  Tag
+  Pencil,
+  Trash2,
+  Check,
+  ChevronDown,
+  Copy
 } from 'lucide-react';
 
 interface ContactRecord {
@@ -34,12 +39,117 @@ interface ContactRecord {
   email: string;
   whatsapp: string;
   cidade: string;
-  papel: 'Autor' | 'Apoiador';
+  papel: string;
   pauta: string;
   proposalId: string;
   proposalTitulo: string;
+  totalParticipacoes?: number;
   consentimentoContato: boolean;
   createdAt: string;
+}
+
+// Searchable Autocomplete for Proposals in CRM
+function ProposalSearchSelector({
+  proposals,
+  value,
+  onChange
+}: {
+  proposals: Proposal[];
+  value: string;
+  onChange: (id: string) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const selectedProposal = proposals.find(p => p.id === value);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const filtered = proposals.filter((p) => {
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    return (
+      p.titulo.toLowerCase().includes(q) ||
+      p.cidade.toLowerCase().includes(q) ||
+      p.nome.toLowerCase().includes(q)
+    );
+  });
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <div className="relative">
+        <input
+          type="text"
+          value={isOpen ? search : (selectedProposal ? `${selectedProposal.titulo} (${selectedProposal.cidade})` : 'Todas as propostas')}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setIsOpen(true);
+            if (!e.target.value.trim()) onChange('Todas');
+          }}
+          onFocus={() => {
+            setSearch('');
+            setIsOpen(true);
+          }}
+          placeholder="Digite para buscar projeto..."
+          className="w-full p-2.5 pr-8 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-800 font-bold focus:outline-none focus:border-[#506324] truncate"
+        />
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="absolute right-2 top-2.5 text-slate-400 hover:text-[#506324]"
+        >
+          <ChevronDown className="w-4 h-4" />
+        </button>
+      </div>
+
+      {isOpen && (
+        <div className="absolute z-50 mt-1 w-full bg-[#FEF6D5] rounded-xl shadow-xl border-2 border-[#506324]/30 max-h-56 overflow-y-auto py-1 text-xs">
+          <button
+            type="button"
+            onClick={() => {
+              onChange('Todas');
+              setIsOpen(false);
+            }}
+            className={`w-full text-left px-3 py-2 border-b border-[#506324]/10 hover:bg-[#506324] hover:text-white font-bold transition-colors ${
+              value === 'Todas' ? 'bg-[#506324] text-white' : 'text-slate-700'
+            }`}
+          >
+            🌟 Todas as propostas
+          </button>
+
+          {filtered.length > 0 ? (
+            filtered.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => {
+                  onChange(p.id);
+                  setIsOpen(false);
+                }}
+                className={`w-full text-left px-3 py-2 border-b border-[#506324]/10 hover:bg-[#506324] hover:text-white transition-colors space-y-0.5 ${
+                  value === p.id ? 'bg-[#506324] text-white font-bold' : 'text-slate-700'
+                }`}
+              >
+                <div className="font-bold truncate">{p.titulo}</div>
+                <div className="text-[10px] opacity-80">{p.cidade} • {p.pauta} • {p.apoiosCount} apoios</div>
+              </button>
+            ))
+          ) : (
+            <div className="px-3 py-2 text-slate-500 text-center">Nenhum projeto encontrado</div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function AdminModerationPage() {
@@ -64,6 +174,30 @@ export default function AdminModerationPage() {
   const [motivoRejeicao, setMotivoRejeicao] = useState('');
   const [rejectError, setRejectError] = useState('');
 
+  // Modal de Edição State
+  const [editingProposal, setEditingProposal] = useState<Proposal | null>(null);
+  const [editFormData, setEditFormData] = useState<{
+    titulo: string;
+    pauta: Pauta;
+    cidade: string;
+    descricao: string;
+    nome: string;
+    email: string;
+    whatsapp: string;
+  }>({
+    titulo: '',
+    pauta: 'Educação',
+    cidade: '',
+    descricao: '',
+    nome: '',
+    email: '',
+    whatsapp: '',
+  });
+  const [editError, setEditError] = useState('');
+
+  // Modal de Exclusão State
+  const [deletingProposal, setDeletingProposal] = useState<Proposal | null>(null);
+
   // Export & CRM State
   const [contacts, setContacts] = useState<ContactRecord[]>([]);
   const [loadingContacts, setLoadingContacts] = useState(false);
@@ -72,6 +206,7 @@ export default function AdminModerationPage() {
   const [exportCidade, setExportCidade] = useState<string>('Todas');
   const [exportProposalId, setExportProposalId] = useState<string>('Todas');
   const [exportConsentimentoOnly, setExportConsentimentoOnly] = useState<boolean>(false);
+  const [exportGroupDuplicates, setExportGroupDuplicates] = useState<boolean>(true);
 
   // Firebase Auth Observer
   useEffect(() => {
@@ -172,6 +307,7 @@ export default function AdminModerationPage() {
       params.set('cidade', exportCidade);
       params.set('proposalId', exportProposalId);
       if (exportConsentimentoOnly) params.set('consentimentoOnly', 'true');
+      if (!exportGroupDuplicates) params.set('groupDuplicates', 'false');
 
       const res = await fetch(`/api/export-contatos?${params.toString()}`);
       const data = await res.json();
@@ -195,8 +331,9 @@ export default function AdminModerationPage() {
     if (isAuthenticated && activeTab === 'export') {
       fetchContacts();
     }
-  }, [isAuthenticated, activeTab, exportPapel, exportPauta, exportCidade, exportProposalId, exportConsentimentoOnly]);
+  }, [isAuthenticated, activeTab, exportPapel, exportPauta, exportCidade, exportProposalId, exportConsentimentoOnly, exportGroupDuplicates]);
 
+  // Ações de Moderação
   const handleApprove = async (id: string) => {
     setUpdatingId(id);
     try {
@@ -266,6 +403,78 @@ export default function AdminModerationPage() {
     }
   };
 
+  // Edição de Proposta
+  const openEditModal = (proposal: Proposal) => {
+    setEditingProposal(proposal);
+    setEditFormData({
+      titulo: proposal.titulo,
+      pauta: proposal.pauta,
+      cidade: proposal.cidade,
+      descricao: proposal.descricao,
+      nome: proposal.nome,
+      email: proposal.email,
+      whatsapp: proposal.whatsapp,
+    });
+    setEditError('');
+  };
+
+  const handleConfirmEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProposal) return;
+
+    setUpdatingId(editingProposal.id);
+    setEditError('');
+
+    try {
+      const res = await fetch('/api/moderacao', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          proposalId: editingProposal.id,
+          ...editFormData,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setProposals((prev) =>
+          prev.map((p) => (p.id === editingProposal.id ? { ...p, ...editFormData } : p))
+        );
+        setEditingProposal(null);
+      } else {
+        setEditError(data.error || 'Erro ao salvar alterações da proposta.');
+      }
+    } catch (err) {
+      setEditError('Erro de conexão ao atualizar proposta.');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  // Exclusão de Proposta
+  const handleConfirmDelete = async () => {
+    if (!deletingProposal) return;
+    setUpdatingId(deletingProposal.id);
+
+    try {
+      const res = await fetch(`/api/moderacao?proposalId=${deletingProposal.id}`, {
+        method: 'DELETE',
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setProposals((prev) => prev.filter((p) => p.id !== deletingProposal.id));
+        setDeletingProposal(null);
+      } else {
+        alert(data.error || 'Erro ao excluir proposta.');
+      }
+    } catch (err) {
+      alert('Erro de conexão ao excluir proposta.');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   const handleDownloadCSV = () => {
     const params = new URLSearchParams();
     params.set('format', 'csv');
@@ -274,6 +483,7 @@ export default function AdminModerationPage() {
     params.set('cidade', exportCidade);
     params.set('proposalId', exportProposalId);
     if (exportConsentimentoOnly) params.set('consentimentoOnly', 'true');
+    if (!exportGroupDuplicates) params.set('groupDuplicates', 'false');
 
     window.open(`/api/export-contatos?${params.toString()}`, '_blank');
   };
@@ -325,7 +535,6 @@ export default function AdminModerationPage() {
             </div>
           )}
 
-          {/* BOTÃO OFICIAL DE LOGIN VIA GOOGLE */}
           <button
             onClick={handleGoogleLogin}
             className="w-full bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm py-3.5 px-4 rounded-2xl border-2 border-[#506324] shadow-md transition-all flex items-center justify-center gap-3 active:scale-95"
@@ -351,14 +560,12 @@ export default function AdminModerationPage() {
             <span>Entrar com o Google</span>
           </button>
 
-          {/* Divisor */}
           <div className="relative flex items-center justify-center my-4">
             <div className="border-t border-[#506324]/20 w-full" />
             <span className="bg-[#FEF6D5] px-3 text-xs text-slate-500 font-bold uppercase">ou senha</span>
             <div className="border-t border-[#506324]/20 w-full" />
           </div>
 
-          {/* Form com Senha de Fallback */}
           <form onSubmit={handlePasswordLogin} className="space-y-4">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
@@ -399,7 +606,7 @@ export default function AdminModerationPage() {
             <h1 className="text-3xl font-serif font-bold text-[#506324]">Central de Controle das Marinas</h1>
             
             {currentUser && (
-              <p className="text-xs text-slate-600 flex items-center gap-1.5 pt-1">
+              <p className="text-xs text-[#506324] font-medium flex items-center gap-1.5 pt-1">
                 <UserCheck className="w-3.5 h-3.5 text-emerald-700" />
                 <span>Conectado como <strong>{currentUser.displayName || currentUser.email}</strong> ({currentUser.email})</span>
               </p>
@@ -524,12 +731,12 @@ export default function AdminModerationPage() {
                       )}
                     </div>
 
-                    {/* Actions */}
-                    <div className="flex items-center gap-2 shrink-0 border-t md:border-t-0 pt-4 md:pt-0 border-[#506324]/10">
+                    {/* Actions: Aprovar, Rejeitar, Editar, Excluir */}
+                    <div className="flex flex-wrap items-center gap-2 shrink-0 border-t md:border-t-0 pt-4 md:pt-0 border-[#506324]/10">
                       <button
                         onClick={() => handleApprove(p.id)}
                         disabled={updatingId === p.id || p.status === 'aprovado'}
-                        className="flex-1 md:flex-initial bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5"
+                        className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-3.5 rounded-xl transition-all flex items-center justify-center gap-1"
                       >
                         <CheckCircle className="w-4 h-4" />
                         <span>Aprovar</span>
@@ -538,10 +745,28 @@ export default function AdminModerationPage() {
                       <button
                         onClick={() => openRejectModal(p)}
                         disabled={updatingId === p.id || p.status === 'rejeitado'}
-                        className="flex-1 md:flex-initial bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5"
+                        className="bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-3.5 rounded-xl transition-all flex items-center justify-center gap-1"
                       >
                         <XCircle className="w-4 h-4" />
                         <span>Rejeitar</span>
+                      </button>
+
+                      <button
+                        onClick={() => openEditModal(p)}
+                        disabled={updatingId === p.id}
+                        className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-3.5 rounded-xl transition-all flex items-center justify-center gap-1"
+                      >
+                        <Pencil className="w-4 h-4" />
+                        <span>Editar</span>
+                      </button>
+
+                      <button
+                        onClick={() => setDeletingProposal(p)}
+                        disabled={updatingId === p.id}
+                        className="bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-3.5 rounded-xl transition-all flex items-center justify-center gap-1"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        <span>Excluir</span>
                       </button>
 
                       <Link
@@ -573,14 +798,14 @@ export default function AdminModerationPage() {
             {/* Filter Panel for CRM */}
             <div className="bg-[#FEF6D5] p-6 rounded-3xl border-2 border-[#506324]/20 shadow-sm space-y-4">
               
-              <div className="flex items-center justify-between border-b border-[#506324]/15 pb-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#506324]/15 pb-4 gap-3">
                 <div className="flex items-center gap-2">
                   <Filter className="w-5 h-5 text-[#506324]" />
                   <h3 className="font-serif font-bold text-lg text-[#506324]">Segmentação e Filtros do Relatório</h3>
                 </div>
                 <button
                   onClick={handleDownloadCSV}
-                  className="bg-[#F28919] hover:bg-[#d9750e] text-white font-bold text-xs py-3 px-6 rounded-2xl border-2 border-[#506324] shadow-md transition-all flex items-center gap-2 active:scale-95"
+                  className="w-full sm:w-auto bg-[#F28919] hover:bg-[#d9750e] text-white font-bold text-xs py-3 px-6 rounded-2xl border-2 border-[#506324] shadow-md transition-all flex items-center justify-center gap-2 active:scale-95"
                 >
                   <Download className="w-4 h-4" />
                   <span>Baixar Relatório em CSV (Excel)</span>
@@ -605,23 +830,16 @@ export default function AdminModerationPage() {
                   </select>
                 </div>
 
-                {/* 2. Proposta Específica */}
+                {/* 2. Projeto / Proposta com Autopreenchimento */}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
                     Projeto / Proposta Específica:
                   </label>
-                  <select
+                  <ProposalSearchSelector
+                    proposals={proposals}
                     value={exportProposalId}
-                    onChange={(e) => setExportProposalId(e.target.value)}
-                    className="w-full p-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-800 font-bold focus:outline-none focus:border-[#506324] truncate"
-                  >
-                    <option value="Todas">Todas as propostas</option>
-                    {proposals.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.titulo} ({p.cidade})
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(id) => setExportProposalId(id)}
+                  />
                 </div>
 
                 {/* 3. Pauta / Tema */}
@@ -641,35 +859,45 @@ export default function AdminModerationPage() {
                   </select>
                 </div>
 
-                {/* 4. Cidade */}
+                {/* 4. Cidade com Autopreenchimento (CityAutocomplete) */}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
-                    Cidade em SP:
+                    Cidade em SP (Autopreenchimento):
                   </label>
-                  <input
-                    type="text"
+                  <CityAutocomplete
                     value={exportCidade === 'Todas' ? '' : exportCidade}
-                    onChange={(e) => setExportCidade(e.target.value.trim() ? e.target.value : 'Todas')}
-                    placeholder="Todas as cidades (ou digite para filtrar)"
-                    className="w-full p-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-800 font-bold focus:outline-none focus:border-[#506324]"
+                    onChange={(c) => setExportCidade(c || 'Todas')}
+                    placeholder="Todas as cidades..."
                   />
                 </div>
 
               </div>
 
-              {/* Toggle Consentimento LGPD */}
-              <div className="pt-2 flex items-center justify-between border-t border-[#506324]/10">
-                <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-[#506324]">
-                  <input
-                    type="checkbox"
-                    checked={exportConsentimentoOnly}
-                    onChange={(e) => setExportConsentimentoOnly(e.target.checked)}
-                    className="w-4 h-4 rounded text-[#506324] focus:ring-[#506324]"
-                  />
-                  <span>Exportar apenas contatos com consentimento de comunicação (WhatsApp / E-mail)</span>
-                </label>
+              {/* Toggles: Agrupar Duplicados & Consentimento LGPD */}
+              <div className="pt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-[#506324]/10">
+                <div className="flex flex-wrap items-center gap-6">
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-[#506324]">
+                    <input
+                      type="checkbox"
+                      checked={exportGroupDuplicates}
+                      onChange={(e) => setExportGroupDuplicates(e.target.checked)}
+                      className="w-4 h-4 rounded text-[#506324] focus:ring-[#506324]"
+                    />
+                    <span>Agrupar contatos duplicados (por E-mail / WhatsApp)</span>
+                  </label>
 
-                {(exportPapel !== 'todos' || exportPauta !== 'Todas' || exportCidade !== 'Todas' || exportProposalId !== 'Todas' || exportConsentimentoOnly) && (
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-[#506324]">
+                    <input
+                      type="checkbox"
+                      checked={exportConsentimentoOnly}
+                      onChange={(e) => setExportConsentimentoOnly(e.target.checked)}
+                      className="w-4 h-4 rounded text-[#506324] focus:ring-[#506324]"
+                    />
+                    <span>Apenas contatos com consentimento LGPD</span>
+                  </label>
+                </div>
+
+                {(exportPapel !== 'todos' || exportPauta !== 'Todas' || exportCidade !== 'Todas' || exportProposalId !== 'Todas' || exportConsentimentoOnly || !exportGroupDuplicates) && (
                   <button
                     onClick={() => {
                       setExportPapel('todos');
@@ -677,8 +905,9 @@ export default function AdminModerationPage() {
                       setExportCidade('Todas');
                       setExportProposalId('Todas');
                       setExportConsentimentoOnly(false);
+                      setExportGroupDuplicates(true);
                     }}
-                    className="text-xs font-bold text-slate-500 hover:text-[#506324] underline"
+                    className="text-xs font-bold text-slate-500 hover:text-[#506324] underline self-start sm:self-auto"
                   >
                     Limpar filtros do relatório
                   </button>
@@ -690,19 +919,19 @@ export default function AdminModerationPage() {
             {/* Metrics Counter Bar */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-[#506324]/20 text-center space-y-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Contatos Filtrados</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Contatos Únicos Filtrados</span>
                 <p className="text-3xl font-serif font-black text-[#506324]">{contacts.length}</p>
               </div>
               <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-[#506324]/20 text-center space-y-1">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Autores de Propostas</span>
                 <p className="text-3xl font-serif font-black text-[#F28919]">
-                  {contacts.filter(c => c.papel === 'Autor').length}
+                  {contacts.filter(c => c.papel.includes('Autor')).length}
                 </p>
               </div>
               <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-[#506324]/20 text-center space-y-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Apoiadores Registrados</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Apoiadores de Ideias</span>
                 <p className="text-3xl font-serif font-black text-[#3A491A]">
-                  {contacts.filter(c => c.papel === 'Apoiador').length}
+                  {contacts.filter(c => c.papel.includes('Apoiador')).length}
                 </p>
               </div>
             </div>
@@ -711,7 +940,9 @@ export default function AdminModerationPage() {
             <div className="bg-[#FEF6D5] rounded-3xl border-2 border-[#506324]/20 shadow-sm overflow-hidden">
               <div className="p-4 bg-[#506324] text-white flex items-center justify-between">
                 <h4 className="font-serif font-bold text-sm">Pré-visualização dos Registros ({contacts.length})</h4>
-                <span className="text-xs text-[#FEF6D5]/80 font-sans">Exibindo dados sanitizados em tempo real</span>
+                <span className="text-xs text-[#FEF6D5]/80 font-sans">
+                  {exportGroupDuplicates ? 'Agrupamento ativado (Sem duplicados)' : 'Lista completa em ordem cronológica'}
+                </span>
               </div>
 
               {loadingContacts ? (
@@ -729,7 +960,8 @@ export default function AdminModerationPage() {
                         <th className="p-3.5">Cidade</th>
                         <th className="p-3.5">Papel</th>
                         <th className="p-3.5">Pauta</th>
-                        <th className="p-3.5">Projeto / Proposta</th>
+                        <th className="p-3.5">Proposta / Projetos</th>
+                        {exportGroupDuplicates && <th className="p-3.5 text-center">Ações</th>}
                         <th className="p-3.5">Data</th>
                       </tr>
                     </thead>
@@ -757,17 +989,24 @@ export default function AdminModerationPage() {
                           <td className="p-3.5 text-slate-700 whitespace-nowrap font-medium">{c.cidade}</td>
                           <td className="p-3.5 whitespace-nowrap">
                             <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${
-                              c.papel === 'Autor' 
+                              c.papel.includes('Autor') 
                                 ? 'bg-[#F28919]/15 text-[#F28919] border-[#F28919]/40' 
                                 : 'bg-[#506324]/15 text-[#506324] border-[#506324]/40'
                             }`}>
                               {c.papel}
                             </span>
                           </td>
-                          <td className="p-3.5 text-slate-700 whitespace-nowrap">{c.pauta}</td>
+                          <td className="p-3.5 text-slate-700 max-w-xs truncate">{c.pauta}</td>
                           <td className="p-3.5 text-slate-700 max-w-xs truncate font-medium" title={c.proposalTitulo}>
                             {c.proposalTitulo}
                           </td>
+                          {exportGroupDuplicates && (
+                            <td className="p-3.5 text-center font-bold text-[#506324]">
+                              <span className="bg-[#CACB60]/40 px-2 py-0.5 rounded-md border border-[#CACB60]">
+                                {c.totalParticipacoes || 1}
+                              </span>
+                            </td>
+                          )}
                           <td className="p-3.5 text-slate-500 whitespace-nowrap">
                             {new Date(c.createdAt).toLocaleDateString('pt-BR')}
                           </td>
@@ -788,6 +1027,207 @@ export default function AdminModerationPage() {
         )}
 
       </div>
+
+      {/* ============================================================ */}
+      {/* MODAL DE EDIÇÃO DE PROPOSTA                                  */}
+      {/* ============================================================ */}
+      {editingProposal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-[#FEF6D5] border-2 border-[#506324] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-5 relative max-h-[90vh] overflow-y-auto">
+            
+            <button
+              onClick={() => setEditingProposal(null)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-[#506324] p-1.5 rounded-full hover:bg-[#506324]/10 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3 border-b border-[#506324]/15 pb-4">
+              <div className="w-10 h-10 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 border border-blue-300">
+                <Pencil className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-xl font-serif font-bold text-[#506324]">Editar Proposta</h3>
+                <p className="text-xs text-slate-600">Altere o título, pauta, cidade ou dados do autor conforme necessário.</p>
+              </div>
+            </div>
+
+            <form onSubmit={handleConfirmEdit} className="space-y-4">
+              
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                  Título da Proposta:
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editFormData.titulo}
+                  onChange={(e) => setEditFormData({ ...editFormData, titulo: e.target.value })}
+                  className="w-full p-3 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs sm:text-sm text-slate-900 font-bold focus:outline-none focus:border-[#506324]"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                    Pauta / Tema:
+                  </label>
+                  <select
+                    value={editFormData.pauta}
+                    onChange={(e) => setEditFormData({ ...editFormData, pauta: e.target.value as Pauta })}
+                    className="w-full p-3 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs sm:text-sm text-slate-900 font-bold focus:outline-none focus:border-[#506324]"
+                  >
+                    {PAUTAS.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                    Cidade em SP:
+                  </label>
+                  <CityAutocomplete
+                    value={editFormData.cidade}
+                    onChange={(c) => setEditFormData({ ...editFormData, cidade: c })}
+                    placeholder="Digite a cidade..."
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                  Descrição da Proposta:
+                </label>
+                <textarea
+                  required
+                  rows={5}
+                  value={editFormData.descricao}
+                  onChange={(e) => setEditFormData({ ...editFormData, descricao: e.target.value })}
+                  className="w-full p-3 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-[#506324]"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 border-t border-[#506324]/10">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                    Nome do Autor:
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.nome}
+                    onChange={(e) => setEditFormData({ ...editFormData, nome: e.target.value })}
+                    className="w-full p-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#506324]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                    E-mail do Autor:
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={editFormData.email}
+                    onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                    className="w-full p-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#506324]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                    WhatsApp:
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.whatsapp}
+                    onChange={(e) => setEditFormData({ ...editFormData, whatsapp: e.target.value })}
+                    className="w-full p-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#506324]"
+                  />
+                </div>
+              </div>
+
+              {editError && (
+                <p className="text-xs font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200">
+                  {editError}
+                </p>
+              )}
+
+              <div className="flex items-center gap-3 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setEditingProposal(null)}
+                  className="flex-1 bg-[#FEF6D5] hover:bg-slate-200 text-slate-700 font-bold text-xs py-3 px-4 rounded-xl border border-slate-300 transition-all"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={updatingId === editingProposal.id}
+                  className="flex-1 bg-[#506324] hover:bg-[#3A491A] text-white font-bold text-xs py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                >
+                  {updatingId === editingProposal.id ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Check className="w-4 h-4" />
+                  )}
+                  <span>Salvar Alterações</span>
+                </button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================ */}
+      {/* MODAL DE CONFIRMAÇÃO DE EXCLUSÃO                              */}
+      {/* ============================================================ */}
+      {deletingProposal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-[#FEF6D5] border-2 border-[#506324] rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-5 text-center">
+            
+            <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center mx-auto border border-rose-300">
+              <Trash2 className="w-6 h-6" />
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-xl font-serif font-bold text-[#506324]">Excluir Proposta Permanentemente?</h3>
+              <p className="text-xs text-slate-600">
+                Esta ação apagará a proposta <strong>"{deletingProposal.titulo}"</strong> de forma definitiva do banco de dados.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setDeletingProposal(null)}
+                className="flex-1 bg-[#FEF6D5] hover:bg-slate-200 text-slate-700 font-bold text-xs py-3 px-4 rounded-xl border border-slate-300 transition-all"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                disabled={updatingId === deletingProposal.id}
+                className="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-sm"
+              >
+                {updatingId === deletingProposal.id ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Trash2 className="w-4 h-4" />
+                )}
+                <span>Sim, Excluir</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
 
       {/* ============================================================ */}
       {/* MODAL DE REJEIÇÃO COM CAMPO DE JUSTIFICATIVA                 */}

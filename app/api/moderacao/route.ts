@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateProposalStatus, getProposalByIdOrSlug, getAllProposalsForAdmin } from '@/lib/db-store';
+import { 
+  updateProposalStatus, 
+  getProposalByIdOrSlug, 
+  getAllProposalsForAdmin,
+  updateProposalDetails,
+  deleteProposal
+} from '@/lib/db-store';
 import { sendEmailProposta } from '@/lib/brevo';
 
 export async function GET() {
@@ -82,5 +88,60 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Erro na moderação:', error);
     return NextResponse.json({ error: 'Erro ao processar moderação.' }, { status: 500 });
+  }
+}
+
+// Edição de Proposta (PUT)
+export async function PUT(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { proposalId, titulo, descricao, pauta, cidade, nome, email, whatsapp } = body;
+
+    if (!proposalId || !titulo || !descricao || !pauta || !cidade) {
+      return NextResponse.json({ error: 'Campos obrigatórios ausentes.' }, { status: 400 });
+    }
+
+    const updated = await updateProposalDetails(proposalId, {
+      titulo,
+      descricao,
+      pauta,
+      cidade,
+      nome,
+      email,
+      whatsapp,
+    });
+
+    if (!updated) {
+      return NextResponse.json({ error: 'Proposta não encontrada.' }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, proposal: updated });
+  } catch (error) {
+    console.error('Erro ao editar proposta:', error);
+    return NextResponse.json({ error: 'Erro ao atualizar dados da proposta.' }, { status: 500 });
+  }
+}
+
+// Exclusão de Proposta (DELETE)
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    let proposalId = searchParams.get('proposalId');
+    if (!proposalId) {
+      try {
+        const body = await req.json();
+        proposalId = body.proposalId;
+      } catch (e) {}
+    }
+
+    if (!proposalId) {
+      return NextResponse.json({ error: 'ID da proposta não informado.' }, { status: 400 });
+    }
+
+    const success = await deleteProposal(proposalId);
+    return NextResponse.json({ success });
+  } catch (error) {
+    console.error('Erro ao excluir proposta:', error);
+    return NextResponse.json({ error: 'Erro ao excluir proposta.' }, { status: 500 });
   }
 }
