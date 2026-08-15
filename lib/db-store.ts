@@ -113,9 +113,42 @@ const SEED_PROPOSALS: Proposal[] = [
   }
 ];
 
+const SEED_SUPPORTS: Support[] = [
+  {
+    id: 'sup-1',
+    proposalId: 'prop-1',
+    nome: 'Marcelo Rossi',
+    whatsapp: '11981234567',
+    email: 'marcelo.rossi@exemplo.com',
+    cidade: 'São Paulo',
+    consentimentoContato: true,
+    createdAt: new Date(Date.now() - 86400000 * 4).toISOString(),
+  },
+  {
+    id: 'sup-2',
+    proposalId: 'prop-1',
+    nome: 'Fernanda Lima',
+    whatsapp: '11976543210',
+    email: 'fernanda.lima@exemplo.com',
+    cidade: 'São Paulo',
+    consentimentoContato: true,
+    createdAt: new Date(Date.now() - 86400000 * 3).toISOString(),
+  },
+  {
+    id: 'sup-3',
+    proposalId: 'prop-2',
+    nome: 'Juliana Costa',
+    whatsapp: '19991238888',
+    email: 'juliana.costa@exemplo.com',
+    cidade: 'Campinas',
+    consentimentoContato: true,
+    createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
+  }
+];
+
 // Memory store fallback if Firestore admin is offline/unconfigured
 const memoryProposalsStore = new Map<string, Proposal>(SEED_PROPOSALS.map(p => [p.id, p]));
-const memorySupportsStore = new Map<string, Support>();
+const memorySupportsStore = new Map<string, Support>(SEED_SUPPORTS.map(s => [s.id, s]));
 
 export function generateSlug(titulo: string): string {
   const baseSlug = titulo
@@ -319,4 +352,19 @@ export async function getAllProposalsForAdmin(): Promise<Proposal[]> {
   }
 
   return Array.from(memoryProposalsStore.values()).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+}
+
+export async function getAllSupportsForAdmin(): Promise<Support[]> {
+  if (adminDb) {
+    try {
+      const snapshot = await adminDb.collection('apoios').get();
+      const results: Support[] = [];
+      snapshot.forEach(doc => results.push(doc.data() as Support));
+      return results.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } catch (err) {
+      console.warn("Firestore getAllSupports error, using fallback memory store:", err);
+    }
+  }
+
+  return Array.from(memorySupportsStore.values()).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }

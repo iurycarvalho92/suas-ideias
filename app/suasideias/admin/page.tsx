@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Proposal } from '@/lib/types';
+import { Proposal, PAUTAS } from '@/lib/types';
 import { auth, googleProvider } from '@/lib/firebase';
 import { signInWithPopup, signOut, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { isEmailAuthorized } from '@/lib/admin-whitelist';
@@ -17,8 +17,30 @@ import {
   X,
   AlertTriangle,
   LogOut,
-  UserCheck
+  UserCheck,
+  Download,
+  Users,
+  FileSpreadsheet,
+  Filter,
+  MessageCircle,
+  Mail,
+  MapPin,
+  Tag
 } from 'lucide-react';
+
+interface ContactRecord {
+  id: string;
+  nome: string;
+  email: string;
+  whatsapp: string;
+  cidade: string;
+  papel: 'Autor' | 'Apoiador';
+  pauta: string;
+  proposalId: string;
+  proposalTitulo: string;
+  consentimentoContato: boolean;
+  createdAt: string;
+}
 
 export default function AdminModerationPage() {
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
@@ -27,8 +49,12 @@ export default function AdminModerationPage() {
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState('');
 
+  // Active Tab: 'moderacao' | 'export'
+  const [activeTab, setActiveTab] = useState<'moderacao' | 'export'>('moderacao');
+
+  // Moderação State
   const [proposals, setProposals] = useState<Proposal[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loadingProposals, setLoadingProposals] = useState(false);
   const [filterStatus, setFilterStatus] = useState<'todos' | 'pendente' | 'aprovado' | 'rejeitado'>('pendente');
   const [searchQuery, setSearchQuery] = useState('');
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -37,6 +63,15 @@ export default function AdminModerationPage() {
   const [rejectingProposal, setRejectingProposal] = useState<Proposal | null>(null);
   const [motivoRejeicao, setMotivoRejeicao] = useState('');
   const [rejectError, setRejectError] = useState('');
+
+  // Export & CRM State
+  const [contacts, setContacts] = useState<ContactRecord[]>([]);
+  const [loadingContacts, setLoadingContacts] = useState(false);
+  const [exportPapel, setExportPapel] = useState<'todos' | 'autor' | 'apoiador'>('todos');
+  const [exportPauta, setExportPauta] = useState<string>('Todas');
+  const [exportCidade, setExportCidade] = useState<string>('Todas');
+  const [exportProposalId, setExportProposalId] = useState<string>('Todas');
+  const [exportConsentimentoOnly, setExportConsentimentoOnly] = useState<boolean>(false);
 
   // Firebase Auth Observer
   useEffect(() => {
@@ -51,7 +86,6 @@ export default function AdminModerationPage() {
         setIsAuthenticated(true);
         setAuthError('');
       } else if (user) {
-        // Logged in with Google, but not in Whitelist
         if (auth) signOut(auth);
         setCurrentUser(null);
         setIsAuthenticated(false);
@@ -115,7 +149,7 @@ export default function AdminModerationPage() {
   };
 
   const fetchProposals = async () => {
-    setLoading(true);
+    setLoadingProposals(true);
     try {
       const res = await fetch('/api/moderacao');
       const data = await res.json();
@@ -125,7 +159,29 @@ export default function AdminModerationPage() {
     } catch (err) {
       console.error('Erro ao buscar propostas:', err);
     } finally {
-      setLoading(false);
+      setLoadingProposals(false);
+    }
+  };
+
+  const fetchContacts = async () => {
+    setLoadingContacts(true);
+    try {
+      const params = new URLSearchParams();
+      params.set('papel', exportPapel);
+      params.set('pauta', exportPauta);
+      params.set('cidade', exportCidade);
+      params.set('proposalId', exportProposalId);
+      if (exportConsentimentoOnly) params.set('consentimentoOnly', 'true');
+
+      const res = await fetch(`/api/export-contatos?${params.toString()}`);
+      const data = await res.json();
+      if (data.contacts) {
+        setContacts(data.contacts);
+      }
+    } catch (err) {
+      console.error('Erro ao buscar contatos para exportação:', err);
+    } finally {
+      setLoadingContacts(false);
     }
   };
 
@@ -134,6 +190,12 @@ export default function AdminModerationPage() {
       fetchProposals();
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (isAuthenticated && activeTab === 'export') {
+      fetchContacts();
+    }
+  }, [isAuthenticated, activeTab, exportPapel, exportPauta, exportCidade, exportProposalId, exportConsentimentoOnly]);
 
   const handleApprove = async (id: string) => {
     setUpdatingId(id);
@@ -202,6 +264,18 @@ export default function AdminModerationPage() {
     } finally {
       setUpdatingId(null);
     }
+  };
+
+  const handleDownloadCSV = () => {
+    const params = new URLSearchParams();
+    params.set('format', 'csv');
+    params.set('papel', exportPapel);
+    params.set('pauta', exportPauta);
+    params.set('cidade', exportCidade);
+    params.set('proposalId', exportProposalId);
+    if (exportConsentimentoOnly) params.set('consentimentoOnly', 'true');
+
+    window.open(`/api/export-contatos?${params.toString()}`, '_blank');
   };
 
   const filteredProposals = proposals.filter((p) => {
@@ -322,10 +396,10 @@ export default function AdminModerationPage() {
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Painel Administrativo</span>
             </div>
-            <h1 className="text-3xl font-serif font-bold text-[#506324]">Moderação de Propostas</h1>
+            <h1 className="text-3xl font-serif font-bold text-[#506324]">Central de Controle das Marinas</h1>
             
             {currentUser && (
-              <p className="text-xs text-slate-600 flex items-center gap-1.5 pt-1">
+              <p className="text-xs text-[#506324] font-medium flex items-center gap-1.5 pt-1">
                 <UserCheck className="w-3.5 h-3.5 text-emerald-700" />
                 <span>Conectado como <strong>{currentUser.displayName || currentUser.email}</strong> ({currentUser.email})</span>
               </p>
@@ -341,113 +415,375 @@ export default function AdminModerationPage() {
           </button>
         </div>
 
-        {/* Filter Controls */}
-        <div className="bg-[#FEF6D5] p-6 rounded-3xl border-2 border-[#506324]/20 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
-            {(['todos', 'pendente', 'aprovado', 'rejeitado'] as const).map((status) => (
-              <button
-                key={status}
-                onClick={() => setFilterStatus(status)}
-                className={`px-4 py-2 text-xs font-bold rounded-full capitalize border-2 transition-all ${
-                  filterStatus === status
-                    ? 'bg-[#506324] text-white border-[#506324]'
-                    : 'bg-[#FEF6D5] text-[#506324] border-[#506324]/20 hover:border-[#506324]'
-                }`}
-              >
-                {status}
-              </button>
-            ))}
-          </div>
+        {/* Tab Navigation */}
+        <div className="flex border-b-2 border-[#506324]/20 gap-2">
+          <button
+            onClick={() => setActiveTab('moderacao')}
+            className={`pb-3 px-5 text-sm font-bold border-b-4 transition-all flex items-center gap-2 ${
+              activeTab === 'moderacao'
+                ? 'border-[#506324] text-[#506324]'
+                : 'border-transparent text-slate-500 hover:text-[#506324]'
+            }`}
+          >
+            <ShieldCheck className="w-4 h-4" />
+            <span>Moderação de Propostas</span>
+            <span className="bg-[#506324]/15 text-[#506324] text-xs px-2 py-0.5 rounded-full font-sans font-black">
+              {proposals.filter(p => p.status === 'pendente').length} pendentes
+            </span>
+          </button>
 
-          <div className="relative w-full sm:w-72">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar por título, autor..."
-              className="w-full pl-10 pr-4 py-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs focus:outline-none focus:border-[#506324]"
-            />
-          </div>
+          <button
+            onClick={() => setActiveTab('export')}
+            className={`pb-3 px-5 text-sm font-bold border-b-4 transition-all flex items-center gap-2 ${
+              activeTab === 'export'
+                ? 'border-[#506324] text-[#506324]'
+                : 'border-transparent text-slate-500 hover:text-[#506324]'
+            }`}
+          >
+            <FileSpreadsheet className="w-4 h-4" />
+            <span>📊 CRM & Exportação de Contatos</span>
+          </button>
         </div>
 
-        {/* List */}
-        {loading ? (
-          <div className="text-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-[#506324] mx-auto mb-2" />
-            <p className="text-slate-600 text-sm">Carregando propostas...</p>
-          </div>
-        ) : filteredProposals.length > 0 ? (
-          <div className="space-y-4">
-            {filteredProposals.map((p) => (
-              <div
-                key={p.id}
-                className="bg-[#FEF6D5] rounded-3xl p-6 border-2 border-[#506324]/20 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6"
-              >
-                <div className="space-y-2 max-w-3xl">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#506324] text-white">
-                      {p.pauta}
-                    </span>
-                    <span className="text-xs text-slate-500 font-medium">• {p.cidade}</span>
-                    <span className={`text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-md border ${
-                      p.status === 'aprovado' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
-                      p.status === 'rejeitado' ? 'bg-rose-100 text-rose-800 border-rose-300' :
-                      'bg-amber-100 text-amber-800 border-amber-300'
-                    }`}>
-                      {p.status}
-                    </span>
-                  </div>
-
-                  <h3 className="font-serif font-bold text-xl text-[#506324]">{p.titulo}</h3>
-                  <p className="text-slate-700 text-sm line-clamp-2">{p.descricao}</p>
-                  
-                  <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-1">
-                    <span>Autor: <strong>{p.nome}</strong> ({p.email} | {p.whatsapp})</span>
-                    <span>• Apoios: <strong>{p.apoiosCount}</strong></span>
-                  </div>
-
-                  {p.motivoRejeicao && (
-                    <div className="text-xs bg-rose-50 text-rose-800 border border-rose-200 rounded-xl p-3 mt-2">
-                      <strong>Motivo da rejeição:</strong> {p.motivoRejeicao}
-                    </div>
-                  )}
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2 shrink-0 border-t md:border-t-0 pt-4 md:pt-0 border-[#506324]/10">
+        {/* ============================================================ */}
+        {/* TAB 1: MODERAÇÃO DE PROPOSTAS                                */}
+        {/* ============================================================ */}
+        {activeTab === 'moderacao' && (
+          <div className="space-y-6">
+            
+            {/* Filter Controls */}
+            <div className="bg-[#FEF6D5] p-6 rounded-3xl border-2 border-[#506324]/20 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
+                {(['todos', 'pendente', 'aprovado', 'rejeitado'] as const).map((status) => (
                   <button
-                    onClick={() => handleApprove(p.id)}
-                    disabled={updatingId === p.id || p.status === 'aprovado'}
-                    className="flex-1 md:flex-initial bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5"
+                    key={status}
+                    onClick={() => setFilterStatus(status)}
+                    className={`px-4 py-2 text-xs font-bold rounded-full capitalize border-2 transition-all ${
+                      filterStatus === status
+                        ? 'bg-[#506324] text-white border-[#506324]'
+                        : 'bg-[#FEF6D5] text-[#506324] border-[#506324]/20 hover:border-[#506324]'
+                    }`}
                   >
-                    <CheckCircle className="w-4 h-4" />
-                    <span>Aprovar</span>
+                    {status}
                   </button>
-
-                  <button
-                    onClick={() => openRejectModal(p)}
-                    disabled={updatingId === p.id || p.status === 'rejeitado'}
-                    className="flex-1 md:flex-initial bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5"
-                  >
-                    <XCircle className="w-4 h-4" />
-                    <span>Rejeitar</span>
-                  </button>
-
-                  <Link
-                    href={`/proposta/${p.slug}`}
-                    target="_blank"
-                    className="p-2.5 text-slate-400 hover:text-[#506324] rounded-xl hover:bg-white transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                  </Link>
-                </div>
+                ))}
               </div>
-            ))}
+
+              <div className="relative w-full sm:w-72">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Buscar por título, autor..."
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs focus:outline-none focus:border-[#506324]"
+                />
+              </div>
+            </div>
+
+            {/* List */}
+            {loadingProposals ? (
+              <div className="text-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-[#506324] mx-auto mb-2" />
+                <p className="text-slate-600 text-sm">Carregando propostas...</p>
+              </div>
+            ) : filteredProposals.length > 0 ? (
+              <div className="space-y-4">
+                {filteredProposals.map((p) => (
+                  <div
+                    key={p.id}
+                    className="bg-[#FEF6D5] rounded-3xl p-6 border-2 border-[#506324]/20 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6"
+                  >
+                    <div className="space-y-2 max-w-3xl">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#506324] text-white">
+                          {p.pauta}
+                        </span>
+                        <span className="text-xs text-slate-500 font-medium">• {p.cidade}</span>
+                        <span className={`text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-md border ${
+                          p.status === 'aprovado' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                          p.status === 'rejeitado' ? 'bg-rose-100 text-rose-800 border-rose-300' :
+                          'bg-amber-100 text-amber-800 border-amber-300'
+                        }`}>
+                          {p.status}
+                        </span>
+                      </div>
+
+                      <h3 className="font-serif font-bold text-xl text-[#506324]">{p.titulo}</h3>
+                      <p className="text-slate-700 text-sm line-clamp-2">{p.descricao}</p>
+                      
+                      <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-1">
+                        <span>Autor: <strong>{p.nome}</strong> ({p.email} | {p.whatsapp})</span>
+                        <span>• Apoios: <strong>{p.apoiosCount}</strong></span>
+                      </div>
+
+                      {p.motivoRejeicao && (
+                        <div className="text-xs bg-rose-50 text-rose-800 border border-rose-200 rounded-xl p-3 mt-2">
+                          <strong>Motivo da rejeição:</strong> {p.motivoRejeicao}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-2 shrink-0 border-t md:border-t-0 pt-4 md:pt-0 border-[#506324]/10">
+                      <button
+                        onClick={() => handleApprove(p.id)}
+                        disabled={updatingId === p.id || p.status === 'aprovado'}
+                        className="flex-1 md:flex-initial bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5"
+                      >
+                        <CheckCircle className="w-4 h-4" />
+                        <span>Aprovar</span>
+                      </button>
+
+                      <button
+                        onClick={() => openRejectModal(p)}
+                        disabled={updatingId === p.id || p.status === 'rejeitado'}
+                        className="flex-1 md:flex-initial bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-1.5"
+                      >
+                        <XCircle className="w-4 h-4" />
+                        <span>Rejeitar</span>
+                      </button>
+
+                      <Link
+                        href={`/proposta/${p.slug}`}
+                        target="_blank"
+                        className="p-2.5 text-slate-400 hover:text-[#506324] rounded-xl hover:bg-white transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-[#FEF6D5] rounded-3xl p-12 text-center border-2 border-[#506324]/20">
+                <p className="text-slate-600 text-sm font-medium">Nenhuma proposta encontrada para o filtro atual.</p>
+              </div>
+            )}
+
           </div>
-        ) : (
-          <div className="bg-[#FEF6D5] rounded-3xl p-12 text-center border-2 border-[#506324]/20">
-            <p className="text-slate-600 text-sm font-medium">Nenhuma proposta encontrada para o filtro atual.</p>
+        )}
+
+        {/* ============================================================ */}
+        {/* TAB 2: CRM & EXPORTAÇÃO DE CONTATOS                           */}
+        {/* ============================================================ */}
+        {activeTab === 'export' && (
+          <div className="space-y-6">
+            
+            {/* Filter Panel for CRM */}
+            <div className="bg-[#FEF6D5] p-6 rounded-3xl border-2 border-[#506324]/20 shadow-sm space-y-4">
+              
+              <div className="flex items-center justify-between border-b border-[#506324]/15 pb-4">
+                <div className="flex items-center gap-2">
+                  <Filter className="w-5 h-5 text-[#506324]" />
+                  <h3 className="font-serif font-bold text-lg text-[#506324]">Segmentação e Filtros do Relatório</h3>
+                </div>
+                <button
+                  onClick={handleDownloadCSV}
+                  className="bg-[#F28919] hover:bg-[#d9750e] text-white font-bold text-xs py-3 px-6 rounded-2xl border-2 border-[#506324] shadow-md transition-all flex items-center gap-2 active:scale-95"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Baixar Relatório em CSV (Excel)</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                {/* 1. Papel */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                    Papel do Contato:
+                  </label>
+                  <select
+                    value={exportPapel}
+                    onChange={(e) => setExportPapel(e.target.value as any)}
+                    className="w-full p-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-800 font-bold focus:outline-none focus:border-[#506324]"
+                  >
+                    <option value="todos">Todos (Autores + Apoiadores)</option>
+                    <option value="autor">Apenas Autores de Propostas</option>
+                    <option value="apoiador">Apenas Apoiadores de Ideias</option>
+                  </select>
+                </div>
+
+                {/* 2. Proposta Específica */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                    Projeto / Proposta Específica:
+                  </label>
+                  <select
+                    value={exportProposalId}
+                    onChange={(e) => setExportProposalId(e.target.value)}
+                    className="w-full p-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-800 font-bold focus:outline-none focus:border-[#506324] truncate"
+                  >
+                    <option value="Todas">Todas as propostas</option>
+                    {proposals.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.titulo} ({p.cidade})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 3. Pauta / Tema */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                    Pauta / Tema:
+                  </label>
+                  <select
+                    value={exportPauta}
+                    onChange={(e) => setExportPauta(e.target.value)}
+                    className="w-full p-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-800 font-bold focus:outline-none focus:border-[#506324]"
+                  >
+                    <option value="Todas">Todas as pautas</option>
+                    {PAUTAS.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 4. Cidade */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
+                    Cidade em SP:
+                  </label>
+                  <input
+                    type="text"
+                    value={exportCidade === 'Todas' ? '' : exportCidade}
+                    onChange={(e) => setExportCidade(e.target.value.trim() ? e.target.value : 'Todas')}
+                    placeholder="Todas as cidades (ou digite para filtrar)"
+                    className="w-full p-2.5 bg-[#FEF6D5] border-2 border-[#506324]/30 rounded-xl text-xs text-slate-800 font-bold focus:outline-none focus:border-[#506324]"
+                  />
+                </div>
+
+              </div>
+
+              {/* Toggle Consentimento LGPD */}
+              <div className="pt-2 flex items-center justify-between border-t border-[#506324]/10">
+                <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-[#506324]">
+                  <input
+                    type="checkbox"
+                    checked={exportConsentimentoOnly}
+                    onChange={(e) => setExportConsentimentoOnly(e.target.checked)}
+                    className="w-4 h-4 rounded text-[#506324] focus:ring-[#506324]"
+                  />
+                  <span>Exportar apenas contatos com consentimento de comunicação (WhatsApp / E-mail)</span>
+                </label>
+
+                {(exportPapel !== 'todos' || exportPauta !== 'Todas' || exportCidade !== 'Todas' || exportProposalId !== 'Todas' || exportConsentimentoOnly) && (
+                  <button
+                    onClick={() => {
+                      setExportPapel('todos');
+                      setExportPauta('Todas');
+                      setExportCidade('Todas');
+                      setExportProposalId('Todas');
+                      setExportConsentimentoOnly(false);
+                    }}
+                    className="text-xs font-bold text-slate-500 hover:text-[#506324] underline"
+                  >
+                    Limpar filtros do relatório
+                  </button>
+                )}
+              </div>
+
+            </div>
+
+            {/* Metrics Counter Bar */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-[#506324]/20 text-center space-y-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Contatos Filtrados</span>
+                <p className="text-3xl font-serif font-black text-[#506324]">{contacts.length}</p>
+              </div>
+              <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-[#506324]/20 text-center space-y-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Autores de Propostas</span>
+                <p className="text-3xl font-serif font-black text-[#F28919]">
+                  {contacts.filter(c => c.papel === 'Autor').length}
+                </p>
+              </div>
+              <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-[#506324]/20 text-center space-y-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Apoiadores Registrados</span>
+                <p className="text-3xl font-serif font-black text-[#3A491A]">
+                  {contacts.filter(c => c.papel === 'Apoiador').length}
+                </p>
+              </div>
+            </div>
+
+            {/* Preview Table */}
+            <div className="bg-[#FEF6D5] rounded-3xl border-2 border-[#506324]/20 shadow-sm overflow-hidden">
+              <div className="p-4 bg-[#506324] text-white flex items-center justify-between">
+                <h4 className="font-serif font-bold text-sm">Pré-visualização dos Registros ({contacts.length})</h4>
+                <span className="text-xs text-[#FEF6D5]/80 font-sans">Exibindo dados sanitizados em tempo real</span>
+              </div>
+
+              {loadingContacts ? (
+                <div className="text-center py-16">
+                  <Loader2 className="w-8 h-8 animate-spin text-[#506324] mx-auto mb-2" />
+                  <p className="text-slate-600 text-sm">Gerando visualização dos contatos...</p>
+                </div>
+              ) : contacts.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-[#FEF6D5] text-[#506324] font-bold uppercase tracking-wider border-b-2 border-[#506324]/20">
+                        <th className="p-3.5">Nome</th>
+                        <th className="p-3.5">Contato</th>
+                        <th className="p-3.5">Cidade</th>
+                        <th className="p-3.5">Papel</th>
+                        <th className="p-3.5">Pauta</th>
+                        <th className="p-3.5">Projeto / Proposta</th>
+                        <th className="p-3.5">Data</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#506324]/10">
+                      {contacts.map((c) => (
+                        <tr key={c.id} className="hover:bg-[#506324]/5 transition-colors">
+                          <td className="p-3.5 font-bold text-[#506324] whitespace-nowrap">{c.nome}</td>
+                          <td className="p-3.5 space-y-1">
+                            <div className="flex items-center gap-1 text-slate-700">
+                              <Mail className="w-3 h-3 text-[#506324]" />
+                              <span>{c.email}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <MessageCircle className="w-3 h-3 text-[#25D366]" />
+                              <a
+                                href={`https://wa.me/55${c.whatsapp}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-slate-700 hover:text-[#25D366] underline font-mono"
+                              >
+                                {c.whatsapp}
+                              </a>
+                            </div>
+                          </td>
+                          <td className="p-3.5 text-slate-700 whitespace-nowrap font-medium">{c.cidade}</td>
+                          <td className="p-3.5 whitespace-nowrap">
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border ${
+                              c.papel === 'Autor' 
+                                ? 'bg-[#F28919]/15 text-[#F28919] border-[#F28919]/40' 
+                                : 'bg-[#506324]/15 text-[#506324] border-[#506324]/40'
+                            }`}>
+                              {c.papel}
+                            </span>
+                          </td>
+                          <td className="p-3.5 text-slate-700 whitespace-nowrap">{c.pauta}</td>
+                          <td className="p-3.5 text-slate-700 max-w-xs truncate font-medium" title={c.proposalTitulo}>
+                            {c.proposalTitulo}
+                          </td>
+                          <td className="p-3.5 text-slate-500 whitespace-nowrap">
+                            {new Date(c.createdAt).toLocaleDateString('pt-BR')}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-12 text-center text-slate-600 text-sm">
+                  Nenhum contato atende aos critérios dos filtros selecionados.
+                </div>
+              )}
+
+            </div>
+
           </div>
         )}
 
@@ -484,7 +820,6 @@ export default function AdminModerationPage() {
 
             <form onSubmit={handleConfirmReject} className="space-y-4">
               
-              {/* Opções de Justificativa Rápida */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
                   Sugestões Rápidas:
@@ -508,7 +843,6 @@ export default function AdminModerationPage() {
                 </div>
               </div>
 
-              {/* Textarea do Motivo */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
                   Escreva a Justificativa (Obrigatório):
@@ -529,7 +863,6 @@ export default function AdminModerationPage() {
                 </p>
               )}
 
-              {/* Ações */}
               <div className="flex items-center gap-3 pt-2">
                 <button
                   type="button"
