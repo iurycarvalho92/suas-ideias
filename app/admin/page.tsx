@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Proposal } from '@/lib/types';
+import { auth, googleProvider } from '@/lib/firebase';
+import { signInWithPopup, signOut, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
+import { isEmailAuthorized } from '@/lib/admin-whitelist';
 import { 
   ShieldCheck, 
   CheckCircle, 
@@ -12,12 +15,18 @@ import {
   Loader2,
   Lock,
   X,
-  AlertTriangle
+  AlertTriangle,
+  LogOut,
+  UserCheck
 } from 'lucide-react';
 
 export default function AdminModerationPage() {
+  const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [authError, setAuthError] = useState('');
+
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [loading, setLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState<'todos' | 'pendente' | 'aprovado' | 'rejeitado'>('pendente');
@@ -29,13 +38,80 @@ export default function AdminModerationPage() {
   const [motivoRejeicao, setMotivoRejeicao] = useState('');
   const [rejectError, setRejectError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  // Firebase Auth Observer
+  useEffect(() => {
+    if (!auth) {
+      setAuthLoading(false);
+      return;
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user && isEmailAuthorized(user.email)) {
+        setCurrentUser(user);
+        setIsAuthenticated(true);
+        setAuthError('');
+      } else if (user) {
+        // Logged in with Google, but not in Whitelist
+        if (auth) signOut(auth);
+        setCurrentUser(null);
+        setIsAuthenticated(false);
+        setAuthError(`O e-mail (${user.email}) não está na Whitelist de administradores autorizados.`);
+      } else {
+        setCurrentUser(null);
+      }
+      setAuthLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleGoogleLogin = async () => {
+    if (!auth) {
+      setAuthError('Autenticação do Firebase não configurada.');
+      return;
+    }
+
+    setAuthLoading(true);
+    setAuthError('');
+
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      if (user && isEmailAuthorized(user.email)) {
+        setCurrentUser(user);
+        setIsAuthenticated(true);
+      } else {
+        if (auth) await signOut(auth);
+        setCurrentUser(null);
+        setIsAuthenticated(false);
+        setAuthError(`O e-mail (${user?.email}) não possui permissão para acessar o painel.`);
+      }
+    } catch (err: any) {
+      if (err.code !== 'auth/popup-closed-by-user') {
+        setAuthError(err.message || 'Erro ao autenticar com o Google.');
+      }
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handlePasswordLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === 'marinas2026') {
       setIsAuthenticated(true);
+      setAuthError('');
     } else {
-      alert('Senha incorreta! Tente novamente.');
+      setAuthError('Senha incorreta! Tente novamente.');
     }
+  };
+
+  const handleLogout = async () => {
+    if (auth && currentUser) {
+      await signOut(auth);
+    }
+    setCurrentUser(null);
+    setIsAuthenticated(false);
   };
 
   const fetchProposals = async () => {
@@ -142,19 +218,74 @@ export default function AdminModerationPage() {
     return true;
   });
 
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#FEF6D5] flex items-center justify-center p-4">
+        <div className="text-center space-y-3">
+          <Loader2 className="w-8 h-8 animate-spin text-[#506324] mx-auto" />
+          <p className="text-slate-600 text-sm font-medium">Verificando permissões de acesso...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#FEF6D5] flex items-center justify-center p-4">
         <div className="bg-[#FEF6D5] border-2 border-[#506324] rounded-3xl p-8 max-w-md w-full shadow-xl space-y-6">
           <div className="text-center space-y-2">
             <div className="w-12 h-12 bg-[#506324] text-[#FEF6D5] rounded-2xl flex items-center justify-center mx-auto">
-              <Lock className="w-6 h-6" />
+              <ShieldCheck className="w-6 h-6" />
             </div>
             <h2 className="text-2xl font-serif font-bold text-[#506324]">Moderação de Propostas</h2>
-            <p className="text-xs text-slate-600">Acesso restrito para a equipe das campanhas.</p>
+            <p className="text-xs text-slate-600">Acesso restrito para a equipe autorizada das campanhas.</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
+          {authError && (
+            <div className="bg-rose-50 border border-rose-200 text-rose-800 text-xs p-3.5 rounded-2xl font-medium space-y-1">
+              <p className="font-bold flex items-center gap-1.5 text-rose-900">
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                <span>Acesso Não Autorizado</span>
+              </p>
+              <p>{authError}</p>
+            </div>
+          )}
+
+          {/* BOTÃO OFICIAL DE LOGIN VIA GOOGLE */}
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm py-3.5 px-4 rounded-2xl border-2 border-[#506324] shadow-md transition-all flex items-center justify-center gap-3 active:scale-95"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
+              <path
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              />
+            </svg>
+            <span>Entrar com o Google</span>
+          </button>
+
+          {/* Divisor */}
+          <div className="relative flex items-center justify-center my-4">
+            <div className="border-t border-[#506324]/20 w-full" />
+            <span className="bg-[#FEF6D5] px-3 text-xs text-slate-500 font-bold uppercase">ou senha</span>
+            <div className="border-t border-[#506324]/20 w-full" />
+          </div>
+
+          {/* Form com Senha de Fallback */}
+          <form onSubmit={handlePasswordLogin} className="space-y-4">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2">
                 Senha de Acesso:
@@ -172,7 +303,7 @@ export default function AdminModerationPage() {
               type="submit"
               className="w-full bg-[#506324] hover:bg-[#3A491A] text-white font-bold text-sm py-3 px-4 rounded-xl transition-all"
             >
-              Acessar Painel
+              Acessar com Senha
             </button>
           </form>
         </div>
@@ -186,18 +317,27 @@ export default function AdminModerationPage() {
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#FEF6D5] p-6 rounded-3xl border-2 border-[#506324] shadow-sm">
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#506324] bg-[#CACB60]/30 px-3 py-1 rounded-full border border-[#CACB60] mb-2">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#506324] bg-[#CACB60]/30 px-3 py-1 rounded-full border border-[#CACB60]">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Painel Administrativo</span>
             </div>
             <h1 className="text-3xl font-serif font-bold text-[#506324]">Moderação de Propostas</h1>
+            
+            {currentUser && (
+              <p className="text-xs text-slate-600 flex items-center gap-1.5 pt-1">
+                <UserCheck className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Conectado como <strong>{currentUser.displayName || currentUser.email}</strong> ({currentUser.email})</span>
+              </p>
+            )}
           </div>
+
           <button
-            onClick={() => setIsAuthenticated(false)}
-            className="text-xs font-bold text-slate-500 hover:text-[#506324] self-start sm:self-auto"
+            onClick={handleLogout}
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-rose-700 bg-white hover:bg-rose-50 border border-slate-300 hover:border-rose-300 px-4 py-2 rounded-xl transition-all self-start sm:self-auto shadow-xs"
           >
-            Sair do Painel
+            <LogOut className="w-4 h-4" />
+            <span>Sair do Painel</span>
           </button>
         </div>
 
