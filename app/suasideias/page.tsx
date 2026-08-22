@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ProposalCard from '@/components/ProposalCard';
 import CityAutocomplete from '@/components/CityAutocomplete';
 import MarinasHeroDiagramation from '@/components/MarinasHeroDiagramation';
+import MarinasFeaturedAndRanking from '@/components/MarinasFeaturedAndRanking';
 import OrganicWaveDivider from '@/components/svg/OrganicWaveDivider';
 import { PAUTAS, Proposal } from '@/lib/types';
 import { 
@@ -13,11 +14,23 @@ import {
   Share2,
   Inbox,
   ArrowRight,
-  Send
+  Send,
+  Shuffle
 } from 'lucide-react';
 
+function shuffleArray<T>(array: T[]): T[] {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
 export default function HomeHub() {
-  const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [allProposals, setAllProposals] = useState<Proposal[]>([]);
+  const [filteredProposals, setFilteredProposals] = useState<Proposal[]>([]);
+  const [randomizedGalleryProposals, setRandomizedGalleryProposals] = useState<Proposal[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Filters
@@ -27,25 +40,12 @@ export default function HomeHub() {
   const fetchProposals = async () => {
     setLoading(true);
     try {
-      const params = new URLSearchParams();
-      if (selectedPauta && selectedPauta !== 'Todas') params.set('pauta', selectedPauta);
-      if (selectedCidade && selectedCidade !== 'Todas' && selectedCidade.trim() !== '') {
-        params.set('cidade', selectedCidade);
-      }
-
-      const res = await fetch(`/api/suasideias/moderacao?${params.toString()}`);
+      const res = await fetch(`/api/moderacao`);
       const data = await res.json();
 
       if (data.proposals) {
         let approved = (data.proposals as Proposal[]).filter(p => p.status === 'aprovado');
-        
-        if (selectedPauta !== 'Todas') {
-          approved = approved.filter(p => p.pauta === selectedPauta);
-        }
-        if (selectedCidade !== 'Todas' && selectedCidade.trim() !== '') {
-          approved = approved.filter(p => p.cidade.toLowerCase().includes(selectedCidade.toLowerCase()));
-        }
-        setProposals(approved);
+        setAllProposals(approved);
       }
     } catch (err) {
       console.error("Erro ao buscar propostas:", err);
@@ -56,7 +56,28 @@ export default function HomeHub() {
 
   useEffect(() => {
     fetchProposals();
-  }, [selectedPauta, selectedCidade]);
+  }, []);
+
+  // Filter and randomize gallery proposals
+  useEffect(() => {
+    let result = [...allProposals];
+
+    if (selectedPauta !== 'Todas') {
+      result = result.filter(p => p.pauta === selectedPauta);
+    }
+    if (selectedCidade !== 'Todas' && selectedCidade.trim() !== '') {
+      result = result.filter(p => p.cidade.toLowerCase().includes(selectedCidade.toLowerCase()));
+    }
+
+    setFilteredProposals(result);
+    setRandomizedGalleryProposals(shuffleArray(result));
+  }, [allProposals, selectedPauta, selectedCidade]);
+
+  const handleShuffleGallery = () => {
+    setRandomizedGalleryProposals(shuffleArray(filteredProposals));
+  };
+
+  const displayProposals = randomizedGalleryProposals.slice(0, 9);
 
   return (
     <div className="overflow-x-hidden bg-[#FEF6D5]">
@@ -67,7 +88,7 @@ export default function HomeHub() {
       <MarinasHeroDiagramation />
 
       {/* ============================================================ */}
-      {/* SEÇÃO 2: COMO FUNCIONA (Descer Passo a Passo em 50px)         */}
+      {/* SEÇÃO 2: COMO FUNCIONA                                       */}
       {/* ============================================================ */}
       <section id="como-funciona" className="bg-[#506324] text-white pt-[50px] pb-8 sm:pb-10 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -133,11 +154,16 @@ export default function HomeHub() {
         </div>
       </section>
 
-      {/* WAVE DIVIDER: Transição de Verde Escuro (#506324) para Bege (#FEF6D5) */}
+      {/* WAVE DIVIDER */}
       <OrganicWaveDivider fillColor="#FEF6D5" />
 
       {/* ============================================================ */}
-      {/* SEÇÃO 3: GALERIA DE IDEIAS (Fundo Bege #FEF6D5)              */}
+      {/* SEÇÃO ESPECIAL: PROJETO DESTAQUE & RANKING TOP 3             */}
+      {/* ============================================================ */}
+      <MarinasFeaturedAndRanking allProposals={allProposals} baseUrlPrefix="/suasideias" />
+
+      {/* ============================================================ */}
+      {/* SEÇÃO 3: GALERIA DE IDEIAS (9 Projetos Randomizados)          */}
       {/* ============================================================ */}
       <section id="galeria-de-ideias" className="bg-[#FEF6D5] py-8 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -151,19 +177,30 @@ export default function HomeHub() {
                 Propostas para transformar São Paulo e o Brasil
               </h2>
               <p className="text-[#506324]/80 text-sm sm:text-base mt-1.5 max-w-2xl">
-                Explore as ideias enviadas por moradores de diversas cidades. Filtre por pauta ou município e dê seu apoio.
+                Explore as ideias enviadas por moradores. Exibindo 9 propostas sorteadas aleatoriamente.
               </p>
             </div>
             
-            <div className="text-xs text-[#506324] font-bold bg-[#FEF6D5] px-3.5 py-1.5 rounded-full border-2 border-[#506324]/20 self-start md:self-auto">
-              {proposals.length} {proposals.length === 1 ? 'proposta exibida' : 'propostas exibidas'}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleShuffleGallery}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#506324] hover:text-[#FEF6D5] bg-[#FEF6D5] hover:bg-[#506324] px-4 py-2 rounded-full border-2 border-[#506324] transition-all shadow-xs active:scale-95"
+                title="Embaralhar ideias da galeria"
+              >
+                <Shuffle className="w-3.5 h-3.5" />
+                <span>Embaralhar Ideias 🎲</span>
+              </button>
+
+              <div className="text-xs text-[#506324] font-bold bg-[#FEF6D5] px-3.5 py-2 rounded-full border-2 border-[#506324]/20 hidden sm:block">
+                {filteredProposals.length} {filteredProposals.length === 1 ? 'ideia encontrada' : 'ideias encontradas'}
+              </div>
             </div>
           </div>
 
           {/* Filtros Container */}
           <div className="bg-[#FEF6D5] rounded-3xl p-6 border-2 border-[#506324]/20 shadow-sm mb-8 space-y-4">
             
-            {/* Filtro 1: Pauta Horizontal Scroll */}
+            {/* Filtro 1: Pauta */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-2.5">
                 Filtrar por Pauta / Tema:
@@ -195,7 +232,7 @@ export default function HomeHub() {
               </div>
             </div>
 
-            {/* Filtro 2: Cidade Autocomplete Search */}
+            {/* Filtro 2: Cidade */}
             <div className="pt-3 border-t border-[#506324]/10 flex flex-col sm:flex-row items-center gap-4">
               <div className="w-full sm:w-80">
                 <label className="block text-xs font-bold uppercase tracking-wider text-[#506324] mb-1.5">
@@ -223,10 +260,10 @@ export default function HomeHub() {
 
           </div>
 
-          {/* Gallery Grid */}
+          {/* Gallery Grid (Até 9 propostas randomizadas) */}
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
                 <div key={i} className="bg-[#FEF6D5] rounded-3xl p-6 border-2 border-[#506324]/15 animate-pulse h-64 space-y-4">
                   <div className="h-4 bg-[#506324]/10 rounded w-1/3" />
                   <div className="h-6 bg-[#506324]/10 rounded w-3/4" />
@@ -235,9 +272,9 @@ export default function HomeHub() {
                 </div>
               ))}
             </div>
-          ) : proposals.length > 0 ? (
+          ) : displayProposals.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {proposals.map((proposal) => (
+              {displayProposals.map((proposal) => (
                 <ProposalCard key={proposal.id} proposal={proposal} />
               ))}
             </div>
@@ -266,11 +303,11 @@ export default function HomeHub() {
         </div>
       </section>
 
-      {/* WAVE DIVIDER: Transição para a Chamada do Formulário em Verde Escuro */}
+      {/* WAVE DIVIDER */}
       <OrganicWaveDivider fillColor="#506324" />
 
       {/* ============================================================ */}
-      {/* SEÇÃO 4: CHAMADA PARA O FORMULÁRIO DE ENVIO (#506324)        */}
+      {/* SEÇÃO 4: CHAMADA PARA O FORMULÁRIO DE ENVIO                 */}
       {/* ============================================================ */}
       <section className="bg-[#506324] text-[#FEF6D5] py-16 sm:py-20 text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
