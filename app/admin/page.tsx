@@ -30,7 +30,9 @@ import {
   Trash2,
   Check,
   ChevronDown,
-  Copy
+  Copy,
+  RotateCcw,
+  Clock
 } from 'lucide-react';
 
 interface ContactRecord {
@@ -358,6 +360,30 @@ export default function AdminModerationPage() {
     }
   };
 
+  const handleSuspend = async (id: string) => {
+    setUpdatingId(id);
+    try {
+      const res = await fetch('/api/moderacao', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ proposalId: id, status: 'pendente' }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setProposals((prev) =>
+          prev.map((p) => (p.id === id ? { ...p, status: 'pendente', motivoRejeicao: undefined } : p))
+        );
+      } else {
+        alert(data.error || 'Erro ao suspender proposta.');
+      }
+    } catch (err) {
+      alert('Erro de conexão ao suspender proposta.');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   const openRejectModal = (proposal: Proposal) => {
     setRejectingProposal(proposal);
     setMotivoRejeicao('');
@@ -658,6 +684,41 @@ export default function AdminModerationPage() {
         {activeTab === 'moderacao' && (
           <div className="space-y-6">
             
+            {/* Overview Stats Bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-[#506324]/20 text-center space-y-1 shadow-xs">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Total de Propostas</span>
+                <p className="text-3xl font-serif font-black text-[#506324]">{proposals.length}</p>
+              </div>
+              <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-amber-400 bg-amber-500/10 text-center space-y-1 shadow-xs">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-800 flex items-center justify-center gap-1">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Pendentes</span>
+                </span>
+                <p className="text-3xl font-serif font-black text-amber-700">
+                  {proposals.filter(p => p.status === 'pendente').length}
+                </p>
+              </div>
+              <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-emerald-400 bg-emerald-500/10 text-center space-y-1 shadow-xs">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center justify-center gap-1">
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span>Aprovadas</span>
+                </span>
+                <p className="text-3xl font-serif font-black text-emerald-700">
+                  {proposals.filter(p => p.status === 'aprovado').length}
+                </p>
+              </div>
+              <div className="bg-[#FEF6D5] p-5 rounded-3xl border-2 border-rose-400 bg-rose-500/10 text-center space-y-1 shadow-xs">
+                <span className="text-xs font-bold uppercase tracking-wider text-rose-800 flex items-center justify-center gap-1">
+                  <XCircle className="w-3.5 h-3.5" />
+                  <span>Rejeitadas</span>
+                </span>
+                <p className="text-3xl font-serif font-black text-rose-700">
+                  {proposals.filter(p => p.status === 'rejeitado').length}
+                </p>
+              </div>
+            </div>
+
             {/* Filter Controls */}
             <div className="bg-[#FEF6D5] p-6 rounded-3xl border-2 border-[#506324]/20 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
@@ -731,12 +792,12 @@ export default function AdminModerationPage() {
                       )}
                     </div>
 
-                    {/* Actions: Aprovar, Rejeitar, Editar, Excluir */}
+                    {/* Actions: Aprovar, Rejeitar, Suspender, Editar, Excluir */}
                     <div className="flex flex-wrap items-center gap-2 shrink-0 border-t md:border-t-0 pt-4 md:pt-0 border-[#506324]/10">
                       <button
                         onClick={() => handleApprove(p.id)}
                         disabled={updatingId === p.id || p.status === 'aprovado'}
-                        className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-3.5 rounded-xl transition-all flex items-center justify-center gap-1"
+                        className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-3 rounded-xl transition-all flex items-center justify-center gap-1"
                       >
                         <CheckCircle className="w-4 h-4" />
                         <span>Aprovar</span>
@@ -745,10 +806,20 @@ export default function AdminModerationPage() {
                       <button
                         onClick={() => openRejectModal(p)}
                         disabled={updatingId === p.id || p.status === 'rejeitado'}
-                        className="bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-3.5 rounded-xl transition-all flex items-center justify-center gap-1"
+                        className="bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-3 rounded-xl transition-all flex items-center justify-center gap-1"
                       >
                         <XCircle className="w-4 h-4" />
                         <span>Rejeitar</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleSuspend(p.id)}
+                        disabled={updatingId === p.id || p.status === 'pendente'}
+                        className="bg-slate-700 hover:bg-slate-800 disabled:opacity-50 text-white font-bold text-xs py-2.5 px-3 rounded-xl transition-all flex items-center justify-center gap-1"
+                        title="Tornar a proposta pendente novamente"
+                      >
+                        <RotateCcw className="w-4 h-4" />
+                        <span>Suspender</span>
                       </button>
 
                       <button

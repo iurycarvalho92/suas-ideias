@@ -22,9 +22,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { proposalId, status, motivoRejeicao } = body;
 
-    if (!proposalId || !['aprovado', 'rejeitado'].includes(status)) {
+    if (!proposalId || !['aprovado', 'rejeitado', 'pendente'].includes(status)) {
       return NextResponse.json(
-        { error: 'ID da proposta e novo status válido (aprovado/rejeitado) são obrigatórios.' },
+        { error: 'ID da proposta e novo status válido (aprovado/rejeitado/pendente) são obrigatórios.' },
         { status: 400 }
       );
     }
