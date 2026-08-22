@@ -168,33 +168,13 @@ export default function HomeHub() {
       <section id="galeria-de-ideias" className="bg-[#FEF6D5] py-8 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#FEF6D5] bg-[#506324] px-3.5 py-1 rounded-full">
-                Galeria Cidadã
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#506324] tracking-tight mt-2">
-                Propostas para transformar São Paulo e o Brasil
-              </h2>
-              <p className="text-[#506324]/80 text-sm sm:text-base mt-1.5 max-w-2xl">
-                Explore as ideias enviadas por moradores. Exibindo 9 propostas sorteadas aleatoriamente.
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleShuffleGallery}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#506324] hover:text-[#FEF6D5] bg-[#FEF6D5] hover:bg-[#506324] px-4 py-2 rounded-full border-2 border-[#506324] transition-all shadow-xs active:scale-95"
-                title="Embaralhar ideias da galeria"
-              >
-                <Shuffle className="w-3.5 h-3.5" />
-                <span>Embaralhar Ideias 🎲</span>
-              </button>
-
-              <div className="text-xs text-[#506324] font-bold bg-[#FEF6D5] px-3.5 py-2 rounded-full border-2 border-[#506324]/20 hidden sm:block">
-                {filteredProposals.length} {filteredProposals.length === 1 ? 'ideia encontrada' : 'ideias encontradas'}
-              </div>
-            </div>
+          <div className="mb-8">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#FEF6D5] bg-[#506324] px-3.5 py-1 rounded-full">
+              Galeria Cidadã
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#506324] tracking-tight mt-2">
+              Propostas para transformar São Paulo e o Brasil
+            </h2>
           </div>
 
           {/* Filtros Container */}

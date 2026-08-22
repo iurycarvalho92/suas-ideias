@@ -98,7 +98,7 @@ export default function MarinasFeaturedAndRanking({ allProposals, baseUrlPrefix 
                   </div>
 
                   <h3 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#FEF6D5] leading-tight">
-                    "{featuredProposal.titulo}"
+                    {featuredProposal.titulo}
                   </h3>
 
                   <p className="text-[#FEF6D5]/90 text-sm sm:text-base leading-relaxed line-clamp-3">
