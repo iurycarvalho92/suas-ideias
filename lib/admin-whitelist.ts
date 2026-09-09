@@ -4,6 +4,7 @@
  */
 
 const DEFAULT_WHITELIST = [
+  'ferbergamo05@gmail.com',
   'thiago.dsg@alumni.usp.br',
   'iury.decarvalho@gmail.com',
   'iury.carvalho92@gmail.com',
