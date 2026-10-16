@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Envie sua Proposta | Suas Ideias para as Marinas',
-  description: 'Compartilhe sua ideia para construir o plano de ação das campanhas de Marina Helou e Marina Bragante.',
+  description: 'Compartilhe sua ideia para construir soluções junto aos mandatos de Marina Helou e Marina Bragante.',
 };
 
 export default function EnviarIdeiaPage() {

@@ -548,7 +548,7 @@ export default function AdminModerationPage() {
               <ShieldCheck className="w-6 h-6" />
             </div>
             <h2 className="text-2xl font-serif font-bold text-[#506324]">Moderação de Propostas</h2>
-            <p className="text-xs text-slate-600">Acesso restrito para a equipe autorizada das campanhas.</p>
+            <p className="text-xs text-slate-600">Acesso restrito para a equipe autorizada dos mandatos.</p>
           </div>
 
           {authError && (

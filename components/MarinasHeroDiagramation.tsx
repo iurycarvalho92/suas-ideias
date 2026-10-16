@@ -137,20 +137,20 @@ export default function MarinasHeroDiagramation() {
           
           {/* DESKTOP LOGOS */}
           <div className="hidden md:flex md:flex-row items-center justify-between gap-10 pt-2">
-            <div className="relative h-20 sm:h-24 w-80 sm:w-[380px]">
+            <div className="relative h-20 sm:h-24 w-52 sm:w-64">
               <Image
-                src="/assets/logos/lockup-marina-helou-white.png"
-                alt="Marina Helou 4044 Deputada Federal"
+                src="/assets/logos/logo-marina-helou-novo.png"
+                alt="Marina Helou"
                 fill
                 className="object-contain object-left"
                 priority
               />
             </div>
 
-            <div className="relative h-24 sm:h-28 w-96 sm:w-[480px]">
+            <div className="relative h-20 sm:h-24 w-56 sm:w-72">
               <Image
-                src="/assets/logos/lockup-marina-bragante-white.png"
-                alt="Marina Bragante 40444 Deputada Estadual"
+                src="/assets/logos/logo-marina-bragante-novo.png"
+                alt="Marina Bragante"
                 fill
                 className="object-contain object-right"
                 priority
@@ -159,21 +159,21 @@ export default function MarinasHeroDiagramation() {
           </div>
 
           {/* MOBILE LOGOS */}
-          <div className="flex md:hidden flex-row items-center justify-center gap-4 pt-0 -mt-2">
-            <div className="relative h-24 w-24 sm:h-28 sm:w-28">
+          <div className="flex md:hidden flex-row items-center justify-center gap-6 pt-0 -mt-2">
+            <div className="relative h-14 w-36 sm:h-16 sm:w-44">
               <Image
-                src="/assets/logos/lockup-marina-helou-vertical.png"
-                alt="Marina Helou 4044 Deputada Federal"
+                src="/assets/logos/logo-marina-helou-novo.png"
+                alt="Marina Helou"
                 fill
                 className="object-contain"
                 priority
               />
             </div>
 
-            <div className="relative h-[116px] w-[116px] sm:h-[132px] sm:w-[132px]">
+            <div className="relative h-14 w-40 sm:h-16 sm:w-48">
               <Image
-                src="/assets/logos/lockup-marina-bragante-vertical.png"
-                alt="Marina Bragante 40444 Deputada Estadual"
+                src="/assets/logos/logo-marina-bragante-novo.png"
+                alt="Marina Bragante"
                 fill
                 className="object-contain"
                 priority
@@ -184,7 +184,7 @@ export default function MarinasHeroDiagramation() {
           {/* DESCRIPTIVE COPY */}
           <div className="max-w-3xl mx-auto text-center pt-[50px] mt-[50px] border-t border-[#FEF6D5]/20">
             <p className="text-[#FEF6D5] text-sm sm:text-base font-sans font-semibold leading-relaxed">
-              Política se faz com presença, escutando de quem vive a realidade todos os dias! Compartilhe suas ideias e ajude a construir as propostas das campanhas de Marina Helou para deputada federal e Marina Bragante para deputada estadual.
+              Agradecemos a todas e todos pela participação e engajamento durante a campanha! O site segue ativo fazendo parte dos mandatos de Marina Helou e Marina Bragante, garantindo que a sua voz continue ajudando a construir soluções para São Paulo e o Brasil.
             </p>
           </div>
 
